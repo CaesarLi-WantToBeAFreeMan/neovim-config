@@ -1,3 +1,5 @@
+--a current code context (class, function, loop, etc) viewer
+--at the top of editor, like Microsoft Visual Studio Code
 return {
     "nvim-treesitter/nvim-treesitter-context",
     dependencies = {
