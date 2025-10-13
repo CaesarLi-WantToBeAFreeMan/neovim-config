@@ -1,0 +1,6 @@
+#+-=================-+
+#| GIT IGNORE FILES  |
+#+-=================-+
+
+lazy-lock.json      #ignore lazy-lock.json file
+session/            #ignore session folder
