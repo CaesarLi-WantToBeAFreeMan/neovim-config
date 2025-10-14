@@ -8,7 +8,7 @@ return{
     keys = {
         {
             "<F2>",
-            "<cmd>AerialToggle!<CR>",
+            "<cmd>AerialToggle<CR>",
             desc = "toggle aerial window",
             mode = "n"
         },
@@ -57,74 +57,134 @@ return{
                 +-=========-+
             ]]
             keymaps = {
-                ["v"] = "actions.jump_vsplit",--like <C-v>
-                ["h"] = "actions.jump_split",--like <C-s>
-                ["<Esc>"] = "actions.close",
-                ["q"] = "actions.close",
-                ["p"] = "actions.scroll",
-                ["<C-u>"] = "actions.up_and_scroll",
-                ["<C-d>"] = "actions.down_and_scroll",
-                ["k"] = "actions.prev",
-                ["j"] = "actions.next",
-                ["K"] = "actions.prev_up",
-                ["J"] = "actions.next_up",
-                ["x"] = "actions.tree_toggle",
-                ["X"] = "actions.tree_toggle_recursive",
-                ["o"] = "actions.tree_open",
-                ["O"] = "actions.tree_open_recursive",
-                ["c"] = "actions.tree_close",
-                ["C"] = "actions.tree_close_recursive",
-                ["zr"] = "actions.tree_increase_fold_level",
-                ["zR"] = "actions.tree_open_all",
-                ["zm"] = "actions.tree_decrease_fold_level",
-                ["zM"] = "actions.tree_close_all",
-                ["zx"] = "actions.tree_sync_folds",
-                ["zX"] = "actions.tree_sync_folds",
+                --opening
+                ["v"] = {
+                    "actions.jump_vsplit",
+                    desc = "jump to the tag in a vertical split"
+                },
+                ["<C-v>"] = "none",
+                ["h"] = {
+                    "actions.jump_split",
+                    desc = "jump to the tag in a horizontal split"
+                },
+                ["<C-s>"] = "none",
+
+                --jumping
+                ["k"] = {
+                    "actions.prev",
+                    desc = "previous tag"
+                },
+                ["{"] = "none",
+                ["j"] = {
+                    "actions.next",
+                    desc = "next tag"
+                },
+                ["}"] = "none",
+                ["K"] = {
+                    "actions.prev_up",
+                    desc = "previous tag at parent level"
+                },
+                ["[["] = "none",
+                ["J"] = {
+                    "actions.next_up",
+                    desc = "next tag at parent level"
+                },
+                ["]]"] = "none",
+                ["<CR>"] = {
+                    "actions.jump",
+                    desc = "jump to tag under cursor"
+                },
+                ["<2-LeftMouse>"] = "none",
+
+                --expand/collapse
+                ["o"] = {
+                    "actions.tree_open",
+                    desc = "open folder"
+                },
+                ["zo"] = "none",
+                ["l"] = "none",
+                ["O"] = {
+                    "actions.tree_open_recursive",
+                    desc = "open all sub-folders"
+                },
+                ["zO"] = "none",
+                ["L"] = "none",
+                ["c"] = {
+                    "actions.tree_close",
+                    desc = "close folder"
+                },
+                ["zc"] = "none",
+                ["C"] = {
+                    "actions.tree_close_recursive",
+                    desc = "close all sub-folders"
+                },
+                ["zC"] = "none",
+                ["H"] = "none",
+                ["x"] = {
+                    "actions.tree_toggle",
+                    desc = "toggle folder open/close"
+                },
+                ["za"] = "none",
+                ["X"] = {
+                    "actions.tree_toggle_recursive",
+                    desc = "toggle all sub-folders open/close"
+                },
+                ["zA"] = "none",
+
+                --scrolling
+                ["p"] = {
+                    "actions.scroll",
+                    desc = "scroll to tag without jumping (preview)"
+                },
+                ["<C-k>"] = {
+                    "actions.up_and_scroll",
+                    desc = "previous tag and scroll preview"
+                },
+                ["<C-j>"] = {
+                    "actions.down_and_scroll",
+                    desc = "next tag and scroll preview"
+                },
+
+                --folding
+                ["zr"] = {
+                    "actions.tree_increase_fold_level",
+                    desc = "open one fold level"
+                },
+                ["zR"] = {
+                    "actions.tree_open_all",
+                    desc = "open all folds"
+                },
+                ["zm"] = {
+                    "actions.tree_decrease_fold_level",
+                    desc = "close one fold level"
+                },
+                ["zM"] = {
+                    "actions.tree_close_all",
+                    desc = "close all folds"
+                },
+                ["zx"] = {
+                    "actions.tree_sync_folds",
+                    desc = "sync folds with code"
+                },
+
+                --other
+                ["<Esc>"] = {
+                    "actions.close",
+                    desc = "close Aerial window"
+                },
+                ["q"] = {
+                    "actions.close",
+                    desc = "close Aerial window"
+                },
+                ["?"] = {
+                    "actions.show_help",
+                    desc = "show all keymaps"
+                },
+                ["g?"] = "none",
             },
 
             --filter which symbols to display
-            filter_kind = {
-                "Class",
-                "Constructor",
-                "Enum",
-                "Function",
-                "Interface",
-                "Module",
-                "Method",
-                "Struct",
-            },
-
-            icons = {
-                Array         = " ",
-                Boolean       = " ",
-                Class         = " ",
-                Color         = " ",
-                Constant      = " ",
-                Constructor   = " ",
-                Enum          = " ",
-                EnumMember    = " ",
-                Event         = " ",
-                Field         = " ",
-                File          = " ",
-                Folder        = " ",
-                Function      = "󰡱 ",
-                Interface     = " ",
-                Key           = "󰌋 ",
-                Keyword       = " ",
-                Method        = " ",
-                Module        = "󰕳 ",
-                Namespace     = " ",
-                Null          = "󰟢 ",
-                Number        = "󰎠 ",
-                Object        = "󰅩 ",
-                Operator      = " ",
-                Package       = " ",
-                Property      = " ",
-                String        = " ",
-                Struct        = " ",
-                TypeParameter = " ",
-                Variable      = "󰫧 ",
-            },
+            filter_kind = false,--show all symbol types
 
             show_guides = true,--show symbol path in window title
 
@@ -132,7 +192,7 @@ return{
             highlight_on_jump = 210,--in ms
 
             open_automatic = false,--auto-open aerial when opening supported files
-            close_on_select = true,--auto-close aerial when this is the last window
+            close_on_select = true,--auto-close aerial after jump
             close_automatic_events = {"unsupported"},--auto-close when is the last window
             --update aerial when entering a new buffer
             update_events = "TextChanged,InsertLeave",
