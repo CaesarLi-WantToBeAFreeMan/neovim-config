@@ -42,7 +42,7 @@ return{
 
         --vim
         {
-            "<leader>fc",
+           "<leader>fc",
             "<cmd>Telescope commands<CR>",
             desc = "find commands",
             mode = "n"
@@ -107,41 +107,56 @@ return{
                 mappings = {
                     --insert mode
                     i = {
-                        ["<C-j>"] = actions.move_selection_next,--like <C-n>
-                        ["<C-k>"] = actions.move_selection_previous,--like <C-p>
-                        --default is open in the window
+                        --complete tag
+                        ["<Tab>"] = actions.complete_tag,
+                        ["<C-l>"] = false,
+
+                        --movements
+                        ["<Up>"] = false,
+                        ["<Down>"] = false,
+
+                        --preview
+                        ["<C-k>"] = actions.preview_scrolling_up,
+                        ["<C-u>"] = false,
+                        ["<PageUp>"] = false,
+                        ["<C-j>"] = actions.preview_scrolling_down,
+                        ["<C-d>"] = false,
+                        ["<PageDown>"] = false,
+
+                        --selections
                         ["<CR>"] = actions.select_vertical,
-                        ["<leader>h"] = actions.select_horizontal,--like <C-x>
-                        ["<leader>v"] = actions.select_vertical,
-                        ["<leader>t"] = actions.select_tab,--like <C-t>
+                        ["<C-h>"] = actions.select_horizontal,
+                        ["<C-X>"] = false,
                     },
 
                     --normal mode
                     n = {
-                        ["CR"] = actions.select_vertical,--like in insert mode
-                        ["<leader>h"] = actions.select_horizontal,--like in insert mode
-                        ["<leader>v"] = actions.select_vertical,--like in insert mode
-                        ["<leader>t"] = actions.select_tab,--like in insert mode
+                        --movements
+                        ["<Up>"] = false,
+                        ["<Down>"] = false,
+                        ["L"] = false,
+                        ["T"] = false,
+                        ["H"] = false,
 
-                        ["T"] = actions.move_to_top,--like H
-                        ["C"] = actions.move_to_middle,--like M, from Center
-                        ["B"] = actions.move_to_bottom,--like L
+                        --preview
+                        ["<C-k>"] = actions.preview_scrolling_up,
+                        ["<C-u>"] = false,
+                        ["<PageUp>"] = false,
+                        ["<C-j>"] = actions.preview_scrolling_down,
+                        ["<C-d>"] = false,
+                        ["<PageDown>"] = false,
+
+                        --selections
+                        ["<CR>"] = actions.select_vertical,
+                        ["<C-h>"] = actions.select_horizontal,
+                        ["<C-X>"] = false,
                     },
                 },
             },
 
             pickers = {
-                --find files configuration
-                find_files = {
-                    theme = "dropdown",--use dropdown theme
-                    previewer = false,--disable preview
-                    hidden = true,--show hidden files
-                },
-
                 --buffers configuration
                 buffers = {
-                    theme = "dropdown",
-                    previewer = false,
                     initial_mode = "normal",--start in normal mode
                     mappings = {
                         i = {
@@ -153,21 +168,6 @@ return{
                             ["D"] = actions.delete_buffer,
                         },
                     },
-                },
-
-                --old (recent) files
-                oldfiles = {
-                    theme = "dropdown",
-                },
-
-                --keymaps
-                keymaps = {
-                    theme = "dropdown",
-                },
-
-                --commands
-                commands = {
-                    theme = "dropdown",
                 },
             },
         })
