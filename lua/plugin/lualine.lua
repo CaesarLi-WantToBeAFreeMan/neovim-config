@@ -2,7 +2,8 @@
 return{
     "nvim-lualine/lualine.nvim",
     dependencies = {
-        "nvim-tree/nvim-web-devicons"
+        "nvim-tree/nvim-web-devicons",
+        "lewis6991/gitsigns.nvim",
     },
     event = "VeryLazy",
     config = function()
@@ -33,10 +34,7 @@ return{
                             if not gitsigns then
                                 return ""
                             end
-                            if gitsigns.added and gitsigns.added > 0 then
-                                return string.format(" %d", gitsigns.added)
-                            end
-                            return ""
+                            return string.format(" %d", gitsigns.added)
                         end,
                         color = {fg = "#98c379"},
                     },
@@ -46,10 +44,7 @@ return{
                             if not gitsigns then
                                 return ""
                             end
-                            if gitsigns.removed and gitsigns.removed > 0 then
-                                return string.format(" %d", gitsigns.removed)
-                            end
-                            return ""
+                            return string.format(" %d", gitsigns.removed)
                         end,
                         color = {fg = "#e06c75"},
                     },
@@ -59,10 +54,7 @@ return{
                             if not gitsigns then
                                 return ""
                             end
-                            if gitsigns.changed and gitsigns.changed > 0 then
-                                return string.format(" %d", gitsigns.changed)
-                            end
-                            return ""
+                            return string.format(" %d", gitsigns.changed)
                         end,
                         color = {fg = "#e5c07b"},
                     },
@@ -78,10 +70,7 @@ return{
                                     severity = vim.diagnostic.severity.ERROR
                                 }
                             ))
-                            if count > 0 then
-                                return string.format(" %d", count)
-                            end
-                            return ""
+                            return string.format(" %d", count)
                         end,
                         color = {fg = "#e06c75"},
                     },
@@ -92,10 +81,7 @@ return{
                                     severity = vim.diagnostic.severity.WARN
                                 }
                             ))
-                            if count > 0 then
-                                return string.format(" %d", count)
-                            end
-                            return ""
+                            return string.format(" %d", count)
                         end,
                         color = {fg = "#e5c07b"},
                     },
