@@ -9,7 +9,7 @@ return {
     config = function()
         require("treesitter-context").setup({
             enable = true,
-            max_lines = 7,-- Maximum lines to show
+            max_lines = 5,-- Maximum lines to show
             min_window_height = 30,-- Minimum editor window height
             line_numbers = true,-- Show line numbers in context
             multiline_threshold = 1,-- Maximum lines for single context
