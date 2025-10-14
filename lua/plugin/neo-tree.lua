@@ -267,6 +267,14 @@ return{
                         "paste_from_clipboard",
                         desc = "paste from clipboard"
                     },
+                    ["r"] = {
+                        "rename",
+                        desc = "rename the current file"
+                    },
+                    ["b"] = {
+                        "rename_basename",
+                        desc = "rename base name of the current file"
+                    },
 
                     --sorting
                     ["<leader>c"] = {
@@ -390,13 +398,45 @@ return{
                 window = {
                     position = "float",
                     mappings = {
-                        ["A"] = "git_add_all",--stage all
-                        ["a"] = "git_add_file",--stage current file
-                        ["u"] = "git_unstage_file",--unstage current file
-                        ["r"] = "git_revert_file",--revert current file
-                        ["c"] = "git_commit",--commit
-                        ["p"] = "git_push",--push
-                        ["C"] = "git_commit_and_push",--commit and push
+                        ["A"] = {
+                            "git_add_all",
+                            desc = "stage all modified files"
+                        },
+                        ["a"] = {
+                            "git_add_file",
+                            desc = "stage the current file"
+                        },
+                        ["ga"] = "none",
+                        ["u"] = {
+                            "git_unstage_file",
+                            desc = "unstage the current file"
+                        },
+                        ["gu"] = "none",
+                        ["U"] = {
+                            "git_undo_last_commit",
+                            desc = "undo last commit"
+                        },
+                        ["gU"] = "none",
+                        ["r"] = {
+                            "git_revert_file",
+                            desc = "revert changes in the current file"
+                        },
+                        ["gr"] = "none",
+                        ["c"] = {
+                            "git_commit",
+                            desc = "commit staged changed to local repo"
+                        },
+                        ["gc"] = "none",
+                        ["p"] = {
+                            "git_push",
+                            desc = "push all local commits to origin branch"
+                        },
+                        ["gp"] = "none",
+                        ["C"] = {
+                            "git_commit_and_push",
+                            desc = "commit staged changes and push to origin branch"
+                        },
+                        ["gg"] = "none",
                     },
                 },
             },
