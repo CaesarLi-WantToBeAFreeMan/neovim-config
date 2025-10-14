@@ -94,47 +94,227 @@ return{
                 },
 
                 mappings = {
-                    --file system
-                    ["u"] = "navigate_up",--move root up a directory level
-                    ["<BS>"] = "none",
-                    ["s"] = "set_root",--set current directory as root
-                    ["."] = "none",
+                    --fuzzy search
+                    ["#"] = {
+                        "fuzzy_sorter",
+                        desc = "sort nodes using fuzzy matching"
+                    },
+                    ["/"] = {
+                        "fuzzy_finder",
+                        desc = "find nodes using fuzzy matching"
+                    },
+                    ["<C-/>"] = {
+                        "fuzzy_finder_directory",
+                        desc = "find directories using fuzzy matching"
+                    },
+                    ["D"] = "none",
 
-                    --folders
-                    ["<space>"] = "toggle_node",--open/close folders
-                    --open/close all sub-nodes under the folder
-                    ["o"] = "expand_node",--open folders
-                    ["O"] = "expand_all_subnodes",--open all sub-nodes under the folder
-                    ["c"] = "close_node",--close folders
-                    ["C"] = "close_all_subnodes",--close all sub-nodes under the folder
+                    --file system
+                    ["<"] = {
+                        "prev_source",
+                        desc = "switch to previous source"
+                    },
+                    [">"] = {
+                        "next_source",
+                        desc = "switch to next source"
+                    },
+                    ["<2-LeftMouse>"] = "none",
+                    ["u"] = {
+                        "navigate_up",
+                        desc = "go up one directory level"
+                    },
+                    ["s"] = {
+                        "set_root",
+                        desc = "set as root directory"
+                    },
+                    ["."] = "none",
+                    ["<esc>"] = {
+                        "cancel",
+                        desc = "close Neo-tree"
+                    },
+                    ["q"] = {
+                        "close_window",
+                        desc = "close Neo-tree window"
+                    },
+                    ["?"] = {
+                        "show_help",
+                        desc = "show help"
+                    },
+                    ["R"] = {
+                        "refresh",
+                        desc = "refresh tree view"
+                    },
+                    ["[g"] = {
+                        "prev_git_modified",
+                        desc = "jump to previous git change"
+                    },
+                    ["]g"] = {
+                        "next_git_modified",
+                        desc = "jump to next git change"
+                    },
+                    ["="] = {
+                        "toggle_auto_expand_width",
+                        desc = "toggle auto width"
+                    },
+                    ["e"] = "none",
+
+                    --folder control
+                    ["<space>"] = {
+                        "toggle_node",
+                        desc = "toggle folder open/close"
+                    },
+                    ["o"] = {
+                        "open",
+                        desc = "open file / toggle folder"
+                    },
+                    ["O"] = {
+                        "expand_all_subnodes",
+                        desc = "expand all subfolders"
+                    },
+                    ["c"] = {
+                        "close_node",
+                        desc = "close current folder"
+                    },
+                    ["C"] = {
+                        "close_all_subnodes",
+                        desc = "close all subfolders"
+                    },
                     ["z"] = "none",
 
                     --preview
-                    ["e"] = "toggle_preview",--like P
-                    ["p"] = "focus_preview",--like l
-                    ["<C-u>"] = "scroll_preview_up",--like <C-b>
-                    ["<C-d>"] = "scroll_preview_down",--like <C-f>
+                    ["<C-b>"] = {
+                        "scroll_preview",
+                        desc = "scroll preview down"
+                    },
+                    ["<C-f>"] = {
+                        "scroll_preview",
+                        desc = "scroll preview up"
+                    },
+                    ["P"] = {
+                        "toggle_preview",
+                        desc = "toggle file preview"
+                    },
+                    ["p"] = {
+                        "focus_preview",
+                        desc = "focus preview window"
+                    },
+                    ["l"] = "none",
 
                     --open files
-                    ["h"] = "open_split",--open in a new horizontal split
+                    ["<cr>"] = {
+                        "open",
+                        desc = "open file in current window"
+                    },
+                    ["h"] = {
+                        "open_split",
+                        desc = "open in horizontal split"
+                    },
                     ["S"] = "none",
-                    ["v"] = "open_rightbelow_vs",--open in a vertical split at right side
-                    ["V"] = "open_leftabove_vs",--open in a vertical split at left side
+                    ["v"] = {
+                        "open_rightbelow_vs",
+                        desc = "open in vertical split (right)"
+                    },
+                    ["V"] = {
+                        "open_leftabove_vs",
+                        desc = "open in vertical split (left)"
+                    },
                     ["s"] = "none",
+                    ["t"] = {
+                        "open_tabnew",
+                        desc = "open in new tab"
+                    },
+                    ["w"] = {
+                        "open_with_window_picker",
+                        desc = "open with window picker"
+                    },
 
-                    --files
-                    ["<BS>"] = "delete",--delete a file/folder
-                    ["<Del>"] = "delete",--delete a file/folder
+                    --file actions
+                    ["a"] = {
+                        "add",
+                        desc = "add file/folder"
+                    },
+                    ["A"] = {
+                        "add_directory",
+                        desc = "add folder"
+                    },
+                    ["<bs>"] = {
+                        "delete",
+                        desc = "delete file/folder"
+                    },
+                    ["<del>"] = {
+                        "delete",
+                        desc = "delete file/folder"
+                    },
+                    ["H"] = {
+                        "toggle_hidden",
+                        desc = "toggle hidden files"
+                    },
+                    ["i"] = {
+                        "show_file_details",
+                        desc = "show file details"
+                    },
+                    ["<C-x>"] = {
+                        "cut_to_clipboard",
+                        desc = "cut to clipboard"
+                    },
+                    ["x"] = "none",
+                    ["<C-y>"] = {
+                        "copy_to_clipboard",
+                        desc = "copt to clipboard"
+                    },
+                    ["y"] = "none",
+                    ["<C-p>"] = {
+                        "paste_from_clipboard",
+                        desc = "paste from clipboard"
+                    },
 
-                    --order by
-                    ["<leader>?"] = "order_by...",--show help menu for order by choices
-                    ["<leader>c"] = "order_by_created",--sort by created date
-                    ["<leader>d"] = "order_by_diagnostics",--sort by diagnostic severity
-                    ["<leader>g"] = "order_by_git_status",--sort by git status
-                    ["<leader>m"] = "order_by_modified",--sort by modified date
-                    ["<leader>n"] = "order_by_name",--sort by name(default)
-                    ["<leader>s"] = "order_by_size",--sort by size
-                    ["<leader>t"] = "order_by_type",--sort by type
+                    --sorting
+                    ["<leader>c"] = {
+                        "order_by_created",
+                        desc = "sort by created date"
+                    },
+                    ["oc"] = "none",
+                    ["<leader>d"] = {
+                        "order_by_diagnostics",
+                        desc = "sort by diagnostics"
+                    },
+                    ["od"] = "none",
+                    ["<leader>g"] = {
+                        "order_by_git_status",
+                        desc = "sort by git status"
+                    },
+                    ["og"] = "none",
+                    ["<leader>m"] = {
+                        "order_by_modified",
+                        desc = "sort by modified date"
+                    },
+                    ["om"] = "none",
+                    ["<leader>n"] = {
+                        "order_by_name",
+                        desc = "sort by name (default)"
+                    },
+                    ["on"] = "none",
+                    ["<leader>s"] = {
+                        "order_by_size",
+                        desc = "sort by size"
+                    },
+                    ["os"] = "none",
+                    ["<leader>t"] = {
+                        "order_by_type",
+                        desc = "sort by type"
+                    },
+                    ["ot"] = "none",
+
+                    --filters
+                    ["<leader>x"] = {
+                        "clear_filter",
+                        desc = "clear filter"
+                    },
+                    ["<C-x>"] = "none",
+                    ["<C-a>"] = {
+                        "filter_on_submit",
+                        desc = "apply filter"
+                    },
                 },
             },
 
