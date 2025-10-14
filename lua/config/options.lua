@@ -112,8 +112,8 @@ opt.synmaxcol = 210                                 --210 columns to apply synta
 
 opt.number = true                                   --show line numbers
 opt.relativenumber = true                           --show relative line numbers
-opt.scrolloff = 3                                   --keep 3 lines visible above/below
-opt.sidescrolloff = 3                               --keep 3 lines visible on sides
+opt.scrolloff = 5                                   --keep 5 lines visible above/below
+opt.sidescrolloff = 5                               --keep 5 columns visible on sides
 opt.splitbelow = true                               --split horizontal windows below
 opt.splitright = true                               --split vertical windows to right
 opt.hidden = true                                   --allow unsaved buffer switching
@@ -131,7 +131,7 @@ opt.termguicolors = true                            --enable 24-bit RGB colors i
 opt.cursorline = true                               --highlight line
 opt.cursorcolumn = true                             --highlight column
 opt.signcolumn = "yes"                              --always show sign column
-opt.colorcolumn = "90"                              --ruler at column 90
+opt.colorcolumn = "120"                              --ruler at column 120
 
 --status line and tab line
 opt.laststatus = 3                                  --global statusline(0 = never, 1 = only if 2+ windows, 2 = always, 3 = global)
@@ -168,8 +168,8 @@ opt.listchars = {
 ]]
 
 opt.foldenable = true                               --starts with folds close
-opt.foldlevel = 3                                   --open top 3 levels
-opt.foldnestmax = 12                                --maximum fold depth
+opt.foldlevel = 99                                  --open all folds by default
+opt.foldnestmax = 99                                --maximum fold depth
 opt.foldminlines = 1                                --minimum lines per fold
 opt.foldcolumn = "1"                                --fold column width
 
