@@ -8,8 +8,18 @@ return{
         "MunifTanjim/nui.nvim",--ui components
     },
     keys = {
-        {"<F1>", "<cmd>Neotree toggle<CR>", desc = "toggle Neo-tree"},
-        {"<F1>g", "<cmd>Neotree git_status<CR>", desc = "show git status in Neo-tree"},
+        {
+            "<F1>",
+            "<cmd>Neotree toggle<CR>",
+            desc = "toggle Neo-tree",
+            mode = "n"
+        },
+        {
+            "<F1>g",
+            "<cmd>Neotree git_status<CR>",
+            desc = "show git status in Neo-tree",
+            mode = "n"
+        },
         {
             "<F1>b",
             function()
@@ -21,7 +31,9 @@ return{
                     50--delay in ms
                 )
             end,
-            desc = "show buffers in Neo-tree"},
+            desc = "show buffers in Neo-tree",
+            mode = "n"
+        },
     },
     config = function()
         --disable vim's default file explorer netrw
@@ -33,6 +45,17 @@ return{
             popup_border_style = "rounded",--border styele
             enable_git_status = true,--show git status
             enable_diagnostics = true,--show LSP diagnostics
+
+            --functions to handle events
+            event_handlers = {
+                --auto-close Neo-tree when opening a file
+                {
+                    event = "file_opened",
+                    handler = function()
+                        require("neo-tree.command").execute({action = "close"})
+                    end,
+                },
+            },
 
             --sort files
             sort_case_insensitive = false,--case sensitive sort

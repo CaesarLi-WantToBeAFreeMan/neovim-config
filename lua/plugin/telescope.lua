@@ -9,24 +9,94 @@ return{
     --custom keymaps
     keys = {
         --files
-        {"<leader>ff", "<cmd>Telescope find_files<CR>", desc = "find files"},
-        {"<leader>fg", "<cmd>Telescope live_grep<CR>", desc = "find text inside project files"},
-        {"<leader>fb", "<cmd>Telescope buffers<CR>", desc = "find buffers"},
-        {"<leader>fr", "<cmd>Telescope oldfiles<CR>", desc = "find recent files"},
-        {"<leader>fw", "<cmd>Telescope grep_string<CR>", desc = "find word under cursor"},
+        {
+            "<leader>ff",
+            "<cmd>Telescope find_files<CR>",
+            desc = "find files",
+            mode = "n"
+        },
+        {
+            "<leader>fg",
+            "<cmd>Telescope live_grep<CR>",
+            desc = "find text inside project files",
+            mode = "n"
+        },
+        {
+            "<leader>fb",
+            "<cmd>Telescope buffers<CR>",
+            desc = "find buffers",
+            mode = "n"
+        },
+        {
+            "<leader>fr",
+            "<cmd>Telescope oldfiles<CR>",
+            desc = "find recent files",
+            mode = "n"
+        },
+        {
+            "<leader>fw",
+            "<cmd>Telescope grep_string<CR>",
+            desc = "find word under cursor",
+            mode = "n"
+        },
 
         --vim
-        {"<leader>fc", "<cmd>Telescope commands<CR>", desc = "find commands"},
-        {"<leader>fk", "<cmd>Telescope keymaps<CR>", desc = "find keymaps"},
-        {"<leader>fl", "<cmd>Telescope loclist<CR>", desc = "find location list"},
-        {"<leader>fj", "<cmd>Telescope jumplist<CR>", desc = "find jump list"},
-        {"<leader>fm", "<cmd>Telescope marks<CR>", desc = "find marks"},
-        {"<leader>ft", "<cmd>Telescope tags<CR>", desc = "find tags"},
+        {
+            "<leader>fc",
+            "<cmd>Telescope commands<CR>",
+            desc = "find commands",
+            mode = "n"
+        },
+        {
+            "<leader>fk",
+            "<cmd>Telescope keymaps<CR>",
+            desc = "find keymaps",
+            mode = "n"
+        },
+        {
+            "<leader>fl",
+            "<cmd>Telescope loclist<CR>",
+            desc = "find location list",
+            mode = "n"
+        },
+        {
+            "<leader>fj",
+            "<cmd>Telescope jumplist<CR>",
+            desc = "find jump list",
+            mode = "n"
+        },
+        {
+            "<leader>fm",
+            "<cmd>Telescope marks<CR>",
+            desc = "find marks",
+            mode = "n"
+        },
+        {
+            "<leader>ft",
+            "<cmd>Telescope tags<CR>",
+            desc = "find tags",
+            mode = "n"
+        },
 
         --git
-        {"<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "find git commits"},
-        {"<leader>gb", "<cmd>Telescope git_branches<CR>", desc = "find git branches"},
-        {"<leader>gs", "<cmd>Telescope git_status<CR>", desc = "find git status"},
+        {
+            "<leader>gc",
+            "<cmd>Telescope git_commits<CR>",
+            desc = "find git commits",
+            mode = "n"
+        },
+        {
+            "<leader>gb",
+            "<cmd>Telescope git_branches<CR>",
+            desc = "find git branches",
+            mode = "n"
+        },
+        {
+            "<leader>gs",
+            "<cmd>Telescope git_status<CR>",
+            desc = "find git status",
+            mode = "n"
+        },
     },
 
     --custom configuration

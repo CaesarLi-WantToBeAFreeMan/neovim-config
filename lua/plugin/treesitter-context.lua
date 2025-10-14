@@ -9,13 +9,13 @@ return {
     config = function()
         require("treesitter-context").setup({
             enable = true,
-            max_lines = 5,-- Maximum lines to show
-            min_window_height = 21,-- Minimum editor window height
+            max_lines = 7,-- Maximum lines to show
+            min_window_height = 30,-- Minimum editor window height
             line_numbers = true,-- Show line numbers in context
             multiline_threshold = 1,-- Maximum lines for single context
             trim_scope = "outer",-- Trim scope at outer function
             mode = "cursor",-- Line used to calculate context
-            separator = nil,-- Separator between context and content
+            separator = "󰇘",-- Separator between context and content
             zindex = 21,-- Z-index of context window
         })
 

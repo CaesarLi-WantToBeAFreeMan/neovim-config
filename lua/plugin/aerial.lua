@@ -131,8 +131,9 @@ return{
             highlight_on_hover = true,
             highlight_on_jump = 210,--in ms
 
-            open_automatic = true,--auto-open aerial when opening supported files
+            open_automatic = false,--auto-open aerial when opening supported files
             close_on_select = true,--auto-close aerial when this is the last window
+            close_automatic_events = {"unsupported"},--auto-close when is the last window
             --update aerial when entering a new buffer
             update_events = "TextChanged,InsertLeave",
             treesitter = {
