@@ -151,16 +151,6 @@ opt.fillchars = {
     eob = " ",                                      --character for empty lines at end of buffer
 }
 
---list characters
-opt.list = true                                     --show invisible characters
-opt.listchars = {
-    tab = "→ ",                                     --tab character
-    trail = "▪",                                    --trailing space character
-    nbsp = "␣",                                     --non-breaking spaces character
-    extends = "▸",                                  --character when line extends beyond right
-    precedes = "◂",                                 --character when line extends beyond left
-}
-
 --[[
     +-=========-+
     | FOLDING   |
