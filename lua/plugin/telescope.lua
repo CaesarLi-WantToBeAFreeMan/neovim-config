@@ -54,7 +54,6 @@ return{
                             ["<PageDown>"]  = false,
 
                             --selections
-                            ["<CR>"]        = actions.select_vertical,
                             ["<C-h>"]       = actions.select_horizontal,
                             ["<C-X>"]       = false
                         },
@@ -77,7 +76,6 @@ return{
                             ["<PageDown>"]  = false,
 
                             --selections
-                            ["<CR>"]        = actions.select_vertical,
                             ["<C-h>"]       = actions.select_horizontal,
                             ["<C-X>"]       = false
                         }
