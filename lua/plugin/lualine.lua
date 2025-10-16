@@ -3,7 +3,7 @@ return{
     "nvim-lualine/lualine.nvim",
     dependencies = {
         "nvim-tree/nvim-web-devicons",
-        "lewis6991/gitsigns.nvim",
+        "lewis6991/gitsigns.nvim"
     },
     event = "VeryLazy",
     config = function()
@@ -15,8 +15,8 @@ return{
                 component_separators = {left = "", right = ""},
                 disabled_filetypes = {
                     statusline = {"neo-tree"},
-                    winbar = {},
-                },
+                    winbar = {}
+                }
             },
             sections = {
                 lualine_a = {"mode"},
@@ -24,8 +24,8 @@ return{
                     {
                         "branch",
                         icon = "󰊢",
-                        color = {fg = "#00ffff", bg = "#f1502f", gui = "bold"},
-                    },
+                        color = {fg = "#00ffff", bg = "#f1502f", gui = "bold"}
+                    }
                 },
                 lualine_c = {
                     {
@@ -36,7 +36,7 @@ return{
                             end
                             return string.format(" %d", gitsigns.added)
                         end,
-                        color = {fg = "#98c379"},
+                        color = {fg = "#98c379"}
                     },
                     {
                         function()
@@ -46,7 +46,7 @@ return{
                             end
                             return string.format(" %d", gitsigns.removed)
                         end,
-                        color = {fg = "#e06c75"},
+                        color = {fg = "#e06c75"}
                     },
                     {
                         function()
@@ -56,12 +56,12 @@ return{
                             end
                             return string.format(" %d", gitsigns.changed)
                         end,
-                        color = {fg = "#e5c07b"},
+                        color = {fg = "#e5c07b"}
                     },
                     {
                         "filename",
                         path = 0,--0 = filename only, 1 = relative path
-                        color = {fg = "#cc7722", bg = "#151b54"},
+                        color = {fg = "#cc7722", bg = "#151b54"}
                     },
                     {
                         function()
@@ -84,7 +84,7 @@ return{
                             return string.format(" %d", count)
                         end,
                         color = {fg = "#e5c07b"},
-                    },
+                    }
                 },
                 lualine_x = {"encoding", "filetype", "fileformat"},
                 lualine_y = {
@@ -96,7 +96,7 @@ return{
                                 vim.fn.line("$")
                             )
                         end,
-                        color = {fg = "#ffbb00", bg = "#00a1f1"},
+                        color = {fg = "#ffbb00", bg = "#00a1f1"}
                     },
                     {
                         function()
@@ -106,18 +106,18 @@ return{
                                 vim.fn.col("$") - 1
                             )
                         end,
-                        color = {fg = "#f65314", bg = "#7cbb00"},
-                    },
+                        color = {fg = "#f65314", bg = "#7cbb00"}
+                    }
                 },
                 lualine_z = {
                     {
                         function()
                             return "🕗 " .. os.date("%H:%M:%S")
                         end,
-                        color = {fg = "#ffffff", bg = "#282c34"},
-                    },
-                },
-            },
+                        color = {fg = "#ffffff", bg = "#282c34"}
+                    }
+                }
+            }
         })
-    end,
+    end
 }

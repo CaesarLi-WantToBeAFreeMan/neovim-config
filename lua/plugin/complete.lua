@@ -17,9 +17,7 @@ return{
         local cmp = require("cmp")
 
         --load snippets
-        vim.cmd([[
-            let g:vsnip_snippet_dir = expand('~/AppData/Local/nvim/snippets')
-        ]])
+        vim.cmd([[let g:vsnip_snippet_dir = expand('~/AppData/Local/nvim/snippets')]])
 
         cmp.setup({
             snippet = {
@@ -37,54 +35,54 @@ return{
                 ["<C-j>"] = cmp.mapping.select_next_item(),--next suggestion
 
                 --scrolling
-                ["<C-b>"] = cmp.mapping.scroll_docs(-3),--scroll up
-                ["<C-f>"] = cmp.mapping.scroll_docs(3),--scroll down
-
-                --trigger complete menu
-                ["<A-Tab>"] = cmp.mapping.complete(),--show completion suggestions
-
-                --close completion menu
-                ["<C-c>"] = cmp.mapping.abort(),--close completion window
+                ["<C-b>"] = cmp.mapping.scroll_docs(-5),--scroll up
+                ["<C-f>"] = cmp.mapping.scroll_docs(5),--scroll down
 
                 --confirm selection
                 ["<CR>"] = cmp.mapping.confirm({select = false}),--accept currently selected item
 
                 --navigate or expand
-                ["<Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                        cmp.select_next_item()
-                    elseif vim.fn ["vsnip#available"](1) == 1 then
-                        vim.fn.feedkeys(
-                            vim.api.nvim_replace_termodes(
-                                "<Plug>(vsnip_exapnd-or-jump)",
-                                true,
-                                true,
-                                true
-                            ),
-                            ""
-                        )
-                    else
-                        fallback()
-                    end
-                end, {"i", "s"}),
-
-                ["<S-Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                        cmp.select_prev_item()
-                    elseif vim.fn ["vsnip#jumpable"](-1) == 1 then
-                        vim.fn.feedkeys(
-                            vim.api.nvim_replace_termcodes(
-                                "<Plug>(vsnip-jump-prev)",
+                ["<Tab>"] = cmp.mapping(
+                    function(fallback)
+                        if cmp.visible() then
+                            cmp.select_next_item()
+                        elseif vim.fn ["vsnip#available"](1) == 1 then
+                            vim.fn.feedkeys(
+                                vim.api.nvim_replace_termcodes(
+                                    "<Plug>(vsnip_exapnd-or-jump)",
                                     true,
                                     true,
                                     true
-                            ),
-                            ""
-                        )
-                    else
-                        fallback()
-                    end
-                end, {"i", "s"}),
+                                ),
+                                ""
+                            )
+                        else
+                            fallback()
+                        end
+                    end,
+                    {"i", "s"}
+                ),
+
+                ["<S-Tab>"] = cmp.mapping(
+                    function(fallback)
+                        if cmp.visible() then
+                            cmp.select_prev_item()
+                        elseif vim.fn ["vsnip#jumpable"](-1) == 1 then
+                            vim.fn.feedkeys(
+                                vim.api.nvim_replace_termcodes(
+                                    "<Plug>(vsnip-jump-prev)",
+                                        true,
+                                        true,
+                                        true
+                                ),
+                                ""
+                            )
+                        else
+                            fallback()
+                        end
+                    end,
+                    {"i", "s"}
+                ),
             }),
             sources = cmp.config.sources({--snippets sources
                 {name = "nvim_lsp"},

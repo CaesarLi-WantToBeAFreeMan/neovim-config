@@ -12,28 +12,28 @@ return {
 				--programming languages
 				null_ls.builtins.formatting.clang_format.with({ --C/C++
 					extra_args = {
-                        "--style={BasenOnStyle: LLVM, " ..                  --use LLVM as base style
+                        "--style={BasenOnStyle: LLVM," ..                   --use LLVM as base style
                         "IndentWidth: 4," ..                                --use 4 spaces per tab
-                        "UseTab: Never, " ..                                --convert tabs to spaces
-                        "BreakBeforeBraces: Attach, " ..                    --keep { at the same line
-                        "SpaceBeforeParens: Never, " ..                     --remove spaces before ()
-                        "SpacesInEmptyParentheses: false, " ..              --remove spaces inside () 
-                        "SpacesInParentheses: false, " ..                   --remove spaces inside {}
-                        "SpacesInSquareBrackets: false, " ..                --remove spaces inside []
-                        "SpacesInAngles: Never, " ..                        --remove spaces inside <>
-                        "PointerAlignment: Center, " ..                     --center pointer
-                        "SpaceBeforeAssignmentOperators: true, " ..         --add spaces around assignment operators
-                        "AllowShortBlocksOnASingleLine: Always, " ..        --allow single statement in blocks
-                        "AllowShortIfStatementOnASingleLine: Always, " ..   --allow single statement in ifs
-                        "AllowShortLoopsOnASingleLine: true, " ..           --allow single statement in loops
-                        "AllowShortFunctionsOnASingleLine: All, " ..        --allow single statement in functions
+                        "UseTab: Never," ..                                 --convert tabs to spaces
+                        "BreakBeforeBraces: Attach," ..                     --keep { at the same line
+                        "SpaceBeforeParens: Never," ..                      --remove spaces before ()
+                        "SpacesInEmptyParentheses: false," ..               --remove spaces inside () 
+                        "SpacesInParentheses: false," ..                    --remove spaces inside {}
+                        "SpacesInSquareBrackets: false," ..                 --remove spaces inside []
+                        "SpacesInAngles: Never," ..                         --remove spaces inside <>
+                        "PointerAlignment: Center," ..                      --center pointer
+                        "SpaceBeforeAssignmentOperators: true," ..          --add spaces around assignment operators
+                        "AllowShortBlocksOnASingleLine: Always," ..         --allow single statement in blocks
+                        "AllowShortIfStatementOnASingleLine: Always," ..    --allow single statement in ifs
+                        "AllowShortLoopsOnASingleLine: true," ..            --allow single statement in loops
+                        "AllowShortFunctionsOnASingleLine: All," ..         --allow single statement in functions
                         "SpacesBeforeTrailingComments: 0}"                  --no spaces before trailing comments
-					},
+					}
 				}),
 				null_ls.builtins.formatting.google_java_format.with({ --Java
 					extra_args = {
-                        "--aosp",       --use 4 spaces per tab
-                    },
+                        "--aosp"        --use 4 spaces per tab
+                    }
 				}),
 				null_ls.builtins.formatting.stylua.with({ --Lua
 					extra_args = {
@@ -42,8 +42,8 @@ return {
 						"--quote-style",                "AutoPreferDouble", --use double quotes instead of single ones
 						"--call-parentheses",           "None",             --remove spaces before function call parentheses
 						"--collapse-simple-statement",  "Always",           --allow single line statements
-                        "--column-width",               "120",              --maximum line width before wrapping
-					},
+                        "--column-width",               "120"               --maximum line width before wrapping
+					}
 				}),
 				null_ls.builtins.formatting.isort, --sort imports for Python
 				null_ls.builtins.formatting.black, --format code for Python
@@ -63,11 +63,6 @@ return {
 						"--trailing-comma",     "es5",      --trailing commas where valid in ES5
 						"--print-width",        "120",      --maximum line width before wrapping
 					},
-					--use 4 spaces per tab, and convert tabs to spaces
-					--use double quotes instead of single ones
-					--keep { at the same line
-					--use semicolon
-					--don't add spaces around brackets
 					filetypes = {
 						"javascript", "javascriptreact", "typescript", "typescriptreact",
 						"vue", "css", "scss", "html",
@@ -76,9 +71,7 @@ return {
 				}),
 
 				--data
-				null_ls.builtins.formatting.sqlfluff.with({ --SQL
-					extra_args = {},
-				}),
+				null_ls.builtins.formatting.sqlfluff,--SQL
 
 				--diagnostics
 				--programming languages
@@ -91,9 +84,7 @@ return {
 				null_ls.builtins.diagnostics.stylelint, --CSS, SCSS
 
 				--data
-				null_ls.builtins.diagnostics.sqlfluff.with({ --SQL
-					extra_args = {},
-				}),
+				null_ls.builtins.diagnostics.sqlfluff,--SQL
 
 				--documents
 				null_ls.builtins.diagnostics.markdownlint, --Markdown

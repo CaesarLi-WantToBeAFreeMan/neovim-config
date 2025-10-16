@@ -1,209 +1,113 @@
---code outline window
-return{
+--a code outline/symbol tree viewer
+return {
     "stevearc/aerial.nvim",
     dependencies = {
-        "nvim-treesitter/nvim-treesitter",
-        "nvim-tree/nvim-web-devicons",
+        "nvim-treesitter/nvim-treesitter",  --used for syntax tree parsing
+        "nvim-tree/nvim-web-devicons",      --file icons
     },
+
+    --keybindings in normal mode
     keys = {
-        {
-            "<F2>",
-            "<cmd>AerialToggle<CR>",
-            desc = "toggle aerial window",
-            mode = "n"
-        },
-        {
-            "<S-F2>",
-            "<cmd>AerialNavToggle<CR>",
-            desc = "toggle aerial navigation window",
-            mode = "n"
-        },
-        {
-            "[a",
-            "<cmd>AerialPrev<CR>",
-            desc = "previous symbol",
-            mode = "n"
-        },
-        {
-            "]a",
-            "<cmd>AerialNext<CR>",
-            desc = "next symbol",
-            mode = "n"
-        },
+        {"<F2>",    "<cmd>AerialToggle<CR>",    desc = "toggle aerial window",              mode = "n"},
+        {"<S-F2>",  "<cmd>AerialNavToggle<CR>", desc = "toggle aerial navigation window",   mode = "n"},
+        {"[a",      "<cmd>AerialPrev<CR>",      desc = "jump to previous symbol",           mode = "n"},
+        {"]a",      "<cmd>AerialNext<CR>",      desc = "jump to next symbol",               mode = "n"},
     },
+
     config = function()
         require("aerial").setup({
-            --priority list of preferred backends
-            backends = {"treesitter", "lsp", "markdown", "man"},
+            --symbol sources
+            backends = { "treesitter", "lsp", "markdown", "man" },
 
-            --[[
-                +-=========-+
-                | LAYOUT    |
-                +-=========-+
-            ]]
+            --window layout options
             layout = {
-                max_width = 0.5,--maximum 50% of screen
-                width = nil,--auto-size
-                min_width = 0.3,--minimum 30% of screen
-                default_direction = "right",--position: left, right, float
-                placement = "window",--placement for different windows: window, edge
+                max_width = 0.5,              --maximum width of Aerial window
+                width = nil,                  --auto-calculate width if nil
+                min_width = 0.3,              --minimum width
+                default_direction = "right",  --open on the right side by default
+                placement = "window",         --attach to current window
             },
-            attach_mode = "window",--window, global
-            close_automatic_events = {},--events to auto-close aerial
 
-            --[[
-                +-=========-+
-                | KEYMAPS   |
-                +-=========-+
-            ]]
+            attach_mode = "window",          --attach Aerial per window
+
+            --keymaps
             keymaps = {
-                --opening
-                ["v"] = {
-                    "actions.jump_vsplit",
-                    desc = "jump to the tag in a vertical split"
-                },
-                ["<C-v>"] = "none",
-                ["h"] = {
-                    "actions.jump_split",
-                    desc = "jump to the tag in a horizontal split"
-                },
-                ["<C-s>"] = "none",
+                --split
+                ["v"]       = {"actions.jump_vsplit",   desc = "jump to tag in vertical split"      },
+                ["<C-v>"]   = "none",
+                ["h"]       = {"actions.jump_split",    desc = "jump to tag in horizontal split"    },
+                ["<C-s>"]   = "none",
 
-                --jumping
-                ["k"] = {
-                    "actions.prev",
-                    desc = "previous tag"
-                },
-                ["{"] = "none",
-                ["j"] = {
-                    "actions.next",
-                    desc = "next tag"
-                },
-                ["}"] = "none",
-                ["K"] = {
-                    "actions.prev_up",
-                    desc = "previous tag at parent level"
-                },
-                ["[["] = "none",
-                ["J"] = {
-                    "actions.next_up",
-                    desc = "next tag at parent level"
-                },
-                ["]]"] = "none",
-                ["<CR>"] = {
-                    "actions.jump",
-                    desc = "jump to tag under cursor"
-                },
-                ["<2-LeftMouse>"] = "none",
+                --go to
+                ["k"]               = {"actions.prev",      desc = "go to previous tag"                 },
+                ["{"]               = "none",
+                ["j"]               = {"actions.next",      desc = "go to next tag"                     },
+                ["}"]               = "none",
+                ["K"]               = {"actions.prev_up",   desc = "go to previous parent-level tag"    },
+                ["[["]              = "none",
+                ["J"]               = {"actions.next_up",   desc = "go to next parent-level tag"        },
+                ["]]"]              = "none",
+                ["<CR>"]            = {"actions.jump",      desc = "jump to tag under cursor"           },
+                ["<2-LeftMouse>"]   = "none",
 
-                --expand/collapse
-                ["o"] = {
-                    "actions.tree_open",
-                    desc = "open folder"
-                },
-                ["zo"] = "none",
-                ["l"] = "none",
-                ["O"] = {
-                    "actions.tree_open_recursive",
-                    desc = "open all sub-folders"
-                },
-                ["zO"] = "none",
-                ["L"] = "none",
-                ["c"] = {
-                    "actions.tree_close",
-                    desc = "close folder"
-                },
-                ["zc"] = "none",
-                ["C"] = {
-                    "actions.tree_close_recursive",
-                    desc = "close all sub-folders"
-                },
-                ["zC"] = "none",
-                ["H"] = "none",
-                ["x"] = {
-                    "actions.tree_toggle",
-                    desc = "toggle folder open/close"
-                },
-                ["za"] = "none",
-                ["X"] = {
-                    "actions.tree_toggle_recursive",
-                    desc = "toggle all sub-folders open/close"
-                },
-                ["zA"] = "none",
+                --open/close folders
+                ["o"]   = {"actions.tree_open",             desc = "open folder"                        },
+                ["zo"]  = "none",
+                ["l"]   = "none",
+                ["O"]   = {"actions.tree_open_recursive",   desc = "open all sub-folders"               },
+                ["zO"]  = "none",
+                ["L"]   = "none",
+                ["c"]   = {"actions.tree_close",            desc = "close folder"                       },
+                ["zc"]  = "none",
+                ["C"]   = {"actions.tree_close_recursive",  desc = "close all sub-folders"              },
+                ["zC"]  = "none",
+                ["H"]   = "none",
+                ["x"]   = {"actions.tree_toggle",           desc = "toggle folder open/close"           },
+                ["za"]  = "none",
+                ["X"]   = {"actions.tree_toggle_recursive", desc = "toggle all sub-folders open/close"  },
+                ["zA"]  = "none",
 
-                --scrolling
-                ["p"] = {
-                    "actions.scroll",
-                    desc = "scroll to tag without jumping (preview)"
-                },
-                ["<C-k>"] = {
-                    "actions.up_and_scroll",
-                    desc = "previous tag and scroll preview"
-                },
-                ["<C-j>"] = {
-                    "actions.down_and_scroll",
-                    desc = "next tag and scroll preview"
-                },
+                --scroll
+                ["p"]       = {"actions.scroll",            desc = "scroll to tag (preview without jumping)"    },
+                ["<C-k>"]   = {"actions.up_and_scroll",     desc = "move up and scroll preview"                 },
+                ["<C-j>"]   = {"actions.down_and_scroll",   desc = "move down and scroll preview"               },
 
-                --folding
-                ["zr"] = {
-                    "actions.tree_increase_fold_level",
-                    desc = "open one fold level"
-                },
-                ["zR"] = {
-                    "actions.tree_open_all",
-                    desc = "open all folds"
-                },
-                ["zm"] = {
-                    "actions.tree_decrease_fold_level",
-                    desc = "close one fold level"
-                },
-                ["zM"] = {
-                    "actions.tree_close_all",
-                    desc = "close all folds"
-                },
-                ["zx"] = {
-                    "actions.tree_sync_folds",
-                    desc = "sync folds with code"
-                },
+                --fold
+                ["zr"]  = {"actions.tree_increase_fold_level",  desc = "open one fold level"            },
+                ["zR"]  = {"actions.tree_open_all",             desc = "open all folds"                 },
+                ["zm"]  = {"actions.tree_decrease_fold_level",  desc = "close one fold level"           },
+                ["zM"]  = {"actions.tree_close_all",            desc = "close all folds"                },
+                ["zx"]  = {"actions.tree_sync_folds",           desc = "sync code folds with Aerial"    },
 
-                --other
-                ["<Esc>"] = {
-                    "actions.close",
-                    desc = "close Aerial window"
-                },
-                ["q"] = {
-                    "actions.close",
-                    desc = "close Aerial window"
-                },
-                ["?"] = {
-                    "actions.show_help",
-                    desc = "show all keymaps"
-                },
-                ["g?"] = "none",
+                --close
+                ["<Esc>"]   = {"actions.close", desc = "close Aerial window"},
+                ["q"]       = {"actions.close", desc = "close Aerial window"},
+
+                --help
+                ["?"]   = {"actions.show_help", desc = "show available keymaps"},
+                ["g?"]  = "none",
             },
 
-            --filter which symbols to display
-            filter_kind = false,--show all symbol types
+            --symbol filtering
+            filter_kind = false,    --show all symbol kinds
 
-            show_guides = true,--show symbol path in window title
+            --visuals and behavior
+            show_guides = true,                         --show hierarchy guides
+            highlight_on_hover = true,                  --highlight code when hovering in Aerial
+            highlight_on_jump = 210,                    --keep highlight for 210 ms after jumping
+            open_automatic = false,                     --don’t open automatically
+            close_on_select = true,                     --close Aerial when selecting a symbol
+            close_automatic_events = { "unsupported" }, --close on unsupported file types
 
-            highlight_on_hover = true,
-            highlight_on_jump = 210,--in ms
+            --update behavior
+            update_events = "TextChanged,InsertLeave",  --refresh symbols after editing
+            treesitter = { update_delay = 210 },        --delay updates for performance
 
-            open_automatic = false,--auto-open aerial when opening supported files
-            close_on_select = true,--auto-close aerial after jump
-            close_automatic_events = {"unsupported"},--auto-close when is the last window
-            --update aerial when entering a new buffer
-            update_events = "TextChanged,InsertLeave",
-            treesitter = {
-                update_delay = 210,
-            },
-
+            --LSP-specific settings
             lsp = {
-                diagnostics_trigger_update = true,
-                update_when_errors = true,
-                update_delay = 210,
+                diagnostics_trigger_update = true, --update when diagnostics change
+                update_when_errors = true,         --keep updating even if LSP reports errors
+                update_delay = 210,                --delay before updating symbols
             },
         })
     end,

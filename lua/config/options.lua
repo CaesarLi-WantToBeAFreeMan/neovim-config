@@ -1,199 +1,132 @@
-local opt = vim.opt
-local has = vim.fn.has
+--shorthand access
+local opt = vim.opt      --control editor options
+local has = vim.fn.has   --check if a feature exists
 
---create undo directory if not exists
-local undoDirectory = vim.fn.stdpath("data") .. "/undo"
-if vim.fn.isdirectory(undoDirectory) == 0 then
-    vim.fn.mkdir(undoDirectory, "p")
+--setup persistent undo directory
+local undoDirectory = vim.fn.stdpath "data" .. "/undo"    --path for undo history files
+if vim.fn.isdirectory(undoDirectory) == 0 then            --if the directory doesn't exist
+    vim.fn.mkdir(undoDirectory, "p")                      --create it
 end
 
---[[
-    +-=====================-+
-    | BASIC EDITOR BEHAVIOR |
-    +-=====================-+
-]]
+-- ============ encoding ============
+opt.encoding = "utf-8"                      --internal text encoding
+opt.fileencoding = "utf-8"                  --encoding for saved files
+opt.fileformats = { "unix", "dos", "mac" }  --support Unix, DOS, and Mac line endings
 
---encoding and file formats
-opt.encoding = "utf-8"                              --internal encoding
-opt.fileencoding = "utf-8"                          --file write encoding
-opt.fileformats = {"unix", "dos", "mac"}            --support LF, CRLF, CR
+-- ============ backup & undo ============
+opt.backup = false               --disable backup files
+opt.writebackup = false          --disable backup before overwriting files
+opt.swapfile = false             --disable swap files
+opt.undofile = true              --enable persistent undo
+opt.undodir = undoDirectory      --store undo history in custom directory
 
---backup, swap, undo
-opt.backup = false                                  --disable backup files(file~)
-opt.writebackup = false                             --disable write backup
-opt.swapfile = false                                --disable swap files(.swp)
-opt.undofile = true                                 --enable persistent undo
-opt.undodir = undoDirectory                         --undo directory
+-- ============ clipboard ============
+opt.clipboard = (has "win32" == 1 or has "win64" == 1)
+    and "unnamed"                --use Windows system clipboard
+    or "unnamedplus"             --use system clipboard on other OSes
 
---clipboard
---Microsoft Windows uses unnamed, and both Linux and Apple macOS use unnamedplus clipboard
-opt.clipboard = (has("win32") == 1 or has("win64") == 1)
-                and "unnamed"
-                or "unnamedplus"
+-- ============ mouse ============
+opt.mouse = ""                   --disable mouse support
 
---mouse
-opt.mouse = ""                                      --disable mouse
+-- ============ command Line ============
+opt.cmdheight = 1                --height of command line area
+opt.showcmd = false              --don’t show command in last line
+opt.showmode = false             --don’t show current mode
 
---command line
-opt.cmdheight = 1                                   --command line height
-opt.showcmd = false                                 --hide partial command
-opt.showmode = false                                --hide mode text
+-- ============ completion ============
+opt.completeopt = { "menu", "menuone", "noselect" } -- Completion menu behavior
+opt.pumheight = 12              --limit popup menu height
 
---completion
-opt.completeopt = {"menu", "menuone", "noselect"}   --show menu even for single match, do not auto-select
-opt.pumheight = 12                                  --12 items in a popup menu
+-- ============ timing ============
+opt.updatetime = 210            --faster update time for CursorHold/autocommands
+opt.timeoutlen = 500            --time to wait for mapped sequence to complete (ms)
 
---timeout
-opt.updatetime = 210                                --delay (ms) before swap file write
-opt.timeoutlen = 300                                --timeout for mapped key sequences
+-- ============ behavior ============
+opt.confirm = true              --ask for confirmation when closing unsaved buffers
+opt.autoread = true             --auto reload files changed outside Vim
 
---miscellaneous
-opt.confirm = true                                  --confirm before quitting unsaved files
-opt.autoread = true                                 --auto reload changed files
-opt.autowrite = false                               --do not auto save when switching buffers
+-- ============ search ============
+opt.hlsearch = true             --highlight search results
+opt.incsearch = true            --show matches while typing
+opt.showmatch = true            --highlight matching brackets
+opt.ignorecase = true           --ignore case when searching
+opt.smartcase = true            --ignore case unless search has uppercase letters
+opt.wrapscan = true             --continue searching from the top when reaching the bottom
 
---[[
-    +-=========-+
-    | SEARCH    |
-    +-=========-+
-]]
+-- ============ indentation ============
+opt.tabstop = 4                 --number of spaces per tab
+opt.shiftwidth = 4              --indent width
+opt.softtabstop = 4             --spaces per <Tab> when inserting
+opt.expandtab = true            --convert tabs to spaces
+opt.autoindent = true           --copy indent from current line when starting new line
+opt.smartindent = true          --smarter auto-indentation
+opt.shiftround = true           --round indent to nearest multiple of shiftwidth
 
-opt.hlsearch = true                                 --highlight all matches
-opt.incsearch = true                                --incremental search
-opt.showmatch = true                                --jump to match briefly
-opt.ignorecase = true                               --case-insensitive
-opt.smartcase = true                                --override ignorecase if uppercase appears
-opt.wrapscan = true                                 --loop search
+-- ============ wrapping ============
+opt.wrap = true                 --enable line wrapping
+opt.linebreak = true            --wrap lines at word boundaries
+opt.breakindent = true          --preserve indent when wrapping
+opt.textwidth = 0               --don’t automatically wrap text
+opt.wrapmargin = 3              --margin before wrapping text
+opt.formatoptions = "jcrqlnt"   --fine-tune automatic formatting options
+opt.lazyredraw = true           --don’t redraw while executing macros for speed
+opt.synmaxcol = 120             --limit syntax highlight to first 120 columns
 
---[[
-    +-=====================-+
-    | INDENTATION AND TABS  |
-    +-=====================-+
-]]
+-- ============ display ============
+opt.number = true               --show absolute line numbers
+opt.relativenumber = true       --show relative line numbers
+opt.scrolloff = 5               --keep 5 lines visible above/below cursor
+opt.sidescrolloff = 5           --keep 5 columns visible left/right of cursor
+opt.splitbelow = true           --open horizontal splits below current window
+opt.splitright = true           --open vertical splits to the right
+opt.background = "dark"         --optimize colors for dark backgrounds
+opt.termguicolors = true        --enable true color support
+opt.cursorline = true           --highlight current line
+opt.cursorcolumn = true         --highlight current column
+opt.signcolumn = "yes"          --always show the sign column
+opt.colorcolumn = "120"         --highlight column 120 for guide
 
-opt.tabstop = 4                                     --tab width
-opt.shiftwidth = 4                                  --indent size
-opt.softtabstop = 4                                 --insert tab width
-opt.expandtab = true                                --use spaces
-opt.smarttab = true                                 --smart tab insert
-opt.autoindent = true                               --copy indent
-opt.smartindent = true                              --auto-indent C-like
-opt.cindent = false                                 --C-style indent, disable for using treesitter indent
-opt.shiftround = true                               --round indent
+-- ============ status & tab lines ============
+opt.laststatus = 3              --global status line
+opt.showtabline = 1             --show tabline only if there are multiple tabs
 
---[[
-    +-=============================-+
-    | LINE WRAPPING AND FORMATTING  |
-    +-=============================-+
-]]
+-- ============ concealing ============
+opt.conceallevel = 0            --disable concealing
+opt.concealcursor = ""          --disable concealment while editing
 
-opt.wrap = true                                     --enable wrapping
-opt.linebreak = true                                --wrap at word
-opt.breakindent = true                              --preserve indent
-opt.textwidth = 0                                   --no auto wrap limit
-opt.wrapmargin = 3                                  --wrap margin
-opt.formatoptions = "jcrqlnt"                       --j: remove comment leader when joining lines
-                                                    --c: auto-wrap comments using textwidth
-                                                    --r: auto-insert comment leader after <CR>
-                                                    --o: auto-insert comment leader after o || O
-                                                    --q: allow formatting comments with gq
-                                                    --l: long lines not broken in insert mode
-                                                    --n: recognize numbered lists when formatting
-                                                    --t: auto-wrap text using textwidth
-opt.lazyredraw = true                               --skip redraw in macros
-opt.synmaxcol = 210                                 --210 columns to apply syntax highlighting
-
-
---[[
-    +-=========================================-+
-    | LINE NUMBERS, SCROLL, SPLITS, PERFORMANCE |
-    +-=========================================-+
-]]
-
-opt.number = true                                   --show line numbers
-opt.relativenumber = true                           --show relative line numbers
-opt.scrolloff = 5                                   --keep 5 lines visible above/below
-opt.sidescrolloff = 5                               --keep 5 columns visible on sides
-opt.splitbelow = true                               --split horizontal windows below
-opt.splitright = true                               --split vertical windows to right
-opt.hidden = true                                   --allow unsaved buffer switching
-opt.updatetime = 210                                --delay before CursorHold event in ms
-opt.timeoutlen = 300                                --mapping timeout in ms
-
---[[
-    +-=============-+
-    | APPEARANCE    |
-    +-=============-+
-]]
-
-opt.background = "dark"                             --dark mode
-opt.termguicolors = true                            --enable 24-bit RGB colors in terminal
-opt.cursorline = true                               --highlight line
-opt.cursorcolumn = true                             --highlight column
-opt.signcolumn = "yes"                              --always show sign column
-opt.colorcolumn = "120"                              --ruler at column 120
-
---status line and tab line
-opt.laststatus = 3                                  --global statusline(0 = never, 1 = only if 2+ windows, 2 = always, 3 = global)
-opt.showtabline = 1                                 --show tabline(0 = never, 1 = only if 2+ tabs, 2 = always)
-
---conceal
-opt.conceallevel = 0                                --show all text
-opt.concealcursor = ""                              --no conceal on cursor
-
---fill characters
+-- ============ fill characters ============
 opt.fillchars = {
-    fold = "",                                     --character to show for folded lines
-    foldopen = "",                                 --character for open folds
-    foldclose = "",                                --character for closed folds
-    foldsep = "",                                  --character for fold column separator
-    diff = "",                                     --character for deleted lines in diff mode
-    eob = " ",                                      --character for empty lines at end of buffer
+    fold = "",                 --fold placeholder character
+    foldopen = "",             --icon for open folds
+    foldclose = "",            --icon for closed folds
+    foldsep = "󰇙",              --fold separator
+    diff = "",                 --character used in diff view
+    eob = " ",                  --remove tildes (~) at end of buffer
 }
 
---[[
-    +-=========-+
-    | FOLDING   |
-    +-=========-+
-]]
+-- ============ folding ============
+opt.foldenable = true           --enable code folding
+opt.foldlevel = 99              --open all folds by default
+opt.foldnestmax = 99            --maximum nested folds
+opt.foldminlines = 1            --minimum lines to create a fold
+opt.foldcolumn = "1"            --show fold column
 
-opt.foldenable = true                               --starts with folds close
-opt.foldlevel = 99                                  --open all folds by default
-opt.foldnestmax = 99                                --maximum fold depth
-opt.foldminlines = 1                                --minimum lines per fold
-opt.foldcolumn = "1"                                --fold column width
+-- ============ window size ============
+opt.winminheight = 1            --minimum window height
+opt.winminwidth = 1             --minimum window width
+opt.winheight = 12              --preferred window height
+opt.winwidth = 30               --preferred window width
 
---[[
-    +-=============-+
-    | WINDOW SIZE   |
-    +-=============-+
-]]
+-- ============ spell checking ============
+opt.spell = true                --enable spell checking
+opt.spelllang = { "en_us" }     --use U.S. English dictionary
 
-opt.winminheight = 1                                --minimum window height
-opt.winminwidth = 1                                 --minimum window width
-opt.winheight = 12                                  --active window height
-opt.winwidth = 30                                   --active window width
-
---[[
-    +-=================-+
-    | SPELL CHECKING    |
-    +-=================-+
-]]
-
-opt.spell = true                                    --enable spellcheck
-opt.spelllang = {"en_us"}                           --spell languages
-
---[[
-    +-=====================-+
-    | SESSION MANAGEMENT    |
-    +-=====================-+
-]]
-
-opt.sessionoptions = {
-    "buffers",                                      --save all buffers
-    "curdir",                                       --save current directory
-    "tabpages",                                     --save all tab pages
-    "winsize",                                      --save window sizes
-    "globals",                                      --save global variables
-    "skiprtp",                                      --do not save runtime path
+-- ============ session ============
+opt.sessionoptions = {          --save options in sessions
+    "buffers",                  --open buffers
+    "curdir",                   --current directory
+    "tabpages",                 --tabs
+    "winsize",                  --window sizes
+    "globals",                  --global variables
+    "skiprtp",                  --skip runtime path
 }
