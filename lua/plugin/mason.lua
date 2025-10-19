@@ -42,9 +42,9 @@ return {
             }
 
             for _, server in ipairs(servers) do
-                require("lspconfig") [server].setup({
-                    capabilities = capabilities
-                })
+                --customize server config with capabilities
+                vim.lsp.config(server, {capabilities = capabilities})
+                vim.lsp.enable(server)              --enable the server for its filetypes
             end
 
             -- ============ diagnostic text colors ============
@@ -105,7 +105,7 @@ return {
                                     --display diagnostic with icon
                                     {" " .. (icons [d.severity] or "") .. " " .. d.message, hl_map [d.severity]}
                                 },
-                                virt_text_pos = "eol",
+                                virt_text_pos = "eol"
                             })
                             shown [d.lnum] = true--mark line as shown
                         end

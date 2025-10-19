@@ -66,7 +66,7 @@ return {
 						"javascript", "javascriptreact", "typescript", "typescriptreact",
 						"vue", "css", "scss", "html",
 						"json", "yaml", "markdown",
-					},
+					}
 				}),
 
 				--data

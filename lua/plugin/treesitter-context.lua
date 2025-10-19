@@ -16,7 +16,9 @@ return {
             separator = "󰇘",                                --separator between context and content
             zindex = 21,                                    --context window z-index
         })
-        vim.keymap.set("n", "[x", require("treesitter-context").go_to_context(),
+        vim.keymap.set("n", "[x", function ()
+            require("treesitter-context").go_to_context(vim.v.count1)
+        end,
         {silent = true, desc = "jump to context"})
     end
 }
