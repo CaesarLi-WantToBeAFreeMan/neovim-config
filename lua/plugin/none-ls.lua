@@ -1,16 +1,15 @@
 return {
-	"nvimtools/none-ls.nvim",
+	"nvimtools/none-ls.nvim",                                       --formatting and diagnostics
 	dependencies = {
-		"nvim-lua/plenary.nvim"
+		"nvim-lua/plenary.nvim"                                     --plenary
 	},
 	config = function()
-		local null_ls = require("null-ls")
-
+		local null_ls = require("null-ls")                          --load none-ls module
 		null_ls.setup({
 			sources = {
-				--formatting
+				--formatters
 				--programming languages
-				null_ls.builtins.formatting.clang_format.with({ --C/C++
+				null_ls.builtins.formatting.clang_format.with({             --C/C++ formatter
 					extra_args = {
                         "--style={BasenOnStyle: LLVM," ..                   --use LLVM as base style
                         "IndentWidth: 4," ..                                --use 4 spaces per tab
@@ -30,12 +29,12 @@ return {
                         "SpacesBeforeTrailingComments: 0}"                  --no spaces before trailing comments
 					}
 				}),
-				null_ls.builtins.formatting.google_java_format.with({ --Java
+				null_ls.builtins.formatting.google_java_format.with({       --Java formatter
 					extra_args = {
                         "--aosp"        --use 4 spaces per tab
                     }
 				}),
-				null_ls.builtins.formatting.stylua.with({ --Lua
+				null_ls.builtins.formatting.stylua.with({                   --Lua formatter
 					extra_args = {
 						"--indent-type",                "Spaces",           --use 4 spaces per tab
 						"--indent-width",               "4",                --convert tabs to spaces
@@ -45,8 +44,8 @@ return {
                         "--column-width",               "120"               --maximum line width before wrapping
 					}
 				}),
-				null_ls.builtins.formatting.isort, --sort imports for Python
-				null_ls.builtins.formatting.black, --format code for Python
+				null_ls.builtins.formatting.isort,                          --Python import sorter
+				null_ls.builtins.formatting.black,                          --Python code formatter
 
 				--web development
 				--JavaScript, JSX, TypeScript, TSX, Vue, HTML, CSS, SCSS, LESS, Markdown, YAML
@@ -71,34 +70,30 @@ return {
 				}),
 
 				--data
-				null_ls.builtins.formatting.sqlfluff,--SQL
+				null_ls.builtins.formatting.sqlfluff,       --SQL formatter
 
 				--diagnostics
 				--programming languages
-				null_ls.builtins.diagnostics.cpplint, --C/C++
-				null_ls.builtins.diagnostics.checkstyle, --Java
-				null_ls.builtins.diagnostics.flake8, --Python
+				null_ls.builtins.diagnostics.cpplint,       --C/C++ linter
+				null_ls.builtins.diagnostics.checkstyle,    --Java linter
+				null_ls.builtins.diagnostics.flake8,        --Python linter
 
 				--web development
-				null_ls.builtins.diagnostics.eslint_d, --JavaScript, TypeScript
-				null_ls.builtins.diagnostics.stylelint, --CSS, SCSS
+				null_ls.builtins.diagnostics.eslint_d,      --JS/TS linter
+				null_ls.builtins.diagnostics.stylelint,     --CSS/SCSS linter
 
 				--data
-				null_ls.builtins.diagnostics.sqlfluff,--SQL
+				null_ls.builtins.diagnostics.sqlfluff,      --SQL linter
 
 				--documents
-				null_ls.builtins.diagnostics.markdownlint, --Markdown
+				null_ls.builtins.diagnostics.markdownlint,  --Markdown linter
 			},
-			vim.keymap.set( --format code using <A-f>
-				"n",
-				"<A-f>",
-				vim.lsp.buf.format,
+			vim.keymap.set("n", "<A-f>", vim.lsp.buf.format,
 				{
-					noremap = true,
 					silent = true,
-					desc = "format code",
+					desc = "format code"
 				}
-			),
+			)
 		})
-	end,
+	end
 }

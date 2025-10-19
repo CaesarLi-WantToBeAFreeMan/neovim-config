@@ -1,38 +1,38 @@
---LSP (Language Server Protocol) installer
 return {
-    {--download & install LSP servers, linters, formatters
-        "williamboman/mason.nvim",
+    {
+        "williamboman/mason.nvim",          --LSP, linter and formatter installer
         config = function()
-            require("mason").setup()
+            require("mason").setup()        --initialize mason with default settings
         end
     },
-    {--bridge mason and nvim-lspconfig
-        "williamboman/mason-lspconfig.nvim",
+    {
+        "williamboman/mason-lspconfig.nvim",--bridge mason and nvim-lspconfig
         config = function()
-            require("mason-lspconfig").setup {
+            require("mason-lspconfig").setup({
                 ensure_installed = {
                     --programming languages
                     --C++,      Java,       Python,     Lua
                     "clangd",   "jdtls",    "pyright", "lua_ls",
                     --web development
-                    --HTML, CSS/SCSS,   JavaScript/TypeScript/JSX/TSX,  Vue
-                    "html", "cssls",    "ts_ls",                        "vuels",
+                    --HTML, CSS/SCSS,   JS/TS/JSX/TSX,  Vue
+                    "html", "cssls",    "ts_ls",        "vuels",
                     --data/config
                     --XML,      YAML,       SQL
                     "lemminx", "yamlls",    "sqlls",
                     --documentation
                     --Markdown, LaTeX
-                    "marksman", "texlab",
+                    "marksman", "texlab"
                 }
-            }
+            })                              --install specific LSP servers
         end
     },
     {
-        "neovim/nvim-lspconfig",
+        "neovim/nvim-lspconfig",            --LSP configurations
         dependencies = {
-            "hrsh7th/cmp-nvim-lsp"
+            "hrsh7th/cmp-nvim-lsp"          --LSP completion integration
         },
         config = function()
+            --enable LSP completion capabilities
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local servers = {
                 "clangd", "jdtls", "pyright", "lua_ls",
@@ -42,58 +42,51 @@ return {
             }
 
             for _, server in ipairs(servers) do
-                vim.lsp.config(server, {
+                require("lspconfig") [server].setup({
                     capabilities = capabilities
                 })
-                vim.lsp.enable(server)
             end
 
-            local keymap = vim.keymap.set
-            local lsp = vim.lsp.buf
-            local set_hl = vim.api.nvim_set_hl
+            -- ============ diagnostic text colors ============
+            vim.api.nvim_set_hl(0,  "DiagnosticVirtualTextError",   {fg = "#e06c75"})
+            vim.api.nvim_set_hl(0,  "DiagnosticVirtualTextWarn",    {fg = "#e5c07b"})
+            vim.api.nvim_set_hl(0,  "DiagnosticVirtualTextHint",    {fg = "#00ffff"})
+            vim.api.nvim_set_hl(0,  "DiagnosticVirtualTextInfo",    {fg = "#abb2bf"})
 
-            --define custom highlight groups with colors
-            set_hl(0, "DiagnosticVirtualTextError", {fg = "#e06c75"})
-            set_hl(0, "DiagnosticVirtualTextWarn", {fg = "#e5c07b"})
-            set_hl(0, "DiagnosticVirtualTextHint", {fg = "#00ffff"})
-            set_hl(0, "DiagnosticVirtualTextInfo", {fg = "#abb2bf"})
+            -- ============ sign colors ============
+            vim.api.nvim_set_hl(0,  "DiagnosticSignError",          {fg = "#e06c75"})
+            vim.api.nvim_set_hl(0,  "DiagnosticSignWarn",           {fg = "#e5c07b"})
+            vim.api.nvim_set_hl(0,  "DiagnosticSignHint",           {fg = "#00ffff"})
+            vim.api.nvim_set_hl(0,  "DiagnosticSignInfo",           {fg = "#abb2bf"})
 
-            --sign colors at the beginning of line
-            set_hl(0, "DiagnosticSignError", {fg = "#e06c75"})
-            set_hl(0, "DiagnosticSignWarn", {fg = "#e5c07b"})
-            set_hl(0, "DiagnosticSignHint", {fg = "#00ffff"})
-            set_hl(0, "DiagnosticSignInfo", {fg = "#abb2bf"})
-
-            --disable built-in inline text
+            --diagnostic configuration
             vim.diagnostic.config({
-                virtual_text = false,
-                signs = true,
-                underline = true,
-                update_in_insert = false,
-                severity_sort = true,
-                float = {
-                    focusable = false,
-                    style = "minimal",
+                virtual_text = false,               --disable inline diagnostic text
+                signs = true,                       --show diagnostic signs in gutter
+                underline = true,                   --underline diagnostic issues
+                update_in_insert = false,           --delay updates during insert mode
+                severity_sort = true,               --sort diagnostics by severity
+                float = {                           --use rounded borders for floating diagnostics
                     border = "rounded",
-                    source = "always",
-                    header = "",
-                    prefix = ""
+                    style = "minimal",
+                    source = "always"
                 }
             })
 
-            --clear and redraw a single inline diagnostic per line
+            --single inline diagnostic per line
             vim.api.nvim_create_autocmd("DiagnosticChanged", {
                 callback = function()
-                    vim.b.inline_ns = vim.b.inline_ns or vim.api.nvim_create_namespace("inline_diag")
-                    vim.api.nvim_buf_clear_namespace(0, vim.b.inline_ns, 0, -1)
+                    --create namespace for diagnostics
+                    local ns = vim.b.inline_ns or vim.api.nvim_create_namespace("inline_diag")
+                    vim.b.inline_ns = ns
+                    vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)--clear previous diagnostics
 
                     local diags = vim.diagnostic.get(0)
                     local shown = {}
 
                     for _, d in ipairs(diags) do
-                        local lnum = d.lnum
-                        if not shown[lnum] then
-                            local icons = {
+                        if not shown [d.lnum] then
+                            local icons = {     --diagnostic icons
                                 [vim.diagnostic.severity.ERROR] = "",
                                 [vim.diagnostic.severity.WARN] = "",
                                 [vim.diagnostic.severity.HINT] = "󰰂",
@@ -107,23 +100,21 @@ return {
                                 [vim.diagnostic.severity.INFO] = "DiagnosticVirtualTextInfo",
                             }
 
-                            local icon = icons[d.severity] or ""
-                            local hl = hl_map[d.severity] or "DiagnosticVirtualTextError"
-
-                            vim.api.nvim_buf_set_extmark(0, vim.b.inline_ns, lnum, 0, {
+                            vim.api.nvim_buf_set_extmark(0, ns, d.lnum, 0, {
                                 virt_text = {
-                                    {" " .. icon .. " " .. d.message, hl}
+                                    --display diagnostic with icon
+                                    {" " .. (icons [d.severity] or "") .. " " .. d.message, hl_map [d.severity]}
                                 },
                                 virt_text_pos = "eol",
                             })
-                            shown[lnum] = true
+                            shown [d.lnum] = true--mark line as shown
                         end
                     end
                 end
             })
 
             --gutter signs
-            local signs = {
+            local signs = {--define diagnostic sign icons
                 Error = "",
                 Warn = "",
                 Hint = "󰰂",
@@ -131,37 +122,31 @@ return {
             }
 
             for type, icon in pairs(signs) do
-                local hl = "DiagnosticSign" .. type
-                vim.fn.sign_define(hl, {
+                vim.fn.sign_define(
+                    "diagnosticSign" .. type, {
                     text = icon,
-                    texthl = hl,
-                    numhl = ""
+                    texthl = "DiagnosticSign" .. type
                 })
             end
 
             --LSP keymaps
-            keymap("n", "<leader>h", lsp.hover, {
-                noremap = true,
+            vim.keymap.set("n", "<leader>h", vim.lsp.buf.hover, {
                 silent = true,
                 desc = "show hover info"
             })
-            keymap("n", "<leader>d", lsp.definition, {
-                noremap = true,
+            vim.keymap.set("n", "<leader>d", vim.lsp.buf.definition, {
                 silent = true,
                 desc = "show definition"
             })
-            keymap({"n", "v"}, "<leader>a", lsp.code_action, {
-                noremap = true,
+            vim.keymap.set({"n", "v"}, "<leader>a", vim.lsp.buf.code_action, {
                 silent = true,
-                desc = "show code action"
+                desc = "show code actions"
             })
-            keymap("n", "[d", vim.diagnostic.goto_prev, {
-                noremap = true,
+            vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {
                 silent = true,
                 desc = "previous diagnostic"
             })
-            keymap("n", "]d", vim.diagnostic.goto_next, {
-                noremap = true,
+            vim.keymap.set("n", "]d", vim.diagnostic.goto_next, {
                 silent = true,
                 desc = "next diagnostic"
             })

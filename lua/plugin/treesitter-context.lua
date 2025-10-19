@@ -1,30 +1,22 @@
---a current code context (class, function, loop, etc) viewer
---at the top of editor, like Microsoft Visual Studio Code
 return {
-    "nvim-treesitter/nvim-treesitter-context",
+    "nvim-treesitter/nvim-treesitter-context",              --context viewer for code
+    event = {"BufReadPost", "BufNewFile"},                  --load on file open
     dependencies = {
-        "nvim-treesitter/nvim-treesitter"
+        "nvim-treesitter/nvim-treesitter"                   --load treesitter
     },
-    event = {"BufReadPost", "BufNewFile"},
     config = function()
         require("treesitter-context").setup({
-            enable = true,
-            max_lines = 5,-- Maximum lines to show
-            min_window_height = 30,-- Minimum editor window height
-            line_numbers = true,-- Show line numbers in context
-            multiline_threshold = 1,-- Maximum lines for single context
-            trim_scope = "outer",-- Trim scope at outer function
-            mode = "cursor",-- Line used to calculate context
-            separator = "󰇘",-- Separator between context and content
-            zindex = 21,-- Z-index of context window
+            enable = true,                                  --enable context viewer
+            max_lines = 5,                                  --show up to 5 context lines
+            min_window_height = 30,                         --minimum window height for context
+            line_numbers = true,                            --show line numbers in context
+            multiline_threshold = 1,                        --maximum lines for single context
+            trim_scope = "outer",                           --trim scope to outer function
+            mode = "cursor",                                --use cursor for context calculation
+            separator = "󰇘",                                --separator between context and content
+            zindex = 21,                                    --context window z-index
         })
-
-        --keymap to jump to context
-        vim.keymap.set("n", "[x", function()
-            require("treesitter-context").go_to_context()
-        end, {
-            silent = true,
-            desc = "jump to context"
-        })
-    end,
+        vim.keymap.set("n", "[x", require("treesitter-context").go_to_context(),
+        {silent = true, desc = "jump to context"})
+    end
 }

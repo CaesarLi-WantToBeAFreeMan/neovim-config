@@ -1,13 +1,11 @@
 --a fuzzy finder
 return{
     {
-        "nvim-telescope/telescope.nvim",
-        tag = "0.1.8",--stable version
+        "nvim-telescope/telescope.nvim",            --fuzzy finder
+        tag = "0.1.8",                              --stable version
         dependencies = {
             "nvim-lua/plenary.nvim"
         },
-
-        --custom keymaps
         keys = {
             --files
             {"<leader>ff",  "<cmd>Telescope find_files<CR>",    desc = "find files",                        mode = "n"},
@@ -29,13 +27,11 @@ return{
             {"<leader>gb",  "<cmd>Telescope git_branches<CR>",  desc = "find git branches",                 mode = "n"},
             {"<leader>gs",  "<cmd>Telescope git_status<CR>",    desc = "find git status",                   mode = "n"},
         },
-
         config = function()
             local actions = require("telescope.actions")
             require("telescope").setup({
                 defaults = {
                     mappings = {
-                        --insert mode
                         i = {
                             --complete tag
                             ["<Tab>"]       = actions.complete_tag,
@@ -81,11 +77,9 @@ return{
                         }
                     }
                 },
-
                 pickers = {
-                    --buffers configuration
                     buffers = {
-                        initial_mode = "normal",--start in normal mode
+                        initial_mode = "normal",            --start buffer picker in normal mode
                         mappings = {
                             i = {
                                 ["<C-d>"]       = actions.delete_buffer,
@@ -102,16 +96,14 @@ return{
         end
     },
     {
-        "nvim-telescope/telescope-ui-select.nvim",
+        "nvim-telescope/telescope-ui-select.nvim",          --dropdown UI extension
         config = function()
             require("telescope").setup({
                 extensions = {
-                    ["ui-select"] = {
-                        require("telescope.themes").get_dropdown{}
-                    }
+                    ["ui-select"] = require("telescope.themes").get_dropdown()
                 }
             })
             require("telescope").load_extension("ui-select")
-        end,
-    },
+        end
+    }
 }

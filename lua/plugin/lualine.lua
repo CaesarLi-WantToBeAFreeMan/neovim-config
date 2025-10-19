@@ -1,21 +1,22 @@
---status line
 return{
-    "nvim-lualine/lualine.nvim",
+    "nvim-lualine/lualine.nvim",            --statusline plugin
     dependencies = {
-        "nvim-tree/nvim-web-devicons",
-        "lewis6991/gitsigns.nvim"
+        "nvim-tree/nvim-web-devicons",      --file icons
+        "lewis6991/gitsigns.nvim"           --gitsigns
     },
-    event = "VeryLazy",
+    event = "VeryLazy",                     --load on VeryLazy event
     config = function()
         require("lualine").setup({
             options = {
-                theme = "onedark",
-                globalstatus = true,
-                section_separators = {left = "", right = ""},
-                component_separators = {left = "", right = ""},
+                theme = "onedark",          --use onedark theme
+                globalstatus = true,        --enable global statusline
+                section_separators = {left = "", right = ""},     --section separators
+                component_separators = {left = "", right = ""},   --component separators
                 disabled_filetypes = {
-                    statusline = {"neo-tree"},
-                    winbar = {}
+                    statusline = {                                  --disable statusline
+                        "neo-tree",
+                        "aerial"
+                    }
                 }
             },
             sections = {
@@ -31,30 +32,21 @@ return{
                     {
                         function()
                             local gitsigns = vim.b.gitsigns_status_dict
-                            if not gitsigns then
-                                return ""
-                            end
-                            return string.format(" %d", gitsigns.added)
+                            return gitsigns and string.format(" %d", gitsigns.added) or ""
                         end,
                         color = {fg = "#98c379"}
                     },
                     {
                         function()
                             local gitsigns = vim.b.gitsigns_status_dict
-                            if not gitsigns then
-                                return ""
-                            end
-                            return string.format(" %d", gitsigns.removed)
+                            return gitsigns and string.format(" %d", gitsigns.removed) or ""
                         end,
                         color = {fg = "#e06c75"}
                     },
                     {
                         function()
                             local gitsigns = vim.b.gitsigns_status_dict
-                            if not gitsigns then
-                                return ""
-                            end
-                            return string.format(" %d", gitsigns.changed)
+                            return gitsigns and string.format(" %d", gitsigns.changed) or ""
                         end,
                         color = {fg = "#e5c07b"}
                     },
@@ -65,23 +57,17 @@ return{
                     },
                     {
                         function()
-                            local count = #(vim.diagnostic.get(
-                                0, {
-                                    severity = vim.diagnostic.severity.ERROR
-                                }
-                            ))
-                            return string.format(" %d", count)
+                            return string.format(
+                                " %d", #vim.diagnostic.get(0, {severity = vim.diagnostic.severity.ERROR})
+                            )
                         end,
                         color = {fg = "#e06c75"},
                     },
                     {
                         function()
-                            local count = #(vim.diagnostic.get(
-                                0, {
-                                    severity = vim.diagnostic.severity.WARN
-                                }
-                            ))
-                            return string.format(" %d", count)
+                            return string.format(
+                                " %d", #vim.diagnostic.get(0, {severity = vim.diagnostic.severity.WARN})
+                            )
                         end,
                         color = {fg = "#e5c07b"},
                     }
@@ -90,21 +76,13 @@ return{
                 lualine_y = {
                     {
                         function()
-                            return string.format(
-                                " %d/%d",
-                                vim.fn.line("."),
-                                vim.fn.line("$")
-                            )
+                            return string.format(" %d/%d", vim.fn.line("."), vim.fn.line("$"))
                         end,
                         color = {fg = "#ffbb00", bg = "#00a1f1"}
                     },
                     {
                         function()
-                            return string.format(
-                                " %d/%d",
-                                vim.fn.col("."),
-                                vim.fn.col("$") - 1
-                            )
+                            return string.format(" %d/%d", vim.fn.col("."), vim.fn.col("$") - 1)
                         end,
                         color = {fg = "#f65314", bg = "#7cbb00"}
                     }

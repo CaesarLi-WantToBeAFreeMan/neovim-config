@@ -1,25 +1,24 @@
---define the installation path for lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+--LazyVim installation path
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"    --set path for lazy.nvim
 
---check if lazy.nvim is not already installed
-if not vim.loop.fs_stat(lazypath) then
-	--if missing, clone it from GitHub into the specified path
+--install lazy.nvim if not present
+if not vim.loop.fs_stat(lazypath) then                          --if missing, clone from GitHub
 	vim.fn.system({
 		"git",
 		"clone",
-		"--filter=blob:none",                       --don’t download unnecessary file history
-        "https://github.com/folke/lazy.nvim.git",   --official Lazy.nvim repository
-        "--branch=stable",                          --use the stable branch
-        lazypath,                                   --clone destination path
+		"--filter=blob:none",                                   --don’t download unnecessary file history
+        "https://github.com/folke/lazy.nvim.git",               --official Lazy.nvim repository
+        "--branch=stable",                                      --use the stable branch
+        lazypath,                                               --clone destination path
     })
 end
 
---add lazy.nvim to Neovim’s runtime path
-vim.opt.rtp:prepend(lazypath)
+--prepend lazy.nvim to runtime path
+vim.opt.rtp:prepend(lazypath)                                   --add lazy.nvim to Neovim's runtime path
 
---initialize lazy.nvim and load all plugins from the "plugin" directory
+--initialize lazy.nvim with plugins from `plugin` directory
 require("lazy").setup("plugin", {
-    ui = { border = "rounded" },            --use rounded borders for Lazy’s UI wins
-    checker = { enabled = false },          --disable automatic update checg
-    change_detection = { notify = false },  --don’t show messages when plugin files change
+    ui = { border = "rounded" },                                --use rounded borders for Lazy UI
+    checker = { enabled = false },                              --disable automatic plugin update checks
+    change_detection = { notify = false },                      --suppress plugin change notifications
 })

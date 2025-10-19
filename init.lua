@@ -1,8 +1,8 @@
 --set leader keys
-vim.g.mapleader = "\\"         --define the global leader key
-vim.g.maplocalleader = "\\"    --define the local leader key
+vim.g.mapleader = "\\"         --global leader key
+vim.g.maplocalleader = "\\"    --local leader key for buffer-specific
 
 --load configuration modules
-require "config.options"       --import options
-require "config.keymaps"       --import custom key mappings
-require "config.lazy"          --import LazyVim plugin manager setup
+require "config.options"       --options
+require "config.keymaps"       --custom key mappings
+require "config.lazy"          --initialize lazyVim plugin manager

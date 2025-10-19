@@ -1,32 +1,25 @@
---Caesar's prefer colorscheme
 return{
-    "navarasu/onedark.nvim",
-    lazy = false,--load immediately
-    priority = 1000,--load before other plugins
+    "navarasu/onedark.nvim",                            --onedark colorscheme
+    priority = 1000,                                    --load before other plugins
     config = function()
-        --setup onedark colorscheme
         require("onedark").setup({
             style = "deep"--themes: dark, darker, cool, deep, warm, warmer
         })
-        require("onedark").load()--load the colorscheme
-
-        --custom highlight overrides
+        require("onedark").load()                       --apply colorscheme
         local highlights = {
-            LineNr = {fg = "#ffffff", bg = "NONE"},
-            CursorLineNr = {fg = "#00ffff", bg = "NONE", bold = true},
-            CursorLine = {bg = "#333333"},
-            CursorColumn = {bg = "#333333"},
-            Search = {fg = "#00ffff", bg = "#756a22"},
-            MsgArea = {fg = "#00ffff"},
-            MoreMsg = {fg = "#00ffff"},
-            Question = {fg = "#00ffff"},
-            ModeMsg = {fg = "#00ffff"},
-            Cursor = {fg = "#ff0000"},
+            LineNr          = {fg = "#ffffff",  bg = "NONE"},                   --white line numbers
+            CursorLineNr    = {fg = "#00ffff",  bg = "NONE",    bold = true},   --cyan bold current line number
+            CursorLine      = {bg = "#333333"},                                 --dark gray cursor line
+            CursorColumn    = {bg = "#333333"},                                 --dark cray cursor column
+            Search          = {fg = "#00ffff",  bg = "#756a22"},                --cyan search with alive background
+            MsgArea         = {fg = "#00ffff"},                                 --cyan message area
+            MoreMsg         = {fg = "#00ffff"},                                 --cyan more messages
+            Question        = {fg = "#00ffff"},                                 --cyan questions
+            ModeMsg         = {fg = "#00ffff"},                                 --cyan mode messages
+            Cursor          = {fg = "#ff0000"},                                 --red cursor
         }
-
-        --apply all highlight overrides
         for group, settings in pairs(highlights) do
-            vim.api.nvim_set_hl(0, group, settings)
+            vim.api.nvim_set_hl(0, group, settings)                             --apply highlight overrides
         end
-    end,
+    end
 }
