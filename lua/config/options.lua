@@ -10,7 +10,7 @@ end
 -- ============ encoding ============
 opt.encoding = "utf-8"                              --internal text encoding
 opt.fileencoding = "utf-8"                          --save files in UTF-8 encoding
-opt.fileformats = { "unix", "dos", "mac" }          --support multiple line-ending formats
+opt.fileformats = {"unix", "dos", "mac"}            --support multiple line-ending formats
 
 -- ============ backup & undo ============
 opt.backup = false                                  --disable backup files
@@ -32,7 +32,7 @@ opt.showcmd = false                                 --hide command display
 opt.showmode = false                                --hide current mode display
 
 -- ============ completion ============
-opt.completeopt = { "menu", "menuone", "noselect" } --configure completion menu behavior
+opt.completeopt = {"menu", "menuone", "noselect"}   --configure completion menu behavior
 opt.pumheight = 12                                  --limit popup menu height to 12 items
 
 -- ============ timing ============
@@ -105,14 +105,16 @@ opt.winwidth = 30                                   --set preferred window width
 
 -- ============ spell checking ============
 opt.spell = true                                    --enable spell checking
-opt.spelllang = { "en_us" }                         --use U.S. English dictionary
+opt.spelllang = {"en_us"}                           --use U.S. English dictionary
 
 -- ============ session ============
 opt.sessionoptions = {                              --save options in sessions
+    "blank",                                        --empty windows
     "buffers",                                      --open buffers
     "curdir",                                       --current directory
+    "folds",                                        --folds
+    "help",                                         --help window
     "tabpages",                                     --tabs
+    "winpos",                                       --window positions
     "winsize",                                      --window sizes
-    "globals",                                      --global variables
-    "skiprtp",                                      --skip runtime path
 }
