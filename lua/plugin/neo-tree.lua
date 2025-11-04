@@ -4,29 +4,17 @@ return{
     dependencies = {
         "nvim-lua/plenary.nvim",        --lua utility library for Neovim
         "nvim-tree/nvim-web-devicons",  --file icons
-        "MunifTanjim/nui.nvim",         --ui components
+        "MunifTanjim/nui.nvim"          --ui components
     },
     keys = {
-        {"<F1>",    "<cmd>Neotree toggle<CR>",      desc = "toggle Neo-tree",               mode = "n"},
-        {"<F1>g",   "<cmd>Neotree git_status<CR>",  desc = "show git status in Neo-tree",   mode = "n"},
-        {
-            "<F1>b",
-            function()
-                vim.cmd("Neotree close")--close Neo-tree first
-                vim.defer_fn(
-                    function()
-                        vim.cmd("Neotree buffers")
-                    end,
-                    50
-                )
-            end,
-            desc = "show buffers in Neo-tree",
-            mode = "n"
-        },
+        {"<F1>",    "<cmd>Neotree toggle<CR>",              desc = "toggle Neo-tree",   mode = "n"},
+        {"<S-F1>",  "<cmd>Neotree toggle git_status<CR>",   desc = "toggle git status", mode = "n"},
+        {"<C-F1>",  "<cmd>Neotree toggle buffers<CR>",      desc = "toggle buffers",    mode = "n"}
     },
     config = function()
         vim.g.loaded_netrw = 1              --disable netrw
         vim.g.loaded_netrwPlugin = 1        --disable netrw plugins
+
         require("neo-tree").setup({
             close_if_last_window = true,    --close Neo-tree if last window
             popup_border_style = "rounded", --use rounded borders for popups
@@ -43,7 +31,7 @@ return{
             default_component_configs = {
                 indent = {                      --set indent size and padding
                     indent_size = 2,
-                    padding = 1,
+                    padding = 1
                 },
                 name = {                        --color names based on git status
                     use_git_status_colors = true
@@ -60,59 +48,107 @@ return{
                     ["D"]               = "none",
 
                     --file system
-                    ["<"]               = {"prev_source",               desc = "switch to previous source"},
-                    [">"]               = {"next_source",               desc = "switch to next source"},
+                    ["<"]               = "none",
+                    [">"]               = "none",
                     ["<2-LeftMouse>"]   = "none",
                     ["u"]               = {"navigate_up",               desc = "go up one directory level"},
                     ["s"]               = {"set_root",                  desc = "set as root directory"},
                     ["."]               = "none",
-                    ["<esc>"]           = {"cancel",                    desc = "close Neo-tree"},
-                    ["q"]               = {"close_window",              desc = "close Neo-tree window"},
+                    ["<esc>"]           = {"close_window",              desc = "close Neo-tree"},
+                    ["q"]               = {"close_window",              desc = "close Neo-tree"},
                     ["?"]               = {"show_help",                 desc = "show help"},
-                    ["R"]               = {"refresh",                   desc = "refresh tree view"},
-                    ["[g"]              = {"prev_git_modified",         desc = "jump to previous git change"},
-                    ["]g"]              = {"next_git_modified",         desc = "jump to next git change"},
-                    ["="]               = {"toggle_auto_expand_width",  desc = "toggle auto width"},
+                    ["<C-r>"]           = {"refresh",                   desc = "refresh tree view"},
+                    ["[g"]              = {"prev_git_modified",         desc = "jump to previous git change" },
+                    ["]g"]              = {"next_git_modified",         desc = "jump to next git change" },
+                    ["="]               = {"",                          desc = "toggle full width"},
                     ["e"]               = "none",
 
+                    --navigation
+                    ["K"]               = {"",                          desc = "go to first node"},
+                    ["J"]               = {"",                          desc = "go to last node"},
+                    ["<C-b>"]           = {"",                          desc = "scroll up 10 nodes"},
+                    ["<C-f>"]           = {"",                          desc = "scroll down 10 nodes"},
+                    ["<C-u>"]           = {"",                          desc = "scroll up 5 nodes"},
+                    ["<C-d>"]           = {"",                          desc = "scroll down 5 nodes"},
+
                     --folder control
-                    ["<space>"]         = {"toggle_node",               desc = "toggle folder open/close"},
-                    ["o"]               = {"open",                      desc = "open file / toggle folder"},
-                    ["O"]               = {"expand_all_subnodes",       desc = "expand all subfolders"},
-                    ["c"]               = {"close_node",                desc = "close current folder"},
-                    ["C"]               = {"close_all_subnodes",        desc = "close all subfolders"},
+                    ["<space>"]         = {"toggle_node",               desc = "toggle folder"},
+                    ["<cr>"]            = {"open",                      desc = "open file / toggle folder"},
+                    ["o"]               = {"toggle_node",               desc = "open file / toggle folder"},
+                    ["zo"]              = {"open",                      desc = "open file / toggle folder"},
+                    ["O"]               = {"expand_all_subnodes",       desc = "open all folders recursively"},
+                    ["zO"]              = {"expand_all_subnodes",       desc = "open all folders recursively"},
+                    ["c"]               = {"close_node",                desc = "close folder"},
+                    ["zc"]              = {"close_node",                desc = "close folder"},
+                    ["C"]               = {"close_all_subnodes",        desc = "close all folders recursivel"},
+                    ["zC"]              = {"close_all_subnodes",        desc = "close all folders recursively"},
                     ["z"]               = "none",
 
                     --preview
-                    ["<C-b>"]           = {"scroll_preview",            desc = "scroll preview down"},
-                    ["<C-f>"]           = {"scroll_preview",            desc = "scroll preview up"},
-                    ["P"]               = {"toggle_preview",            desc = "toggle file preview"},
-                    ["p"]               = {"focus_preview",             desc = "focus preview window"},
+                    ["p"]               = {"toggle_preview",            desc = "toggle file preview"},
+                    ["P"]               = {"focus_preview",             desc = "focus preview window"},
                     ["l"]               = "none",
 
                     --open files
-                    ["<cr>"]            = {"open",                      desc = "open file in current window"},
-                    ["h"]               = {"open_split",                desc = "open in horizontal split"},
+                    ["h"]               = {"open_split",                desc = "open in horizontal split (below)"},
+                    ["H"]               = {
+                        function(state)
+                            local node = state.tree:get_node()
+                            if node and node.path then
+                                vim.cmd("wincmd p")
+                                vim.cmd("aboveleft split " .. vim.fn.fnameescape(node.path))
+                                require("neo-tree.command").execute({action = "close"})
+                            end
+                        end,
+                        desc = "open in horizontal split (above)"
+                    },
                     ["S"]               = "none",
-                    ["v"]               = {"open_rightbelow_vs",        desc = "open in vertical split (right)"},
-                    ["V"]               = {"open_leftabove_vs",         desc = "open in vertical split (left)"},
+                    ["v"]               = {"open_vsplit",               desc = "open in vertical split (right)"},
+                    ["V"]               = {
+                        function(state)
+                            local node = state.tree:get_node()
+                            if node and node.path then
+                                vim.cmd("wincmd p")
+                                vim.cmd("leftabove vsplit " .. vim.fn.fnameescape(node.path))
+                                require("neo-tree.command").execute({action = "close"})
+                            end
+                        end,
+                        desc = "open in vertical split (left)"
+                    },
                     ["t"]               = {"open_tabnew",               desc = "open in new tab"},
                     ["w"]               = {"open_with_window_picker",   desc = "open with window picker"},
 
                     --file actions
                     ["a"]               = {"add",                       desc = "add file/folder"},
                     ["A"]               = {"add_directory",             desc = "add folder"},
-                    ["<bs>"]            = {"delete",                    desc = "delete file/folder"},
-                    ["<del>"]           = {"delete",                    desc = "delete file/folder"},
-                    ["H"]               = {"toggle_hidden",             desc = "toggle hidden files"},
-                    ["i"]               = {"show_file_details",         desc = "show file details"},
+                    ["m"]               = {"move",                      desc = "move node"},
+                    ["d"]               = {"delete",                    desc = "delete node"},
+                    ["<bs>"]            = {"delete",                    desc = "delete node"},
+                    ["<del>"]           = {"delete",                    desc = "delete node"},
                     ["<C-x>"]           = {"cut_to_clipboard",          desc = "cut to clipboard"},
                     ["x"]               = "none",
-                    ["<C-y>"]           = {"copy_to_clipboard",         desc = "copt to clipboard"},
+                    ["<C-y>"]           = {"copy_to_clipboard",         desc = "copy to clipboard"},
                     ["y"]               = "none",
                     ["<C-p>"]           = {"paste_from_clipboard",      desc = "paste from clipboard"},
-                    ["r"]               = {"rename",                    desc = "rename the current file"},
-                    ["b"]               = {"rename_basename",           desc = "rename base name of the current file"},
+                    ["r"]               = {"rename",                    desc = "rename filename"},
+                    ["R"]               = {"rename_basename",           desc = "rename extension"},
+
+                    --toggles
+                    ["<leader>i"]       = {"show_file_details",         desc = "show details"},
+                    ["i"]               = "none",
+                    ["<leader>h"]       = {"toggle_hidden",             desc = "toggle hidden files"},
+                    ["<leader>l"]       = {
+                        function()
+                            vim.wo.number = not vim.wo.number
+                        end,
+                        desc = "toggle numbers"
+                    },
+                    ["<leader>L"]       = {
+                        function()
+                            vim.wo.relativenumber = not vim.wo.relativenumber
+                        end,
+                        desc = "toggle relative numbers"
+                    },
 
                     --sorting
                     ["<leader>c"]       = {"order_by_created",          desc = "sort by created date"},
@@ -123,41 +159,35 @@ return{
                     ["og"]              = "none",
                     ["<leader>m"]       = {"order_by_modified",         desc = "sort by modified date"},
                     ["om"]              = "none",
-                    ["<leader>n"]       = {"order_by_name",             desc = "sort by name (default)"},
+                    ["<leader>n"]       = {"order_by_name",             desc = "sort by name"},
                     ["on"]              = "none",
                     ["<leader>s"]       = {"order_by_size",             desc = "sort by size"},
                     ["os"]              = "none",
                     ["<leader>t"]       = {"order_by_type",             desc = "sort by type"},
-                    ["ot"]              = "none",
-
-                    --filters
-                    ["<leader>x"]       = {"clear_filter",              desc = "clear filter"},
-                    ["<C-a>"]           = {"filter_on_submit",          desc = "apply filter"}
+                    ["ot"]              = "none"
                 }
             },
             filesystem = {
+                follow_current_file = {
+                    enabled = true                          --focus current buffer
+                },
+                hijack_netrw_behavior   = "open_default",   --use Neo-tree instead of netrw
+                use_libuv_file_watcher  = true,             --auto-refresh on file changes
                 filtered_items = {
                     hide_dotfiles = false,                  --don't hide dot files
                     hide_gitignored = true,                 --hide git ignored files
                     hide_hidden = false,                    --don't hide hidden files for Microsoft Windows
                     hide_by_name = {
                         "node_modules",
+                        ".idea",
+                        ".vscode"
                     },
                     hide_by_pattern = {
                         "*/.o",
                         "*/.exe",
-                    },
-                    always_show = {
-                        ".env",
-                    },
-                    never_show = {
+                        "*/.class"
                     }
-                },
-                follow_current_file = {
-                    enabled = true                          --focus current buffer
-                },
-                hijack_netrw_behavior   = "open_default",   --use Neo-tree instead of netrw
-                use_libuv_file_watcher  = true              --auto-refresh on file changes
+                }
             },
             buffers = {
                 follow_current_file = {
@@ -165,17 +195,12 @@ return{
                 },
                 show_unloaded = true,                       --show unloaded buffers
                 window = {
+                    position = "float",                     --open buffers in floating window
                     mappings = {
-                        ["<CR>"]    = "open",               --open buffer
-                        ["o"]       = "open",               --open buffer
-                        ["d"]       = "buffer_delete",      --delete buffer
-                        ["<BS>"]    = "buffer_delete",      --delete buffer
-                        ["<Del>"]   = "buffer_delete",      --delete buffer
-                        ["u"]       = "navigate_up",        --navigate up
-                        ["s"]       = "set_root",           --set root
-                        ["r"]       = "refresh",            --refresh buffer list
-                        ["q"]       = "close_window",       --close window
-                        ["<Esc>"]   = "close_window",       --close window
+                        ["d"]       = {"buffer_delete",     desc = "delete current buffer"},
+                        ["<BS>"]    = {"buffer_delete",     desc = "delete current buffer"},
+                        ["<Del>"]   = {"buffer_delete",     desc = "delete current buffer"},
+                        ["bd"]      = "none"
                     }
                 }
             },
@@ -183,36 +208,37 @@ return{
                 window = {
                     position = "float",                     --open git status in floating window
                     mappings = {
-                        ["A"]   = {"git_add_all",           desc = "stage all modified files"},
                         ["a"]   = {"git_add_file",          desc = "stage the current file"},
+                        ["A"]   = {"git_add_all",           desc = "stage all modified files"},
                         ["ga"]  = "none",
                         ["u"]   = {"git_unstage_file",      desc = "unstage the current file"},
                         ["gu"]  = "none",
-                        ["U"]   = {"git_undo_last_commit",  desc = "undo last commit"},
                         ["gU"]  = "none",
-                        ["r"]   = {"git_revert_file",       desc = "revert changes in the current file"},
-                        ["gr"]  = "none",
                         ["c"]   = {"git_commit",            desc = "commit staged changed to local repo"},
                         ["gc"]  = "none",
                         ["p"]   = {"git_push",              desc = "push all local commits to origin branch"},
                         ["gp"]  = "none",
                         ["C"]   = {"git_commit_and_push",   desc = "commit staged changes and push to origin branch"},
                         ["gg"]  = "none",
+                        ["r"]   = {"git_revert_file",       desc = "revert file"},
+                        ["gr"]  = "none"
                     }
-                }
+                },
             }
         })
+
+        --auto-close if Neo-tree is last window
         vim.api.nvim_create_autocmd("BufEnter", {
-            group = vim.api.nvim_create_augroup("NeoTreeClose", {clear = true}),
+            group = vim.api.nvim_create_augroup("NeoTreeAutoClose", {clear = true}),
             callback = function()
-                local layout = vim.api.nvim_call_function("winlayout", {})
-                if  layout [1] == "leaf" and
-                    vim.bo [vim.api.nvim_win_get_buf(layout [2])].filetype == "neo-tree" and
-                    layout [3] == nil
+                local layout = vim.fn.winlayout()
+                if layout [1] == "leaf"
+                    and vim.bo [vim.api.nvim_win_get_buf(layout [2])].filetype == "neo-tree"
+                    and not layout [3]
                 then
                     vim.cmd("quit")                         --auto-close Neo-tree if last window
                 end
-            end,
+            end
         })
-    end,
+    end
 }
