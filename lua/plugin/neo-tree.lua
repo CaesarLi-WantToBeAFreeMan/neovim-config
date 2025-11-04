@@ -19,8 +19,9 @@ return{
             close_if_last_window = true,    --close Neo-tree if last window
             popup_border_style = "rounded", --use rounded borders for popups
             enable_git_status = true,       --show git status
-            enable_diagnostics = true,      --show LSP diagnostics
+            enable_diagnostics = false,     --hide LSP diagnostic icons
             event_handlers = {              --auto-close on file open
+                --auto close after selecting a node
                 {
                     event = "file_opened",
                     handler = function()
@@ -29,6 +30,24 @@ return{
                 }
             },
             default_component_configs = {
+                icon = {
+                    folder_closed   = "󰉋",
+                    folder_open     = "󰝰",
+                    folder_empty    = "󰉖"
+                },
+                git_status = {
+                    symbols = {
+                        added       = "",
+                        modified    = "",
+                        deleted     = "",
+                        renamed     = "",
+                        untracked   = "󰡯",
+                        ignored     = "",
+                        unstage     = "󱪡",
+                        staged      = "󰝒",
+                        conflict    = "󰩋"
+                    }
+                },
                 indent = {                      --set indent size and padding
                     indent_size = 2,
                     padding = 1
@@ -86,7 +105,6 @@ return{
 
                     --preview
                     ["p"]               = {"toggle_preview",            desc = "toggle file preview"},
-                    ["P"]               = {"focus_preview",             desc = "focus preview window"},
                     ["l"]               = "none",
 
                     --open files
@@ -224,7 +242,7 @@ return{
                         ["gr"]  = "none"
                     }
                 },
-            }
+            },
         })
 
         --auto-close if Neo-tree is last window
@@ -232,9 +250,9 @@ return{
             group = vim.api.nvim_create_augroup("NeoTreeAutoClose", {clear = true}),
             callback = function()
                 local layout = vim.fn.winlayout()
-                if layout [1] == "leaf"
-                    and vim.bo [vim.api.nvim_win_get_buf(layout [2])].filetype == "neo-tree"
-                    and not layout [3]
+                if layout[1] == "leaf"
+                    and vim.bo [vim.api.nvim_win_get_buf(layout[2])].filetype == "neo-tree"
+                    and not layout[3]
                 then
                     vim.cmd("quit")                         --auto-close Neo-tree if last window
                 end
