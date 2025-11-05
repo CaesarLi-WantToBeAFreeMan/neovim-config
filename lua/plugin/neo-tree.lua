@@ -7,15 +7,18 @@ return{
         "MunifTanjim/nui.nvim"          --ui components
     },
     keys = {
-        {"<F1>",    "<cmd>Neotree toggle<CR>",              desc = "toggle Neo-tree",   mode = "n"},
-        {"<S-F1>",  "<cmd>Neotree toggle git_status<CR>",   desc = "toggle git status", mode = "n"},
-        {"<C-F1>",  "<cmd>Neotree toggle buffers<CR>",      desc = "toggle buffers",    mode = "n"}
+        {"<F1>",    "<cmd>Neotree toggle filesystem<CR>",       desc = "toggle Neo-tree",           mode = "n"},
+        {"<S-F1>",  "<cmd>Neotree toggle git_status<CR>",       desc = "toggle git status",         mode = "n"},
+        {"<C-F1>",  "<cmd>Neotree toggle buffers<CR>",          desc = "toggle buffers",            mode = "n"},
+        {"<F2>",    "<cmd>Neotree toggle document_symbols<CR>", desc = "toggle document symbols",   mode = "n"}
     },
     config = function()
         vim.g.loaded_netrw = 1              --disable netrw
         vim.g.loaded_netrwPlugin = 1        --disable netrw plugins
 
         require("neo-tree").setup({
+            --file explorer, buffer explorer, git status explorer, symbol explorer
+            sources = {"filesystem", "buffers", "git_status", "document_symbols"},
             close_if_last_window = true,    --close Neo-tree if last window
             popup_border_style = "rounded", --use rounded borders for popups
             enable_git_status = true,       --show git status
@@ -43,7 +46,7 @@ return{
                         renamed     = "",
                         untracked   = "󰡯",
                         ignored     = "",
-                        unstage     = "󱪡",
+                        unstaged    = "󱪡",
                         staged      = "󰝒",
                         conflict    = "󰩋"
                     }
@@ -243,6 +246,58 @@ return{
                     }
                 },
             },
+            document_symbols = {
+                follow_cursor = true,
+                group_empty_dirs = false,       --keep nested display hierarchy
+                window = {
+                    position = "right",
+                    width = 50,
+                    border = "rounded",
+                    mappings = {
+                        --jump actions
+                        ["<cr>"] = {
+                            function(state)
+                                local node = state.tree:get_node()
+                                if node and node:get_id() then
+                                    require("neo-tree.sources.document_symbols.commands").jump_to_symbol(state)
+                                    vim.cmd("normal! zt")
+                                end
+                            end,
+                            desc = "jump to tag"
+                        },
+
+                        --node management
+                        ["r"] = {"rename", desc = "rename node"}
+                    }
+                },
+                renderers = {
+                    symbol = {
+                        {"indent", with_markers = true},
+                        {
+                            "icon",
+                            default = "",
+                            symbols = {
+                                Variable    = "󰫧",
+                                Field       = "󰬅",
+                                Function    = "󰡱",
+                                Method      = "󰊕",
+                                Constructor = "󰩀",
+                                Class       = "󰬊",
+                                Enum        = "󱡠",
+                                Interface   = "󰬐",
+                                Struct      = "󰬚",
+                                Module      = "󰏓",
+                                Namespace   = "󰬕",
+                                Package     = "",
+                                Property    = "󰬗",
+                                Trait       = "󰬛"
+                            }
+                        },
+                        {"name", zindex = 10},
+                        {"kind", zindex = 20, align = "right"}
+                    }
+                }
+            }
         })
 
         --auto-close if Neo-tree is last window
