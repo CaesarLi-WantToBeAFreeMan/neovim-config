@@ -17,8 +17,14 @@ end
 vim.opt.rtp:prepend(lazypath)                                   --add lazy.nvim to Neovim's runtime path
 
 --initialize lazy.nvim with plugins from `plugin` directory
-require("lazy").setup("plugin", {
-    ui = { border = "rounded" },                                --use rounded borders for Lazy UI
-    checker = { enabled = false },                              --disable automatic plugin update checks
-    change_detection = { notify = false },                      --suppress plugin change notifications
+require("lazy").setup({
+    spec = {
+        {import = "plugin.lsp"},                                --load LSP plugins
+        {import = "plugin"}                                     --load other plugins
+    },
+    "plugin", {
+        ui = { border = "rounded" },                            --use rounded borders for Lazy UI
+        checker = { enabled = false },                          --disable automatic plugin update checks
+        change_detection = { notify = false },                  --suppress plugin change notifications
+    }
 })
