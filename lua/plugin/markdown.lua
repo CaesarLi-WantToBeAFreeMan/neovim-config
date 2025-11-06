@@ -2,7 +2,6 @@ return{
     --inline markdown previewer
     {
         "OXY2DEV/markview.nvim",
-        lazy = false,
         keys = {
             {"<leader>v", "<cmd>Markview toggle<CR>", desc = "toggle inline markdown preview"},
             {"<leader>V", "<cmd>Markview splitToggle<CR>", desc = "toggle markdow preview in a split window"}
