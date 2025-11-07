@@ -1,4 +1,4 @@
-return{
+ return{
     --LSP server installer
     {
         "williamboman/mason.nvim",
@@ -59,9 +59,12 @@ return{
                 vim.lsp.enable(server)
             end
 
+            --LSP diagnostics configurations
+            vim.diagnostic.config({
+                virtual_text = true,
+            })
+
             --keymaps
-            local telescope_builtin = require("telescope.builtin")
-            local themes = require("telescope.themes")
             local set = function(mode, key, action, description)
                 vim.keymap.set(mode, key, action, {noremap = true, silent = true, desc = description})
             end
@@ -76,7 +79,6 @@ return{
             set("n", "gr", vim.lsp.buf.rename, "rename symbol")
             set("n", "gl", "<cmd>Telescope diagnostics bufnr=0<CR>", "list diagnostics in current buffer")
             set("n", "gh", vim.lsp.buf.hover, "show hover")
-            --set("n", "<leader>d", vim.diagnostics.toggle_float, "toggle line diagnostics")
 
             --change line diagnostic icons
             local severity = vim.diagnostic.severity
