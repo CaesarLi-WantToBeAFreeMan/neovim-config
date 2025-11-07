@@ -36,6 +36,9 @@
         dependencies = {
             "nvim-telescope/telescope.nvim"
         },
+        opts = {
+            diagnostics = {virtual_text = false}    --handle via tiny-inline-diagnostic
+        },
         config = function()
             --enable servers
             local servers = {
@@ -58,11 +61,6 @@
             for _, server in ipairs(servers) do
                 vim.lsp.enable(server)
             end
-
-            --LSP diagnostics configurations
-            vim.diagnostic.config({
-                virtual_text = true,
-            })
 
             --keymaps
             local set = function(mode, key, action, description)
