@@ -1,28 +1,25 @@
 return{
-    "nvim-neo-tree/neo-tree.nvim",      --modern file explorer
-    branch = "v3.x",                    --use stable v3.x branch
-    dependencies = {
-        "nvim-lua/plenary.nvim",        --lua utility library for Neovim
-        "nvim-tree/nvim-web-devicons",  --file icons
-        "MunifTanjim/nui.nvim"          --ui components
-    },
-    keys = {
-        {"<F1>",    "<cmd>Neotree toggle filesystem<CR>",       desc = "toggle Neo-tree",           mode = "n"},
-        {"<S-F1>",  "<cmd>Neotree toggle git_status<CR>",       desc = "toggle git status",         mode = "n"},
-        {"<C-F1>",  "<cmd>Neotree toggle buffers<CR>",          desc = "toggle buffers",            mode = "n"},
-    },
-    config = function()
-        vim.g.loaded_netrw = 1              --disable netrw
-        vim.g.loaded_netrwPlugin = 1        --disable netrw plugins
-
-        require("neo-tree").setup({
+    {
+        "nvim-neo-tree/neo-tree.nvim",      --modern file explorer
+        branch = "v3.x",                    --use stable v3.x branch
+        dependencies = {
+            "nvim-lua/plenary.nvim",        --lua utility library for Neovim
+            "nvim-tree/nvim-web-devicons",  --file icons
+            "MunifTanjim/nui.nvim"          --ui components
+        },
+        keys = {
+            {"<F1>",    "<cmd>Neotree toggle filesystem<CR>",   desc = "toggle Neo-tree",   mode = "n"},
+            {"<S-F1>",  "<cmd>Neotree toggle git_status<CR>",   desc = "toggle git status", mode = "n"},
+            {"<C-F1>",  "<cmd>Neotree toggle buffers<CR>",      desc = "toggle buffers",    mode = "n"},
+        },
+        opts = {
             --file explorer, buffer explorer, git status explorer, symbol explorer
             close_if_last_window = true,    --close Neo-tree if last window
             popup_border_style = "rounded", --use rounded borders for popups
             enable_git_status = true,       --show git status
             enable_diagnostics = false,     --hide LSP diagnostic icons
             event_handlers = {              --auto-close on file open
-                --auto close after selecting a node
+                --auto close when file opened
                 {
                     event = "file_opened",
                     handler = function()
@@ -30,132 +27,113 @@ return{
                     end
                 }
             },
+           commands = {
+                toggle_node_recursively = function(state)
+                    local node = state.tree:get_node()
+                    if not node then
+                        return
+                    end
+
+                    if node:is_expanded() then
+                        state.commands.close_all_subnodes(state, node)
+                    else
+                        state.commands.expand_all_subnodes(state, node)
+                    end
+                    require("neo-tree.ui.renderer").redraw(state)
+                end
+            },
             default_component_configs = {
+                container = {
+                    enable_character_fade = true
+                },
                 icon = {
-                    folder_closed   = "󰉋",
-                    folder_open     = "󰝰",
-                    folder_empty    = "󰉖"
+                    default = "",
+                    folder_closed       = "󰉋",
+                    folder_open         = "󰝰",
+                    folder_empty        = "󰉖",
+                    folder_empty_open   = ""
                 },
                 git_status = {
                     symbols = {
-                        added       = "",
-                        modified    = "",
-                        deleted     = "",
-                        renamed     = "",
-                        untracked   = "󰡯",
-                        ignored     = "",
-                        unstaged    = "󱪡",
-                        staged      = "󰝒",
-                        conflict    = "󰩋"
+                        added           = "",
+                        modified        = "",
+                        deleted         = "",
+                        renamed         = "",
+                        untracked       = "󰡯",
+                        ignored         = "",
+                        unstaged        = "󱪡",
+                        staged          = "󰝒",
+                        conflict        = "󰩋"
                     }
                 },
                 indent = {                      --set indent size and padding
                     indent_size = 2,
-                    padding = 1
+                    padding = 1,
+                    with_markers = true,
+                    indent_marker = "┝",
+                    last_indent_marker = "┗",
+                    with_expanders = true,
+                    expander_collapsed = "▶",
+                    expander_expanded = "▼"
                 },
-                name = {                        --color names based on git status
-                    use_git_status_colors = true
-                }
             },
             window = {
-                position = "left",                  --left, right, top, bottom, float, current
                 width = 50,                         --set window width
+                mapping_options = {
+                    noremap = true,
+                    nowait = true
+                },
                 mappings = {
-                    --fuzzy search
-                    ["#"]               = {"fuzzy_sorter",              desc = "sort nodes using fuzzy matching"},
-                    ["/"]               = {"fuzzy_finder",              desc = "find nodes using fuzzy matching"},
-                    ["<C-/>"]           = {"fuzzy_finder_directory",    desc = "find directories using fuzzy matching"},
-                    ["D"]               = "none",
-
-                    --file system
-                    ["<"]               = "none",
-                    [">"]               = "none",
-                    ["<2-LeftMouse>"]   = "none",
-                    ["u"]               = {"navigate_up",               desc = "go up one directory level"},
-                    ["s"]               = {"set_root",                  desc = "set as root directory"},
-                    ["."]               = "none",
-                    ["<esc>"]           = {"close_window",              desc = "close Neo-tree"},
+                    --close
                     ["q"]               = {"close_window",              desc = "close Neo-tree"},
-                    ["?"]               = {"show_help",                 desc = "show help"},
-                    ["<C-r>"]           = {"refresh",                   desc = "refresh tree view"},
-                    ["[g"]              = {"prev_git_modified",         desc = "jump to previous git change" },
-                    ["]g"]              = {"next_git_modified",         desc = "jump to next git change" },
-                    ["="]               = {"",                          desc = "toggle full width"},
-                    ["e"]               = "none",
-
-                    --navigation
-                    ["K"]               = {"",                          desc = "go to first node"},
-                    ["J"]               = {"",                          desc = "go to last node"},
-                    ["<C-b>"]           = {"",                          desc = "scroll up 10 nodes"},
-                    ["<C-f>"]           = {"",                          desc = "scroll down 10 nodes"},
-                    ["<C-u>"]           = {"",                          desc = "scroll up 5 nodes"},
-                    ["<C-d>"]           = {"",                          desc = "scroll down 5 nodes"},
+                    ["<esc>"]           = {"close_window",              desc = "close Neo-tree"},
 
                     --folder control
+                    ["<"]               = "none",
+                    [">"]               = "none",
                     ["<space>"]         = {"toggle_node",               desc = "toggle folder"},
                     ["<cr>"]            = {"open",                      desc = "open file / toggle folder"},
-                    ["o"]               = {"toggle_node",               desc = "open file / toggle folder"},
-                    ["zo"]              = {"open",                      desc = "open file / toggle folder"},
-                    ["O"]               = {"expand_all_subnodes",       desc = "open all folders recursively"},
-                    ["zO"]              = {"expand_all_subnodes",       desc = "open all folders recursively"},
-                    ["c"]               = {"close_node",                desc = "close folder"},
-                    ["zc"]              = {"close_node",                desc = "close folder"},
-                    ["C"]               = {"close_all_subnodes",        desc = "close all folders recursivel"},
-                    ["zC"]              = {"close_all_subnodes",        desc = "close all folders recursively"},
+                    ["<2-LeftMouse>"]   = "none",
+                    ["o"]               = {"open",                      desc = "open node"},
+                    ["zo"]              = {"open",                      desc = "open node"},
+                    ["O"]               = {"expand_all_subnodes",       desc = "open node recursively"},
+                    ["zO"]              = {"expand_all_subnodes",       desc = "open node recursively"},
+                    ["c"]               = {"close_node",                desc = "close node"},
+                    ["zc"]              = {"close_node",                desc = "close node"},
+                    ["C"]               = {"close_all_subnodes",        desc = "close node recursively"},
+                    ["zC"]              = {"close_all_subnodes",        desc = "close node recursively"},
+                    ["x"]               = {"toggle_node",               desc = "toggle node"},
+                    ["za"]              = {"toggle_node",               desc = "toggle node"},
+                    ["X"]               = {"toggle_node_recursively",   desc = "toggle node recursively"},
+                    ["zA"]              = {"toggle_node_recursively",   desc = "toggle node recursively"},
                     ["z"]               = "none",
 
-                    --preview
-                    ["p"]               = {"toggle_preview",            desc = "toggle file preview"},
-                    ["l"]               = "none",
-
-                    --open files
-                    ["h"]               = {"open_split",                desc = "open in horizontal split (below)"},
-                    ["H"]               = {
-                        function(state)
-                            local node = state.tree:get_node()
-                            if node and node.path then
-                                vim.cmd("wincmd p")
-                                vim.cmd("aboveleft split " .. vim.fn.fnameescape(node.path))
-                                require("neo-tree.command").execute({action = "close"})
-                            end
-                        end,
-                        desc = "open in horizontal split (above)"
-                    },
-                    ["S"]               = "none",
-                    ["v"]               = {"open_vsplit",               desc = "open in vertical split (right)"},
-                    ["V"]               = {
-                        function(state)
-                            local node = state.tree:get_node()
-                            if node and node.path then
-                                vim.cmd("wincmd p")
-                                vim.cmd("leftabove vsplit " .. vim.fn.fnameescape(node.path))
-                                require("neo-tree.command").execute({action = "close"})
-                            end
-                        end,
-                        desc = "open in vertical split (left)"
-                    },
-                    ["t"]               = {"open_tabnew",               desc = "open in new tab"},
-                    ["w"]               = {"open_with_window_picker",   desc = "open with window picker"},
-
                     --file actions
-                    ["a"]               = {"add",                       desc = "add file/folder"},
-                    ["A"]               = {"add_directory",             desc = "add folder"},
-                    ["m"]               = {"move",                      desc = "move node"},
-                    ["d"]               = {"delete",                    desc = "delete node"},
-                    ["<bs>"]            = {"delete",                    desc = "delete node"},
-                    ["<del>"]           = {"delete",                    desc = "delete node"},
+                    ["r"]               = {"rename",                    desc = "rename filename"},
+                    ["R"]               = {"rename_basename",           desc = "rename extension"},
+                    ["b"]               = "none",
                     ["<C-x>"]           = {"cut_to_clipboard",          desc = "cut to clipboard"},
-                    ["x"]               = "none",
                     ["<C-y>"]           = {"copy_to_clipboard",         desc = "copy to clipboard"},
                     ["y"]               = "none",
                     ["<C-p>"]           = {"paste_from_clipboard",      desc = "paste from clipboard"},
-                    ["r"]               = {"rename",                    desc = "rename filename"},
-                    ["R"]               = {"rename_basename",           desc = "rename extension"},
+                    ["<C-c>"]           = {"clear_clipboard",           desc = "clear clipboard"},
+                    ["?"]               = {"show_help",                 desc = "show help"},
+                    ["<C-r>"]           = {"refresh",                   desc = "refresh tree view"},
+
+                    --preview
+                    ["p"]               = {"toggle_preview",            desc = "toggle file preview"},
+                    ["P"]               = "none",
+                    ["l"]               = "none",
+
+                    --open files
+                    ["h"]               = {"open_split",                desc = "open in horizontal split"},
+                    ["S"]               = "none",
+                    ["v"]               = {"open_vsplit",               desc = "open in vertical split"},
+                    ["s"]               = "none",
+                    ["t"]               = {"open_tabnew",               desc = "open in new tab"},
+                    ["w"]               = {"open_with_window_picker",   desc = "open with window picker"},
 
                     --toggles
-                    ["<leader>i"]       = {"show_file_details",         desc = "show details"},
-                    ["i"]               = "none",
-                    ["<leader>h"]       = {"toggle_hidden",             desc = "toggle hidden files"},
                     ["<leader>l"]       = {
                         function()
                             vim.wo.number = not vim.wo.number
@@ -168,6 +146,9 @@ return{
                         end,
                         desc = "toggle relative numbers"
                     },
+                    ["e"]               = "none",
+                    ["<leader>i"]       = {"show_file_details",         desc = "show details"},
+                    ["i"]               = "none",
 
                     --sorting
                     ["<leader>c"]       = {"order_by_created",          desc = "sort by created date"},
@@ -192,6 +173,7 @@ return{
                 },
                 hijack_netrw_behavior   = "open_default",   --use Neo-tree instead of netrw
                 use_libuv_file_watcher  = true,             --auto-refresh on file changes
+                use_default_mappings = false,               --disable all default keymaps
                 filtered_items = {
                     hide_dotfiles = false,                  --don't hide dot files
                     hide_gitignored = true,                 --hide git ignored files
@@ -206,6 +188,44 @@ return{
                         "*/.exe",
                         "*/.class"
                     }
+                },
+                window = {
+                    position = "left",
+                    mappings = {
+                        --fuzzy search
+                        ["#"]               = {"fuzzy_sorter",              desc = "sort nodes using fuzzy matching"},
+                        ["/"]               = {"fuzzy_finder",              desc = "find nodes using fuzzy matching"},
+                        ["<C-/>"]           = {"fuzzy_finder_directory",    desc = "find directories using fuzzy matching"},
+                        ["D"]               = "none",
+
+                        --file system
+                        ["u"]               = {"navigate_up",               desc = "go up one directory level"},
+                        ["s"]               = {"set_root",                  desc = "set as root directory"},
+                        ["."]               = "none",
+                        ["[g"]              = {"prev_git_modified",         desc = "jump to previous git change" },
+                        ["]g"]              = {"next_git_modified",         desc = "jump to next git change" },
+
+                        --file actions
+                        ["a"]               = {"add",                       desc = "add file/folder"},
+                        ["A"]               = {"add_directory",             desc = "add folder"},
+                        ["m"]               = {"move",                      desc = "move node"},
+                        ["d"]               = {"delete",                    desc = "delete node"},
+                        ["<bs>"]            = {"delete",                    desc = "delete node"},
+                        ["<del>"]           = {"delete",                    desc = "delete node"},
+
+                        --toggles
+                        ["="]               = {
+                            function(_)
+                                local win = vim.api.nvim_get_current_win()
+                                local width = vim.api.nvim_win_get_width(win)
+                                local new_width = (width == 50) and math.floor(vim.o.columns) or 50
+                                vim.api.nvim_win_set_width(win, new_width)
+                            end,
+                            desc = "toggle 100% / 50 columns width"
+                        },
+                        ["<leader>h"]       = {"toggle_hidden",             desc = "toggle hidden files"},
+                        ["H"]               = "none",
+                    }
                 }
             },
             buffers = {
@@ -219,7 +239,10 @@ return{
                         ["d"]       = {"buffer_delete",     desc = "delete current buffer"},
                         ["<BS>"]    = {"buffer_delete",     desc = "delete current buffer"},
                         ["<Del>"]   = {"buffer_delete",     desc = "delete current buffer"},
-                        ["bd"]      = "none"
+                        ["bd"]      = "none",
+                        ["A"]       = {"add_directory",     desc = "add folder"},
+                        ["s"]       = {"set_root",          desc = "set as root directory"},
+                        ["."]       = "none"
                     }
                 }
             },
@@ -242,22 +265,24 @@ return{
                         ["r"]   = {"git_revert_file",       desc = "revert file"},
                         ["gr"]  = "none"
                     }
-                },
+                }
             }
-        })
-
-        --auto-close if Neo-tree is last window
-        vim.api.nvim_create_autocmd("BufEnter", {
-            group = vim.api.nvim_create_augroup("NeoTreeAutoClose", {clear = true}),
-            callback = function()
-                local layout = vim.fn.winlayout()
-                if layout[1] == "leaf"
-                    and vim.bo [vim.api.nvim_win_get_buf(layout[2])].filetype == "neo-tree"
-                    and not layout[3]
-                then
-                    vim.cmd("quit")                         --auto-close Neo-tree if last window
-                end
-            end
-        })
-    end
+        }
+    },
+    {
+        "s1n7ax/nvim-window-picker",
+        version = "2.*",
+        config = function()
+            require("window-picker").setup({
+                filter_rules = {
+                    include_current_win = false,
+                    autoselect_one = true,
+                    bo = {
+                        filetype = {"neo-tree", "neo-tree-popup", "notify"},
+                        buftype = {"terminal", "quickfix"}
+                    }
+                }
+            })
+        end
+    }
 }

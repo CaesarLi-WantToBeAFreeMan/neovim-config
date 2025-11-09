@@ -1,13 +1,26 @@
 --shorthand
-local map = vim.keymap.set
+local set = function(mode, key, action, description)
+    vim.keymap.set(mode, key, action, {noremap = true, nowait = true, desc = description})
+end
 
 --insert \ in insert and command line modes
-map({"i", "c"}, "<leader><leader>", "\\",   {noremap = true,    silent = true,  desc = "insert \\ in insert mode"})
+set({"i", "c"}, "<leader><leader>", "\\", "insert \\")
 
 -- ============ text insertion ============
-map("n",    "<Tab>",        "i<Tab><Esc>",          {silent = true,  desc = "insert a tab"})
-map("n",    "<Space>",      "i<Space><Esc>",        {silent = true,  desc = "insert a space"})
-map("n",    "<Del>",        "X",                    {silent = true,  desc = "delete previous character"})
-map("n",    "<BS>",         "x",                    {silent = true,  desc = "delete current character"})
-map("n",    "<C-n>",        "o<Esc>",               {silent = true,  desc = "insert a new line below"})
-map("n",    "<C-p>",        "O<Esc>",               {silent = true,  desc = "insert a new line above"})
+set("n",        "<Tab>",    "i<Tab><Esc>",      "insert a tab")
+set("n",        "<Space>",  "i<Space><Esc>",    "insert a space")
+set("n",        "<Del>",    "X",                "delete previous character")
+set("n",        "<BS>",     "x",                "delete current character")
+set("n",        "<C-n>",    "o<Esc>",           "insert a new line below")
+set("n",        "<C-p>",    "O<Esc>",           "insert a new line above")
+
+-- ============ window navigation ============
+set({"n", "i"}, "<C-h>",    "<C-w>h",           "go to left window")
+set({"n", "i"}, "<C-j>",    "<C-w>j",           "go to below window")
+set({"n", "i"}, "<C-k>",    "<C-w>k",           "go to above window")
+set({"n", "i"}, "<C-l>",    "<C-w>l",           "go to right window")
+
+-- ============ toggles ============
+set({"n", "i"}, "<leader>tw",   function() vim.wo.wrap = not vim.wo.wrap end,                       "toggle wrap")
+set({"n", "i"}, "<leader>tl",   function() vim.wo.number = not vim.wo.number end,                   "toggle wrap")
+set({"n", "i"}, "<leader>tL",   function() vim.wo.relativenumber = not vim.wo.relativenumber end,   "toggle wrap")
