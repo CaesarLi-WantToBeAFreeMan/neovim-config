@@ -67,13 +67,23 @@
             vim.diagnostic.config({
                 signs = {
                     text = {
-                        [severity.ERROR] = "",
+                        [severity.ERROR] = "󰅙",
                         [severity.WARN] = "",
-                        [severity.HINT] = "",
-                        [severity.INFO] = "",
+                        [severity.HINT] = "",
+                        [severity.INFO] = ""
                     }
                 }
             })
+
+            --LSP highlight groups
+             local highlight = function(name, foreground)
+                 vim.api.nvim_set_hl(0, name, {fg = foreground, bg = "NONE", bold = true})
+             end
+
+             highlight("DiagnosticError", "#e06c75")
+             highlight("DiagnosticWarn", "#e5c07b")
+             highlight("DiagnosticHint", "#645394")
+             highlight("DiagnosticInfo", "#028a0f")
         end
     }
 }

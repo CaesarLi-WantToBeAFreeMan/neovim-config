@@ -15,7 +15,7 @@ return{
                 disabled_filetypes = {
                     statusline = {                                  --disable statusline
                         "neo-tree",
-                        "aerial"
+                        "trouble"
                     }
                 }
             },
@@ -26,6 +26,11 @@ return{
                         "branch",
                         icon = "󰊢",
                         color = {fg = "#00ffff", bg = "#f1502f", gui = "bold"}
+                    },
+                    {
+                        "filename",
+                        path = 1,--0 = filename only, 1 = relative path
+                        color = {fg = "#000000", bg = "#f16c9a"}
                     }
                 },
                 lualine_c = {
@@ -51,25 +56,36 @@ return{
                         color = {fg = "#e5c07b"}
                     },
                     {
-                        "filename",
-                        path = 0,--0 = filename only, 1 = relative path
-                        color = {fg = "#cc7722", bg = "#151b54"}
+                        function()
+                            return string.format(
+                                "󰅙 %d", #vim.diagnostic.get(0, {severity = vim.diagnostic.severity.ERROR})
+                            )
+                        end,
+                        color = {fg = "#e06c75"}
                     },
                     {
                         function()
                             return string.format(
-                                " %d", #vim.diagnostic.get(0, {severity = vim.diagnostic.severity.ERROR})
+                                " %d", #vim.diagnostic.get(0, {severity = vim.diagnostic.severity.WARN})
                             )
                         end,
-                        color = {fg = "#e06c75"},
+                        color = {fg = "#e5c07b"}
                     },
                     {
                         function()
                             return string.format(
-                                " %d", #vim.diagnostic.get(0, {severity = vim.diagnostic.severity.WARN})
+                                " %d", #vim.diagnostic.get(0, {severity = vim.diagnostic.severity.HINT})
                             )
                         end,
-                        color = {fg = "#e5c07b"},
+                        color = {fg = "#645394"}
+                    },
+                    {
+                        function()
+                            return string.format(
+                                " %d", #vim.diagnostic.get(0, {severity = vim.diagnostic.severity.INFO})
+                            )
+                        end,
+                        color = {fg = "#028a0f"}
                     }
                 },
                 lualine_x = {"encoding", "filetype", "fileformat"},
@@ -90,7 +106,19 @@ return{
                 lualine_z = {
                     {
                         function()
-                            return "🕗 " .. os.date("%H:%M:%S")
+                            local t = os.date("*t")
+                            local WEEK, am_or_pm = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}, t.hour < 12 and "A.M." or "P.M."
+                            return string.format(
+                                "🕗 %s %02d %02d, %02d %02d:%02d:%02d %s",
+                                WEEK [t.wday],
+                                t.month,
+                                t.day,
+                                t.year % 100,
+                                t.hour % 12 == 0 and 12 or t.hour % 12,
+                                t.min,
+                                t.sec,
+                                am_or_pm
+                            )
                         end,
                         color = {fg = "#ffffff", bg = "#282c34"}
                     }
