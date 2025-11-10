@@ -49,6 +49,22 @@ return {
                         action = "Telescope oldfiles"
                     },
                     {
+                        icon = "󰪺   ",
+                        icon_hl = "button_icon",
+                        desc = "Open Recently Opened Session",
+                        desc_hl = "button_open_rencently_opened_session",
+                        key = "o",
+                        action = "AutoSession restore"
+                    },
+                    {
+                        icon = "󰥨   ",
+                        icon_hl = "button_icon",
+                        desc = "Find Session",
+                        desc_hl = "button_find_session",
+                        key = "F",
+                        action = "AutoSession search"
+                    },
+                    {
                         icon = "󰒲   ",
                         icon_hl = "button_icon",
                         desc = "Lazy",
@@ -72,6 +88,7 @@ return {
                     return {
                         "╔════════════════════════════════════════════════════════════════╗",
                         "║              Welcome to Caesar James LEE's Neovim              ║",
+                        "║                                                                ║",
                         string.format("║                  %d plugins loaded in %07.2f ms               ║", count, ms),
                         "║                                                                ║",
                         "╚════════════════════════════════════════════════════════════════╝"
@@ -81,19 +98,22 @@ return {
         })
 
         --set highlight groups
-        local set_hl = vim.api.nvim_set_hl
-        set_hl(0, "DashboardHeader",                {fg = "#00ffff",    bold = true})
-        set_hl(0, "DashboardFooter",                {fg = "#56b6c2",    bold = true})
-        set_hl(0, "button_icon",                    {fg = "#f1502f",    italic = true})
+        local highlight = function(name, hl)
+            vim.api.nvim_set_hl(0, name, hl)
+        end
 
-        set_hl(0, "button_new_file",                {fg = "#98c379"})
-        set_hl(0, "button_find_file",               {fg = "#61afef"})
-        set_hl(0, "button_recently_opened_files",   {fg = "#c678dd"})
-        set_hl(0, "button_open_last_session",       {fg = "#e5c07b"})
-        set_hl(0, "button_new_session",             {fg = "#56b6c2"})
-        set_hl(0, "button_sessions",                {fg = "#e06c75"})
-        set_hl(0, "button_lazy",                    {fg = "#56b6c2"})
-        set_hl(0, "button_quit",                    {fg = "#abb2bf"})
+        highlight("DashboardHeader",                        {fg = "#00ffff",    bold = true})
+        highlight("DashboardFooter",                        {fg = "#56b6c2",    bold = true})
+        highlight("button_icon",                            {fg = "#f1502f",    italic = true})
+
+        highlight("button_new_file",                        {fg = "#98c379"})
+        highlight("button_find_file",                       {fg = "#61afef"})
+        highlight("button_recently_opened_files",           {fg = "#c678dd"})
+        highlight("button_open_rencently_opened_session",   {fg = "#e5c07b"})
+        highlight("button_find_session",                    {fg = "#e06c75"})
+        highlight("button_new_session",                     {fg = "#56b6c2"})
+        highlight("button_lazy",                            {fg = "#f1502f"})
+        highlight("button_quit",                            {fg = "#abb2bf"})
 
         --hide UI elements
         vim.api.nvim_create_autocmd("FileType", {
