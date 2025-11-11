@@ -30,9 +30,11 @@ opt.mouse = ""                                      --disable mouse support
 opt.cmdheight = 1                                   --height of command line
 opt.showcmd = false                                 --hide command display
 opt.showmode = false                                --hide current mode display
+opt.wildmode = "longest:full,full"                  --command-line completion mode
 
 -- ============ completion ============
 opt.completeopt = {"menu", "menuone", "noselect"}   --configure completion menu behavior
+opt.pumblend = 12                                   --popup blend
 opt.pumheight = 12                                  --limit popup menu height to 12 items
 
 -- ============ timing ============
@@ -64,12 +66,12 @@ opt.linebreak = true                                --wrap lines at word boundar
 opt.breakindent = true                              --preserve indent on wrapped lines
 opt.wrapmargin = 3                                  --set margin before wrapping
 opt.formatoptions = "jcrqlnt"                       --configure formatting
-opt.lazyredraw = true                               --skip redraw during macros for speed
 opt.synmaxcol = 120                                 --limit syntax highlight to 120 columns
 
 -- ============ display ============
 opt.number = true                                   --show absolute line numbers
 opt.relativenumber = true                           --show relative line numbers
+opt.smoothscroll = true                             --enable smooth scroll
 opt.scrolloff = 5                                   --keep 5 lines visible above/below cursor
 opt.sidescrolloff = 5                               --keep 5 columns visible left/right of cursor
 opt.splitbelow = true                               --open horizontal splits below
@@ -87,8 +89,8 @@ opt.showtabline = 1                                 --show tabline only with mul
 -- ============ folding ============
 opt.foldenable = true                               --enable code folding
 opt.foldlevel = 99                                  --open all folds by default
-opt.foldcolumn = "1"                                --show fold column
-opt.fillchars = {                                   --custom fold and diff characters
+--opt.foldcolumn = "1"                                --show fold column
+--[[opt.fillchars = {                                   --custom fold and diff characters
     fold = "",                                     --fold placeholder character
     foldopen = "",                                 --icon for open folds
     foldclose = "",                                --icon for closed folds
@@ -96,6 +98,7 @@ opt.fillchars = {                                   --custom fold and diff chara
     diff = "",                                     --character used in diff view
     eob = " ",                                      --remove tildes (~) at end of buffer
 }
+]]
 
 -- ============ window size ============
 opt.winminheight = 1                                --set minimum window height
@@ -109,12 +112,12 @@ opt.spelllang = {"en_us"}                           --use U.S. English dictionar
 
 -- ============ session ============
 opt.sessionoptions = {                              --save options in sessions
-    "blank",                                        --empty windows
     "buffers",                                      --open buffers
     "curdir",                                       --current directory
-    "folds",                                        --folds
-    "help",                                         --help window
     "tabpages",                                     --tabs
-    "winpos",                                       --window positions
     "winsize",                                      --window sizes
+    "help",                                         --help window
+    "globals",                                      --global
+    "skiprtp",                                      --
+    "folds"                                         --folds
 }
