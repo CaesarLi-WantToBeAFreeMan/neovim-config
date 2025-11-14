@@ -1,0 +1,224 @@
+#=== GLOBAL ===
+#which one style guide
+#values: LLVM, Google, Chromium, Mozilla, WebKit, Microsoft, GNU
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 120
+
+#alignment
+AlignAfterOpenBracket: true
+#align array fields
+#values: Left, Right, None
+AlignArrayOfStructures: Left
+#values: None, Consecutive, AcrossEmptyLines, AcrossComments, AcrossEmptyLinesAndComments
+AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
+AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
+AlignConsecutiveDeclarations: AcrossEmptyLinesAndComments
+AlignConsecutiveMacros: AcrossEmptyLinesAndComments
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+  AlignCaseArrows: true
+  AlignCaseColons: true
+#align operands of binary and ternary expressions
+#values: DontAlign, Align, AlignAfterOperator
+AlignOperands: AlignAfterOperator
+#align trailing comments
+AlignTrailingComments: true
+
+#breaking
+AllowAllArgumentsOnNextLine: true
+#if a function definition doesn’t fit on a line, allow putting all parameters onto the next line
+AllowAllParametersOfDeclarationOnNextLine: true
+#control if there could be a line break before a noexcept specifier
+#values: Never, OnlyWithParen, Always
+AllowBreakBeforeNoexceptSpecifier: Always
+#allow short blocks on a single line
+#values: Never, Empty, Always
+AllowShortBlocksOnASingleLine: Empty
+AllowShortCaseExpressionOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortCompoundRequirementOnASingleLine: true
+#values: None, InlineOnly, Empty, Inline, All
+AllowShortFunctionsOnASingleLine: Empty
+#values: None, Empty, Inline, All
+AllowShortLambdasOnASingleLine: Empty
+AllowShortLoopsOnASingleLine: false
+AllowShortNamespacesOnASingleLine: false
+AlwaysBreakBeforeMultilineStrings: false
+BinPackArguments: true
+BinPackLongBracedList: true
+#values: BinPack, OnePerLine, AlwaysOnePerLine
+BinPackParameters: BinPack
+#values: Both, None, Before, After
+BitFieldColonSpacing: Both
+BreakAdjacentStringLiterals: true
+#values: Always, Leave, Never
+BreakAfterAttributes: Always
+#values: None, Automatic, ExceptShortType, All, TopLevel, AllDefinitions, TopLevelDefinitions
+BreakAfterReturnType: None
+BreakArrays: false
+#values: Attach, Linux, Mozilla, Stroustrup, Allman, Whitesmiths, GNU, WebKit, Custom
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: false
+  AfterControlStatement: false
+  AfterFunction: false
+  BeforeElse: false
+#values: Never, Allowed, Always
+BreakBeforeConceptDeclarations: Never
+#values: Never, OnlyMultiline, Always
+BreakBeforeInlineASMColon: OnlyMultiline
+BreakBeforeTemplateCloser: true
+BreakBeforeTernaryOperators: true
+#values: Never, OnePerLine, RespectPrecedence
+BreakBinaryOperations: Never
+#values: BeforeColon, BeforeComma, AfterColon
+BreakConstructorInitializers: BeforeComma
+BreakFunctionDefinitionParameters: false
+#values: BeforeColon, BeforeComma, AfterColon, AfterComma
+BreakInheritanceList: AfterComma
+BreakStringLiterals: true
+
+#indentation
+#indent width
+#the number of columns to use to indent the contents of braced init lists
+BracedInitializerIndentWidth: 4
+ConstructorInitializerIndentWidth: 4
+
+#formatting
+CompactNamespaces: false
+#values: Leave, Insert, Remove
+EnumTrailingComma: Remove
+FixNamespaceComments: true
+InsertNewlineAtEOF: false
+IntegerLiteralSeparator:
+  Binary: 4
+  Decimal: 3
+  Hex: 2
+#values: Signature, OuterScope
+LambdaBodyIndentation: OuterScope
+#values: LF, CRLF, DeriveLF, DeriveCRLF
+LineEnding: LF
+#values: Leave, Upper, Lower
+#values: Never, BinPack, CurrentLine, NextLine, NextLineOnly
+PackConstructorInitializers: BinPack
+#values: Never, IndentOnly, Always
+ReflowComments: Always
+#values: OwnLine, OwnLineWithBrace, WithPreceding, WithFollowing, SingleLine
+RequiresClausePosition: SingleLine
+#values: Leave, Always, Never
+SeparateDefinitionBlocks: Always
+SortIncludes:
+  Enabled: true
+  IgnoreCase: true
+
+#spacing
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAfterOperatorKeyword: true
+SpaceAfterTemplateKeyword: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeInheritanceColon: true
+#values: ControlStatements, ControlStatementsExceptControlMacros, NonEmptyParentheses, Always, Custom
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: false
+  AfterFunctionDeclarationName: false
+  AfterFunctionDefinitionName: false
+  AfterForeachMacros: false
+  AfterIfMacros: false
+  AfterOverloadedOperator: false
+  AfterPlacementOperator: false
+  AfterRequiresInClause: false
+  AfterRequiresInExpression: false
+  BeforeNonEmptyParentheses: false
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: true
+SpacesBeforeTrailingComments: 3
+#values: Never, Always, Leave
+SpacesInAngles: Never
+SpacesInContainerLiterals: false
+#values: Never, Custom
+SpacesInParens: Never
+SpacesInSquareBrackets: false
+
+#tabs
+TabWidth: 4
+#values: Never, ForIndentation, ForContinuationAndIndentation, AlignWithSpacesm Always
+UseTab: Never
+
+---
+#=== C ===
+Language: C
+#group include blocks
+#values: Preserve, Merge, Regroup
+IncludeBlocks: Regroup
+InsertBraces: false
+#values: Left, Right, Middle
+PointerAlignment: Middle
+#values: Pointer, Left, Right, Middle
+ReferenceAlignment: Middle
+#remove unnecessary braces
+RemoveBracesLLVM: true
+RemoveEmptyLinesInUnwrappedLines: true
+#values: Leave, MultipleParentheses, ReturnStatement
+RemoveParentheses: ReturnStatement
+
+---
+#=== C++ ===
+Language: Cpp
+#values: c++03, c++11, c++14, c++17, c++20, Lastest, Auto
+Standard: c++20
+#values: Preserve, Merge, Regroup
+IncludeBlocks: Regroup
+InsertBraces: false
+#values: Left, Right, Middle
+PointerAlignment: Middle
+#values: Pointer, Left, Right, Middle
+ReferenceAlignment: Middle
+#remove unnecessary braces
+RemoveBracesLLVM: true
+RemoveEmptyLinesInUnwrappedLines: true
+#values: Leave, MultipleParentheses, ReturnStatement
+RemoveParentheses: ReturnStatement
+#indent of access modifiers
+IndentAccessModifiers: true
+AccessModifierOffset: 4
+DerivePointerAlignment: true
+#values: Never, Leave, Always
+EmptyLineAfterAccessModifier: Never
+#values: Never, Leave, LogicalBlock, Always
+EmptyLineBeforeAccessModifier: Always
+KeepEmptyLines:
+  AtEndOfFile: false
+  AtStartOfBlock: false
+  AtStartOfFile: false
+#values: None, Inner, All
+NamespaceIndentation: All
+#values: Leave, Left, Right, Custom
+QualifierAlignment: Left
+ShortNamespaceLines: 0
+#remove semicolons after the closing braces of functions and constructors/destructors
+RemoveSemicolon: true
+#values: Never, Lexicographic, LexicographicNumeric
+SortUsingDeclarations: LexicographicNumeric
+IndentCaseBlocks: true
+IndentExportBlock: true
+#values: AfterExternBlock, NoIndent, Indent
+IndentExternBlock: Indent
+IndentGotoLabels: true
+#values: None, AfterHash, BeforeHash, Leave
+IndentPPDirectives: BeforeHash
+IndentRequiresClause: true
+IndentWrappedFunctionNames: true
+
+---
+#=== Java ===
+Language: Java
+BreakAfterJavaFieldAnnotations: false
+JavaImportGroups: [com.caesarjlee, com, org]
+#values: Before, After
+SortJavaStaticImport: Before

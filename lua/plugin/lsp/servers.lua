@@ -1,6 +1,6 @@
 return{
     "hrsh7th/cmp-nvim-lsp",
-    event = {"BufReadPre", "BufNewFile"},
+    event = "VeryLazy",
     dependencies = {
         {"antosha417/nvim-lsp-file-operations", config = true},
         {"folke/lazydev.nvim", opts = {}}

@@ -2,6 +2,7 @@
     --LSP server installer
     {
         "williamboman/mason.nvim",
+        event = "VeryLazy",
         opts = {
             --list of LSP servers for mason to install
             ensure_installed = {
@@ -33,6 +34,7 @@
     --LSP configurations
     {
         "neovim/nvim-lspconfig",
+        event = "VeryLazy",
         config = function()
             --enable servers
             local servers = {

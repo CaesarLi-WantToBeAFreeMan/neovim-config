@@ -1,7 +1,6 @@
 return{
     "rmagatti/auto-session",
-    lazy = false,
-    cmd = {"AutoSession"},                          --register commands before dashboard
+    event = "VeryLazy",
     dependencies = {
         "nvim-telescope/telescope.nvim"
     },

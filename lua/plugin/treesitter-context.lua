@@ -1,6 +1,6 @@
 return {
     "nvim-treesitter/nvim-treesitter-context",              --context viewer for code
-    event = {"BufReadPost", "BufNewFile"},                  --load on file open
+    event = "VeryLazy",
     dependencies = {
         "nvim-treesitter/nvim-treesitter"                   --load treesitter
     },

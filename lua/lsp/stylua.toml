@@ -1,0 +1,37 @@
+#Lua syntax version, default is All
+#values: All, Lua51, Lua52, Lua53, Lua54, LuaJIT, Luau, CfxLua
+#syntax = "All"
+
+#indent type, default is Tabs
+#values: Tabs, Spaces
+indent_type = "Spaces"
+
+#indent width, default is 4
+#indent_width = 4
+
+#quote style, default is AutoPreferDouble
+#values: AutoPreferDouble, AutoPreferSingle, ForceDouble, ForceSingle, AutoPrefer
+quote_style = "ForceDouble"
+
+#call function way, default is Always, e.g. foo "bar".setup -> foo("bar").setup
+#values: Always, NoSingleString, NoStringTable, None, input
+#call_parentheses = "Always"
+
+#space after function name, default is Never
+#values: Never, Definitions, Calls, Always
+#space_after_function_names = "Never"
+
+#empty lines before and after a block, default is Never
+#values: Never, Preserve
+block_newline_gaps = "Preserve"
+
+#collapse single statement, default is Never
+#values: Never, FunctionOnly, ConditionalOnly, Always
+collapse_simple_statement = "Always"
+
+#use use Unix ending, default is Unix
+#values: Unix, Windows
+#line_endings = "Unix"
+
+#max line length, default is 120
+#column_width = 120
