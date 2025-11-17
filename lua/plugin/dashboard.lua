@@ -1,28 +1,44 @@
 return {
     "nvimdev/dashboard-nvim",
     dependencies = {
-        "nvim-tree/nvim-web-devicons"
+        "nvim-tree/nvim-web-devicons",
     },
     config = function()
+        local title = vim.o.columns >= 130
+                and {
+                    "",
+                    "",
+                    "",
+                    "   ░██████      ░█████ ░██         ░██               ░███    ░██                                  ░██                ",
+                    " ░██   ░██       ░██  ░██         ░██               ░████   ░██                                                      ",
+                    "░██              ░██  ░██         ░██  ░███████     ░██░██  ░██  ░███████   ░███████  ░██    ░██ ░██░█████████████   ",
+                    "░██              ░██  ░██             ░██           ░██ ░██ ░██ ░██    ░██ ░██    ░██ ░██    ░██ ░██░██   ░██   ░██  ",
+                    "░██        ░██   ░██  ░██              ░███████     ░██  ░██░██ ░█████████ ░██    ░██  ░██  ░██  ░██░██   ░██   ░██  ",
+                    " ░██   ░██ ░██   ░██  ░██                    ░██    ░██   ░████ ░██        ░██    ░██   ░██░██   ░██░██   ░██   ░██  ",
+                    "  ░██████   ░██████   ░██████████      ░███████     ░██    ░███  ░███████   ░███████     ░███    ░██░██   ░██   ░██  ",
+                    "",
+                    "",
+                    "",
+                }
+            or {
+                "",
+                "",
+                "",
+                "  ░██████  ░███    ░██            ░██                ",
+                " ░██   ░██ ░████   ░██                               ",
+                "░██        ░██░██  ░██ ░██    ░██ ░██░█████████████  ",
+                "░██        ░██ ░██ ░██ ░██    ░██ ░██░██   ░██   ░██ ",
+                "░██        ░██  ░██░██  ░██  ░██  ░██░██   ░██   ░██ ",
+                " ░██   ░██ ░██   ░████   ░██░██   ░██░██   ░██   ░██ ",
+                "  ░██████  ░██    ░███    ░███    ░██░██   ░██   ░██ ",
+                "",
+                "",
+                "",
+            }
         require("dashboard").setup({
             theme = "doom",
             config = {
-                header = {
-                    "",
-                    "",
-                    "",
-                    "   █████████        █████ █████        ██            ██████   █████                    ███                 ",
-                    "  ███▒▒▒▒▒███      ▒▒███ ▒▒███        ███           ▒▒██████ ▒▒███                    ▒▒▒                  ",
-                    " ███     ▒▒▒        ▒███  ▒███       ▒▒▒   █████     ▒███▒███ ▒███   ██████   ██████  ████  █████████████  ",
-                    "▒███                ▒███  ▒███            ███▒▒      ▒███▒▒███▒███  ███▒▒███ ███▒▒███▒▒███ ▒▒███▒▒███▒▒███ ",
-                    "▒███                ▒███  ▒███           ▒▒█████     ▒███ ▒▒██████ ▒███████ ▒███ ▒███ ▒███  ▒███ ▒███ ▒███ ",
-                    "▒▒███     ███ ███   ▒███  ▒███      █     ▒▒▒▒███    ▒███  ▒▒█████ ▒███▒▒▒  ▒███ ▒███ ▒███  ▒███ ▒███ ▒███ ",
-                    " ▒▒█████████ ▒▒████████   ███████████     ██████     █████  ▒▒█████▒▒██████ ▒▒██████  █████ █████▒███ █████",
-                    "  ▒▒▒▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒▒▒▒     ▒▒▒▒▒▒     ▒▒▒▒▒    ▒▒▒▒▒  ▒▒▒▒▒▒   ▒▒▒▒▒▒  ▒▒▒▒▒ ▒▒▒▒▒ ▒▒▒ ▒▒▒▒▒ ",
-                    "",
-                    "",
-                    ""
-                },
+                header = title,
                 center = {
                     {
                         icon = "󰈔   ",
@@ -30,7 +46,7 @@ return {
                         desc = "New File",
                         desc_hl = "button_new_file",
                         key = "n",
-                        action = "enew"
+                        action = "enew",
                     },
                     {
                         icon = "󰱼   ",
@@ -38,7 +54,7 @@ return {
                         desc = "Find File",
                         desc_hl = "button_find_file",
                         key = "f",
-                        action = "Telescope find_files"
+                        action = "Telescope find_files",
                     },
                     {
                         icon = "󱋡   ",
@@ -46,7 +62,7 @@ return {
                         desc = "Recently Opened Files",
                         desc_hl = "button_recently_opened_files",
                         key = "r",
-                        action = "Telescope oldfiles"
+                        action = "Telescope oldfiles",
                     },
                     {
                         icon = "󰪺   ",
@@ -54,7 +70,7 @@ return {
                         desc = "Open Recently Opened Session",
                         desc_hl = "button_open_rencently_opened_session",
                         key = "o",
-                        action = "AutoSession restore"
+                        action = "AutoSession restore",
                     },
                     {
                         icon = "󰥨   ",
@@ -62,7 +78,7 @@ return {
                         desc = "Find Session",
                         desc_hl = "button_find_session",
                         key = "F",
-                        action = "AutoSession search"
+                        action = "AutoSession search",
                     },
                     {
                         icon = "󰒲   ",
@@ -70,7 +86,7 @@ return {
                         desc = "Lazy",
                         desc_hl = "button_lazy",
                         key = "l",
-                        action = "Lazy"
+                        action = "Lazy",
                     },
                     {
                         icon = "󰅚   ",
@@ -78,8 +94,8 @@ return {
                         desc = "Quit",
                         desc_hl = "button_quit",
                         key = "q",
-                        action = "qa"
-                    }
+                        action = "qa",
+                    },
                 },
                 footer = function()
                     local stats = require("lazy").stats()
@@ -89,31 +105,33 @@ return {
                         "╔════════════════════════════════════════════════════════════════╗",
                         "║              Welcome to Caesar James LEE's Neovim              ║",
                         "║                                                                ║",
-                        string.format("║                  %d plugins loaded in %07.2f ms               ║", count, ms),
+                        string.format(
+                            "║                  %d plugins loaded in %07.2f ms               ║",
+                            count,
+                            ms
+                        ),
                         "║                                                                ║",
-                        "╚════════════════════════════════════════════════════════════════╝"
+                        "╚════════════════════════════════════════════════════════════════╝",
                     }
-                end
-            }
+                end,
+            },
         })
 
         --set highlight groups
-        local highlight = function(name, hl)
-            vim.api.nvim_set_hl(0, name, hl)
-        end
+        local highlight = function(name, hl) vim.api.nvim_set_hl(0, name, hl) end
 
-        highlight("DashboardHeader",                        {fg = "#00ffff",    bold = true})
-        highlight("DashboardFooter",                        {fg = "#56b6c2",    bold = true})
-        highlight("button_icon",                            {fg = "#f1502f",    italic = true})
+        highlight("DashboardHeader", { fg = "#00ffff", bold = true })
+        highlight("DashboardFooter", { fg = "#56b6c2", bold = true })
+        highlight("button_icon", { fg = "#f1502f", italic = true })
 
-        highlight("button_new_file",                        {fg = "#98c379"})
-        highlight("button_find_file",                       {fg = "#61afef"})
-        highlight("button_recently_opened_files",           {fg = "#c678dd"})
-        highlight("button_open_rencently_opened_session",   {fg = "#e5c07b"})
-        highlight("button_find_session",                    {fg = "#e06c75"})
-        highlight("button_new_session",                     {fg = "#56b6c2"})
-        highlight("button_lazy",                            {fg = "#f1502f"})
-        highlight("button_quit",                            {fg = "#abb2bf"})
+        highlight("button_new_file", { fg = "#98c379" })
+        highlight("button_find_file", { fg = "#61afef" })
+        highlight("button_recently_opened_files", { fg = "#c678dd" })
+        highlight("button_open_rencently_opened_session", { fg = "#e5c07b" })
+        highlight("button_find_session", { fg = "#e06c75" })
+        highlight("button_new_session", { fg = "#56b6c2" })
+        highlight("button_lazy", { fg = "#f1502f" })
+        highlight("button_quit", { fg = "#abb2bf" })
 
         --hide UI elements
         vim.api.nvim_create_autocmd("FileType", {
@@ -121,14 +139,12 @@ return {
             callback = function()
                 vim.opt_local.showtabline = 0
                 vim.opt_local.laststatus = 0
-            end
+            end,
         })
 
         vim.api.nvim_create_autocmd("BufUnload", {
             pattern = "dashboard",
-            callback = function()
-                vim.opt.laststatus = 3
-            end
+            callback = function() vim.opt.laststatus = 3 end,
         })
-    end
+    end,
 }
