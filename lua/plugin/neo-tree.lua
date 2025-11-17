@@ -178,9 +178,9 @@ return {
                             ".vscode",
                         },
                         hide_by_pattern = {
-                            "*/.o",
-                            "*/.exe",
-                            "*/.class",
+                            "*.o",
+                            "*.exe",
+                            "*.class",
                         },
                     },
                     window = {
