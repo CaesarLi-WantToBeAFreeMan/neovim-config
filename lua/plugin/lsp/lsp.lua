@@ -6,20 +6,27 @@ return {
         opts = {
             --list of LSP servers for mason to install
             ensure_installed = {
+                --LSP servers
                 "clangd", --C/C++
                 "jdtls", --Java
                 "pyright", --Python
                 "lua-language-server", --Lua
                 "html-lsp", --HTML
                 "css-lsp", --CSS, SCSS, LESS
-                "typescript-language-server", --JavaScript, TypeScript, JSX, TSX,
                 "vue-language-server", --Vue
+                "typescript-language-server", --JavaScript, TypeScript, JSX, TSX
+                "vtsls", --for typescript extension for vue, etc
                 "json-lsp", --JSON
                 "lemminx", --XML
                 "yaml-language-server", --YAML
                 "sqlls", --SQL
                 "marksman", --Markdown
                 "texlab", --LaTeX
+
+                --formatters
+                "clang-format", --format C, C++, Java
+                "prettier", --for web
+                "stylua", --for lua
             },
             ui = {
                 icons = {
@@ -36,6 +43,33 @@ return {
         "neovim/nvim-lspconfig",
         event = "VeryLazy",
         config = function()
+            --typescript extension configurations
+            local vue_plugin_path = vim.fn.stdpath("data")
+                .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+            local ts_filetypes = {
+                "javascript",
+                "javascriptreact",
+                "typescript",
+                "typescriptreact",
+                "vue",
+            }
+            local vue_plugin = {
+                name = "@vue/typescript-plugin",
+                location = vue_plugin_path,
+                languages = { "vue" },
+                configNamespace = "typescript",
+            }
+            vim.lsp.config("vtsls", {
+                filetypes = ts_filetypes,
+                settings = {
+                    vtsls = {
+                        tsserver = { globalPlugins = { vue_plugin } },
+                    },
+                },
+            })
+
+            vim.lsp.enable("vtsls")
+
             --enable servers
             local servers = {
                 "clangd",
@@ -44,7 +78,6 @@ return {
                 "lua_ls",
                 "html",
                 "cssls",
-                "ts_ls",
                 "jsonls",
                 "vue_ls",
                 "lemminx",
