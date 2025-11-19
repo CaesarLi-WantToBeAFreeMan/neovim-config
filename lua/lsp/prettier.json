@@ -4,7 +4,5 @@
     "trailingComma": "none",
     "bracketSpacing": false,
     "objectWrap": "collapse",
-    "arrowParens": "avoid",
-    "vueIndentScriptAndStyle": true,
-    "singleAttributePerLine": true
+    "arrowParens": "avoid"
 }
