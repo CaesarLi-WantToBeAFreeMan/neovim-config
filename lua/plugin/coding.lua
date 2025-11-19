@@ -1,4 +1,4 @@
-return{
+return {
     --automatically insert a matching closing character
     {
         "nvim-mini/mini.pairs",
@@ -7,40 +7,36 @@ return{
             modes = {
                 insert = true,
                 command = true,
-                terminal = false
+                terminal = false,
             },
             --skip autopair when next character is one of below
             skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
             --skip autopair inside a string
-            skip_ts = {"string"},
+            skip_ts = { "string" },
             --skip autopair when next is closing pair and more closing pairs than opening pairs
             skip_unbalanced = true,
             --deal with markdown code blocks
-            markdown = true
+            markdown = true,
         },
-        config = function()
-            require("mini.pairs").setup()
-        end
+        config = function() require("mini.pairs").setup() end,
     },
     --auto-close/rename HTML/XML tags
     {
         "windwp/nvim-ts-autotag",
         event = "VeryLazy",
-        opts = {}
+        opts = {},
     },
     --surround manipulations
     {
         "echasnovski/mini.surround",
         event = "VeryLazy",
-        config = function()
-            require("mini.surround").setup()
-        end
+        config = function() require("mini.surround").setup() end,
     },
     --handle multiple types of comments for a single language
     {
         "folke/ts-comments.nvim",
         event = "VeryLazy",
-        opts = {}
+        opts = {},
     },
     --extend a & i text objects
     {
@@ -48,38 +44,36 @@ return{
         event = "VeryLazy",
         opts = function()
             local ai = require("mini.ai")
-            return{
+            return {
                 n_lines = 500,
                 custom_textobjects = {
                     --blocks (block, conditions, loops)
                     b = ai.gen_spec.treesitter({
-                        a = {"@block.outer", "@conditional.outer", "@loop.outer"},
-                        i = {"@block.inner", "@conditional.inner", "@loop.inner"}
+                        a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+                        i = { "@block.inner", "@conditional.inner", "@loop.inner" },
                     }),
                     --functions
                     f = ai.gen_spec.treesitter({
                         a = "@function.outer",
-                        i = "@function.inner"
+                        i = "@function.inner",
                     }),
                     --classes
                     c = ai.gen_spec.treesitter({
                         a = "@class.outer",
-                        i = "@class.inner"
+                        i = "@class.inner",
                     }),
                     --tags
-                    t = {"<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$"},
+                    t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
                     --digits
-                    d = {"%f[%d]%d+"},
+                    d = { "%f[%d]%d+" },
                     --function name
                     n = ai.gen_spec.function_call(),
                     --function name without dot
-                    N = ai.gen_spec.function_call({name_pattern = "[%w_]"})
-                }
+                    N = ai.gen_spec.function_call({ name_pattern = "[%w_]" }),
+                },
             }
         end,
-        config = function(_, opts)
-            require("mini.ai").setup(opts)
-        end
+        config = function(_, opts) require("mini.ai").setup(opts) end,
     },
     --configure LuaLs
     {
@@ -88,10 +82,30 @@ return{
         cmd = "LazYDev",
         opts = {
             library = {
-                {path = "${3rd}/luv/library", words = {"vim%,uv"}},
-                {path = "LazyVim", words = {"LazyVim"}},
-                {path = "lazy.nvim", words = {"LazyVim"}}
-            }
-        }
-    }
+                { path = "${3rd}/luv/library", words = { "vim%,uv" } },
+                { path = "LazyVim", words = { "LazyVim" } },
+                { path = "lazy.nvim", words = { "LazyVim" } },
+            },
+        },
+    },
+    --preview colors
+    {
+        "Nvchad/nvim-colorizer.lua",
+        event = "VeryLazy",
+        config = function()
+            require("colorizer").setup({
+                filetypes = { "*" },
+                user_default_options = {
+                    RGB = true,
+                    RRGGBB = true,
+                    names = true,
+                    RRGGBBAA = true,
+                    AARRGGBB = true,
+                    css = true,
+                    css_fn = true,
+                    mode = "background", --background, foreground
+                },
+            })
+        end,
+    },
 }
