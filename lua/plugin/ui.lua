@@ -192,7 +192,22 @@ return {
         version = "*",
         event = "VeryLazy",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = function() require("bufferline").setup({}) end,
+        config = function()
+            require("bufferline").setup({
+                options = {
+                    numbers = "both",
+                    show_buffer_close_icons = false,
+                    show_close_icon = false,
+                    indicator = {
+                        icon = "✝️",
+                        style = "icon",
+                    },
+                    max_name_length = 21,
+                    max_prefix_length = 18,
+                    tab_size = 21,
+                },
+            })
+        end,
     },
     --file icons
     {
