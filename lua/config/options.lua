@@ -116,7 +116,7 @@ opt.sessionoptions = { --save options in sessions
     "tabpages", --tabs
     "winsize", --window sizes
     "help", --help window
-    "globals", --global
+    "globals", --global variables
     "skiprtp", --
     "folds", --folds
 }

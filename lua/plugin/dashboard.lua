@@ -2,6 +2,8 @@ return {
     "nvimdev/dashboard-nvim",
     dependencies = {
         "nvim-tree/nvim-web-devicons",
+        "nvim-telescope/telescope.nvim",
+        "folke/persistence.nvim"
     },
     config = function()
         local title = vim.o.columns >= 130
@@ -70,7 +72,7 @@ return {
                         desc = "Open Recently Opened Session",
                         desc_hl = "button_open_rencently_opened_session",
                         key = "o",
-                        action = "AutoSession restore",
+                        action = "require('persistence').load({las = true})",
                     },
                     {
                         icon = "󰥨   ",
@@ -78,7 +80,7 @@ return {
                         desc = "Find Session",
                         desc_hl = "button_find_session",
                         key = "F",
-                        action = "AutoSession search",
+                        action = "require('persistence').select()",
                     },
                     {
                         icon = "󰒲   ",
