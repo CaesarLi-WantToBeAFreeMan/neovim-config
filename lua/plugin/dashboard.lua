@@ -3,7 +3,7 @@ return {
     dependencies = {
         "nvim-tree/nvim-web-devicons",
         "nvim-telescope/telescope.nvim",
-        "folke/persistence.nvim"
+        "folke/persistence.nvim",
     },
     config = function()
         local title = vim.o.columns >= 130
@@ -72,7 +72,7 @@ return {
                         desc = "Open Recently Opened Session",
                         desc_hl = "button_open_rencently_opened_session",
                         key = "o",
-                        action = "require('persistence').load({las = true})",
+                        action = "require('persistence').load({last = true})",
                     },
                     {
                         icon = "󰥨   ",
