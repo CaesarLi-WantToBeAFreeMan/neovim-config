@@ -28,7 +28,7 @@ return {
     --git signs
     {
         "lewis6991/gitsigns.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = "VeryLazy",
         config = function()
             local hl = vim.api.nvim_set_hl
             require("gitsigns").setup({
@@ -57,7 +57,7 @@ return {
             "nvim-tree/nvim-web-devicons", --file icons
             "lewis6991/gitsigns.nvim", --gitsigns
         },
-        event = { "BufReadPost", "BufNewFile" },
+        event = "VeryLazy",
         config = function()
             local is_wide = function() return vim.api.nvim_get_option_value("columns", {}) >= 130 end
             local git_sign_count = function(type)
@@ -212,7 +212,7 @@ return {
     --file icons
     {
         "nvim-tree/nvim-web-devicons",
-        lazy = true,
+        event = "VeryLazy",
         config = function()
             local override_icon_color_name = function(icon, color, name)
                 local cterm_color
@@ -381,5 +381,165 @@ return {
                 default = true,
             })
         end,
+    },
+    {
+        "folke/snacks.nvim",
+        priority = 1000,
+        lazy = false,
+        opts = {
+            bigfile = { enabled = true },
+            explorer = { enabled = true },
+            indent = { enabled = true },
+            input = { enabled = true },
+            picker = { enabled = true },
+            notifier = { enabled = true },
+            quickfile = { enabled = true },
+            scope = { enabled = true },
+            scroll = { enabled = false },
+            statuscolumn = { enabled = true },
+            words = { enabled = true },
+
+            --dashboard
+            dashboard = {
+                enabled = true,
+                preset = {
+                    header = [[
+██████╗ █████╗ ███████╗███████╗ █████╗ ██████╗ ███████╗    ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+██╔════╝██╔══██╗██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝    ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+██║     ███████║█████╗  ███████╗███████║██████╔╝███████╗    ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+██║     ██╔══██║██╔══╝  ╚════██║██╔══██║██╔══██╗╚════██║    ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+╚██████╗██║  ██║███████╗███████║██║  ██║██║  ██║███████║    ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝    ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
+                    ]],
+                    keys = {
+                        { icon = "󰈔", key = "n", desc = "New File", action = ":ene | startinsert" },
+                        {
+                            icon = "󰈞",
+                            key = "f",
+                            desc = "Find File",
+                            action = ":lua Snacks.dashboard.pick('files')",
+                        },
+                        {
+                            icon = "󰊄",
+                            key = "t",
+                            desc = "Find Text",
+                            action = ":lua Snacks.dashboard.pick('live_grep')",
+                        },
+                        {
+                            icon = "󱋡",
+                            key = "r",
+                            desc = "Recent Files",
+                            action = ":lua Snacks.dashboard.pick('oldfiles')",
+                        },
+                        {
+                            icon = "󱁿",
+                            key = "c",
+                            desc = "Config",
+                            action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+                        },
+                        {
+                            icon = "󰥨",
+                            key = "F",
+                            desc = "Find Sessions",
+                            action = "require('persistence').select()",
+                        },
+                        { icon = "󰪺", key = "o", desc = "Open Last Session", section = "session" },
+                        { icon = "󰒲", key = "l", desc = "Lazy", action = ":Lazy" },
+                        { icon = "󰅙", key = "q", desc = "Quit", action = ":qa" },
+                    },
+                },
+            },
+        },
+        keys = {
+            --history
+            { "<leader>hc", function() Snacks.picker.command_history() end, desc = "command history" },
+            { "<leader>hn", function() Snacks.picker.notifications() end, desc = "notification history" },
+            { "<leader>hs", function() Snacks.picker.search_history() end, desc = "search history" },
+            { "<leader>hu", function() Snacks.picker.undo() end, desc = "undo history" },
+            --find
+            { "<leader>fr", function() Snacks.picker.registers() end, desc = "find registers" },
+            { "<leader>fa", function() Snacks.picker.autocmds() end, desc = "find autocmds" },
+            { "<leader>fc", function() Snacks.picker.commands() end, desc = "find commands" },
+            { "<leader>fd", function() Snacks.picker.diagnostics_buffer() end, desc = " find buffer diagnostics" },
+            { "<leader>fD", function() Snacks.picker.diagnostics() end, desc = "find session diagnostics" },
+            { "<leader>fh", function() Snacks.picker.help() end, desc = "find helps" },
+            { "<leader>fH", function() Snacks.picker.highlights() end, desc = "find highlights" },
+            { "<leader>fi", function() Snacks.picker.icons() end, desc = "find icons" },
+            { "<leader>fj", function() Snacks.picker.jumps() end, desc = "find jumps" },
+            { "<leader>fk", function() Snacks.picker.keymaps() end, desc = "find keymaps" },
+            { "<leader>fL", function() Snacks.picker.loclist() end, desc = "find location list" },
+            { "<leader>fm", function() Snacks.picker.marks() end, desc = "find marks" },
+            { "<leader>fp", function() Snacks.picker.lazy() end, desc = "find plugins" },
+            { "<leader>fq", function() Snacks.picker.qflist() end, desc = "find quickfixs" },
+            { "<leader>fR", function() Snacks.picker.resume() end, desc = "find resume" },
+            { "<leader>fC", function() Snacks.picker.colorschemes() end, desc = "find colorschemes" },
+            { "<leader>fb", function() Snacks.picker.buffers() end, desc = "find buffers" },
+            { "<leader>ft", function() Snacks.picker.grep() end, desc = "find text in session" },
+            { "<leader>fT", function() Snacks.picker.grep_buffers() end, desc = "find text in opened buffers" },
+            { "<leader>fe", function() Snacks.explorer() end, desc = "file explorer" },
+            {
+                "<leader>fn",
+                function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end,
+                desc = "find neovim config files",
+            },
+            { "<leader>ff", function() Snacks.picker.files() end, desc = "find files" },
+            { "<leader>fs", function() Snacks.picker.projects() end, desc = "find sessions" },
+            { "<leader>fl", function() Snacks.picker.lines() end, desc = "find buffer lines" },
+            -- git
+            { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "git branches" },
+            { "<leader>gl", function() Snacks.picker.git_log() end, desc = "git log" },
+            { "<leader>gs", function() Snacks.picker.git_status() end, desc = "git status" },
+            { "<leader>gB", function() Snacks.gitbrowse() end, desc = "git browse", mode = { "n", "v" } },
+            { "<leader>gL", function() Snacks.lazygit() end, desc = "lazygit" },
+            -- LSP
+            { "gd", function() Snacks.picker.lsp_definitions() end, desc = "goto LSP definition" },
+            { "gD", function() Snacks.picker.lsp_declarations() end, desc = "goto LSP declaration" },
+            { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "goto LSP references" },
+            { "gi", function() Snacks.picker.lsp_implementations() end, desc = "goto LSP implementation" },
+            { "gt", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto LSP type definition" },
+            { "gc", function() Snacks.picker.lsp_incoming_calls() end, desc = "goto calls incoming" },
+            { "gC", function() Snacks.picker.lsp_outgoing_calls() end, desc = "goto calls outgoing" },
+            { "gs", function() Snacks.picker.lsp_symbols() end, desc = "find LSP Symbols" },
+            { "gS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "find LSP Workspace Symbols" },
+            --toggles
+            { "<leader>tz", function() Snacks.zen() end, desc = "toggle zen mode" },
+            { "<leader>tZ", function() Snacks.zen.zoom() end, desc = "toggle zoom mode" },
+            { "<leader>tt", function() Snacks.terminal() end, desc = "toggle terminal" },
+            { "<C-/>", function() Snacks.terminal() end, desc = "toggle terminal" },
+            --other
+            { "<leader>bd", function() Snacks.bufdelete() end, desc = "delete buffer" },
+            { "<leader>br", function() Snacks.rename.rename_file() end, desc = "rename buffer" },
+            { "<leader>dn", function() Snacks.notifier.hide() end, desc = "dismiss all notifications" },
+            {
+                "[r",
+                function() Snacks.words.jump(-vim.v.count1) end,
+                desc = "prev reference",
+                mode = { "n", "t" },
+            },
+            {
+                "]r",
+                function() Snacks.words.jump(vim.v.count1) end,
+                desc = "next reference",
+                mode = { "n", "t" },
+            },
+            {
+                "<leader>nn",
+                desc = "neovim news",
+                function()
+                    Snacks.win({
+                        file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
+                        width = 0.8,
+                        height = 0.7,
+                        wo = {
+                            spell = false,
+                            wrap = false,
+                            signcolumn = "yes",
+                            statuscolumn = " ",
+                            conceallevel = 3,
+                        },
+                    })
+                end,
+            },
+        },
     },
 }

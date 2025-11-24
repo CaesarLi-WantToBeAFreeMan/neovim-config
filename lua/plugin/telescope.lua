@@ -3,10 +3,12 @@ return {
     {
         "nvim-telescope/telescope.nvim", --fuzzy finder
         tag = "0.1.8", --stable version
+        event = "VeryLazy",
         cmd = "Telescope",
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
+        --[[
         keys = {
             --files
             { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "find files", mode = "n" },
@@ -21,6 +23,7 @@ return {
             { "<leader>fm", "<cmd>Telescope marks<CR>", desc = "find marks", mode = "n" },
             { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "find git status", mode = "n" },
         },
+        ]]
         config = function()
             local actions = require("telescope.actions")
             require("telescope").setup({
@@ -91,7 +94,7 @@ return {
     },
     {
         "nvim-telescope/telescope-ui-select.nvim", --dropdown UI extension
-        lazy = true,
+        event = "VeryLazy",
         config = function()
             require("telescope").setup({
                 extensions = {

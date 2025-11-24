@@ -1,6 +1,7 @@
 return {
     {
         "nvim-neo-tree/neo-tree.nvim", --modern file explorer
+        event = "VeryLazy",
         branch = "v3.x", --use stable v3.x branch
         dependencies = {
             "nvim-lua/plenary.nvim", --lua utility library for Neovim
@@ -266,7 +267,7 @@ return {
     {
         "s1n7ax/nvim-window-picker",
         version = "2.*",
-        event = { "BufReadPost", "BufNewFile" },
+        event = "VeryLazy",
         config = function()
             require("window-picker").setup({
                 filter_rules = {

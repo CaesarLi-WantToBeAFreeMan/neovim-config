@@ -2,7 +2,7 @@ return {
     {
         "nvim-treesitter/nvim-treesitter", --syntax parsing for highlighting and more
         build = ":TSUpdate", --update parsers on install
-        event = { "BufReadPost", "BufNewFile" },
+        event = "VeryLazy",
         dependencies = {
             "nvim-treesitter/nvim-treesitter-textobjects", --text objects
             "nvim-treesitter/nvim-treesitter-context", --show context(function name at top)
@@ -157,7 +157,7 @@ return {
     },
     {
         "nvim-treesitter/nvim-treesitter-context", --context viewer for code
-        event = { "BufReadPost", "bufNewFile" },
+        event = "VeryLazy",
         dependencies = {
             "nvim-treesitter/nvim-treesitter", --load treesitter
         },

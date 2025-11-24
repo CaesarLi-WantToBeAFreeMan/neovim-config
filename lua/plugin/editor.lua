@@ -2,6 +2,7 @@ return {
     --search/replace in multiple files
     {
         "MagicDuck/grug-far.nvim",
+        event = "VeryLazy",
         opts = {
             headerMaxWidth = 90,
         },
@@ -29,6 +30,7 @@ return {
     --find and list all of the TODO
     {
         "folke/todo-comments.nvim",
+        event = "VeryLazy",
         cmd = {
             "TodoTrouble",
             "TodoTelescope",

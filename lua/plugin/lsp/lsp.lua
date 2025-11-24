@@ -41,7 +41,7 @@ return {
     --LSP configurations
     {
         "neovim/nvim-lspconfig",
-        event = { "BufReadPre", "BufNewFile" },
+        event = "VeryLazy",
         dependencies = {
             "hrshh7th/cmp-nvim-lsp",
             "antosha417/nvim-lsp-file-operations",

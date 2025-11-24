@@ -1,11 +1,10 @@
 return {
     {
         "hrsh7th/cmp-nvim-lsp",
-        lazy = true,
+        event = "VeryLazy"
     },
     {
         "antosha417/nvim-lsp-file-operations",
-        event = "LspAttach",
-        config = function() end
+        event = "VeryLazy"
     }
 }
