@@ -1,6 +1,6 @@
-return{
+return {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event = "VeryLazy",
+    event = "LspAttach",
     priority = 1000,
     config = function()
         require("tiny-inline-diagnostic").setup({
@@ -9,8 +9,8 @@ return{
                 show_source = true,
                 set_arrow_to_diag_color = true,
                 enable_on_select = true,
-                truncate_line = true
-            }
+                truncate_line = true,
+            },
         })
-    end
+    end,
 }

@@ -2,7 +2,6 @@ return {
     --search/replace in multiple files
     {
         "MagicDuck/grug-far.nvim",
-        event = "VeryLazy",
         opts = {
             headerMaxWidth = 90,
         },
@@ -34,7 +33,6 @@ return {
             "TodoTrouble",
             "TodoTelescope",
         },
-        event = "VeryLazy",
         opts = {},
         keys = {
             {

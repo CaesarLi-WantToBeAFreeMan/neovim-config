@@ -2,7 +2,7 @@ return {
     --automatically insert a matching closing character
     {
         "nvim-mini/mini.pairs",
-        event = "VeryLazy",
+        event = { "InsertEnter", "CmdlineEnter" },
         opts = {
             modes = {
                 insert = true,
@@ -23,25 +23,25 @@ return {
     --auto-close/rename HTML/XML tags
     {
         "windwp/nvim-ts-autotag",
-        event = "VeryLazy",
+        ft = { "html", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
         opts = {},
     },
     --surround manipulations
     {
         "echasnovski/mini.surround",
-        event = "VeryLazy",
+        event = { "BufReadPost", "BufNewFile" },
         config = function() require("mini.surround").setup() end,
     },
     --handle multiple types of comments for a single language
     {
         "folke/ts-comments.nvim",
-        event = "VeryLazy",
+        event = { "BufReadPost", "BufNewFile" },
         opts = {},
     },
     --extend a & i text objects
     {
         "nvim-mini/mini.ai",
-        event = "VeryLazy",
+        event = { "BufReadPost", "BufNewFile" },
         opts = function()
             local ai = require("mini.ai")
             return {
@@ -79,7 +79,6 @@ return {
     {
         "folke/lazydev.nvim",
         ft = "lua",
-        cmd = "LazYDev",
         opts = {
             library = {
                 { path = "${3rd}/luv/library", words = { "vim%,uv" } },
@@ -91,7 +90,7 @@ return {
     --preview colors
     {
         "Nvchad/nvim-colorizer.lua",
-        event = "VeryLazy",
+        event = { "BufReadPost", "BufNewFile" },
         config = function()
             require("colorizer").setup({
                 filetypes = { "*" },

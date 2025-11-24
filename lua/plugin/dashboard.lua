@@ -1,10 +1,6 @@
 return {
     "nvimdev/dashboard-nvim",
-    dependencies = {
-        "nvim-tree/nvim-web-devicons",
-        "nvim-telescope/telescope.nvim",
-        "folke/persistence.nvim",
-    },
+    event = "VimEnter",
     config = function()
         local title = vim.o.columns >= 130
                 and {

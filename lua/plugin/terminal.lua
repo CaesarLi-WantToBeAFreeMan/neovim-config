@@ -1,6 +1,13 @@
 return {
     "rebelot/terminal.nvim",
-    event = "VeryLazy",
+    keys = {
+        {
+            "<C-,>",
+            function() require("terminal").toggle() end,
+            mode = "n",
+            desc = "toggle terminal",
+        },
+    },
     config = function()
         require("terminal").setup({
             default_cwd = vim.fn.getcwd(),
@@ -12,12 +19,5 @@ return {
                 border = "rounded",
             },
         })
-
-        vim.keymap.set(
-            "n",
-            "<C-,>",
-            function() require("terminal").toggle() end,
-            { noremap = true, nowait = true, desc = "toggle terminal" }
-        )
     end,
 }

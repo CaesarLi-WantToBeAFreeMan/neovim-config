@@ -1,23 +1,22 @@
-return{
+return {
     "folke/trouble.nvim",
-    event = "VeryLazy",
     cmd = "Trouble",
     keys = {
         {
             "<F2>",
             "<cmd>Trouble symbols toggle focus=true<cr>",
-            desc = "toggle symbols"
+            desc = "toggle symbols",
         },
         {
             "<S-F2>",
             "<cmd>Trouble lsp toggle focus=true<cr>",
-            desc = "toggle LSP definitions/references..."
+            desc = "toggle LSP definitions/references...",
         },
         {
             "<C-F2>",
             "<cmd>Trouble diagnostics toggle focus=true<cr>",
-            desc = "toggle buffer LSP diagnostics"
-        }
+            desc = "toggle buffer LSP diagnostics",
+        },
     },
     opts = {
         use_diagnostic_signs = true,
@@ -27,7 +26,7 @@ return{
         win = {
             type = "split",
             position = "right",
-            size = 100
+            size = 100,
         },
         keys = {
             ["<cr>"] = "jump_close",
@@ -48,12 +47,10 @@ return{
             ["c"] = "fold_close",
             ["C"] = "fold_close_recursive",
             ["x"] = "fold_toggle",
-            ["X"] = "fold_toggle_recursive"
+            ["X"] = "fold_toggle_recursive",
         },
         action_keys = {
-            jump_split_close = {
-
-            }
+            jump_split_close = {},
         },
         modes = {
             preview_float = {
@@ -64,11 +61,11 @@ return{
                     border = "rounded",
                     title = "Trouble Preview",
                     title_pos = "center",
-                    position = {0, -2},
-                    size = {width = 0.3, height = 0.3},
-                    zindex = 210
-                }
-            }
-        }
-    }
+                    position = { 0, -2 },
+                    size = { width = 0.3, height = 0.3 },
+                    zindex = 210,
+                },
+            },
+        },
+    },
 }

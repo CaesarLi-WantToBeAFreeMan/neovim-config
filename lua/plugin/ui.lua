@@ -28,7 +28,7 @@ return {
     --git signs
     {
         "lewis6991/gitsigns.nvim",
-        event = "VeryLazy",
+        event = { "BufReadPost", "BufNewFile" },
         config = function()
             local hl = vim.api.nvim_set_hl
             require("gitsigns").setup({
@@ -57,7 +57,7 @@ return {
             "nvim-tree/nvim-web-devicons", --file icons
             "lewis6991/gitsigns.nvim", --gitsigns
         },
-        event = "VeryLazy", --load on VeryLazy event
+        event = { "BufReadPost", "BufNewFile" },
         config = function()
             local is_wide = function() return vim.api.nvim_get_option_value("columns", {}) >= 130 end
             local git_sign_count = function(type)
@@ -190,7 +190,7 @@ return {
     {
         "akinsho/bufferline.nvim",
         version = "*",
-        event = "VeryLazy",
+        event = { "BufReadPost", "BufNewFile" },
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
             require("bufferline").setup({
@@ -212,7 +212,7 @@ return {
     --file icons
     {
         "nvim-tree/nvim-web-devicons",
-        event = "VeryLazy",
+        lazy = true,
         config = function()
             local override_icon_color_name = function(icon, color, name)
                 local cterm_color

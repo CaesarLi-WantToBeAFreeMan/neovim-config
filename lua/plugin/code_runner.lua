@@ -1,8 +1,14 @@
 return {
     "CRAG666/code_runner.nvim",
-    event = "VeryLazy",
+    cmd = { "RunCode", "RunFile", "RunProject", "RunClose" },
     dependencies = {
         "nvim-lua/plenary.nvim",
+    },
+    keys = {
+        { "<F5>", "<cmd>RunCode<cr>", mode = "n", desc = "run code" },
+        { "<S-F5>", "<cmd>RunFile<cr>", mode = "n", desc = "run file" },
+        { "<C-F5>", "<cmd>RunProject<cr>", mode = "n", desc = "run project" },
+        { "<leader>rc", "<cmd>runclose<cr>", mode = "n", desc = "close terminal" },
     },
     config = function()
         local is_windows = vim.fn.has("win32") == 1
@@ -63,16 +69,5 @@ return {
             project_path = vim.fn.stdpath("data") .. "/code_runner/projects.json",
             ]]
         })
-        local opts = { noremap = true, silent = true }
-
-        vim.keymap.set("n", "<F5>", "<cmd>RunCode<CR>", vim.tbl_extend("force", opts, { desc = "run code" }))
-        vim.keymap.set("n", "<S-F5>", "<cmd>RunFile<CR>", vim.tbl_extend("force", opts, { desc = "run file" }))
-        vim.keymap.set("n", "<C-F5>", "<cmd>RunProject<CR>", vim.tbl_extend("force", opts, { desc = "run project" }))
-        vim.keymap.set(
-            "n",
-            "<leader>rc",
-            "<cmd>RunClose<CR>",
-            vim.tbl_extend("force", opts, { desc = "Close runner terminal" })
-        )
     end,
 }

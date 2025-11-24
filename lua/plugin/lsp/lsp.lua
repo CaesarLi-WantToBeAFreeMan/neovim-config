@@ -2,7 +2,7 @@ return {
     --LSP server installer
     {
         "williamboman/mason.nvim",
-        event = "VeryLazy",
+        cmd = "Mason",
         opts = {
             --list of LSP servers for mason to install
             ensure_installed = {
@@ -41,7 +41,11 @@ return {
     --LSP configurations
     {
         "neovim/nvim-lspconfig",
-        event = "VeryLazy",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            "hrshh7th/cmp-nvim-lsp",
+            "antosha417/nvim-lsp-file-operations",
+        },
         config = function()
             --typescript extension configurations
             local vue_plugin_path = vim.fn.stdpath("data")

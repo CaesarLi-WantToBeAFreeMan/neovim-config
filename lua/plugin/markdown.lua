@@ -2,7 +2,7 @@ return {
     --inline markdown previewer
     {
         "MeanderingProgrammer/render-markdown.nvim",
-        event = "VeryLazy",
+        ft = { "markdown" },
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
             "nvim-tree/nvim-web-devicons",
@@ -19,6 +19,7 @@ return {
     --browser markdown previewer
     {
         "iamcco/markdown-preview.nvim",
+        ft = { "markdown" },
         cmd = {
             "MarkdownPreviewToggle",
             "MarkdownPreview",
@@ -26,7 +27,6 @@ return {
         },
         build = "cd app && npm install",
         init = function() vim.g.mkdp_filetypes = { "markdown" } end,
-        ft = { "markdown" },
         keys = {
             {
                 "<leader>V",
