@@ -23,7 +23,7 @@ opt.clipboard = vim.fn.has("win32") == 1 and "unnamed" --use Windows system clip
     or "unnamedplus" --use Unix-like OS clipboard(unnamedplus)
 
 -- ============ mouse ============
-opt.mouse = "" --disable mouse support
+opt.mouse = "a" --enable mouse support for all modes
 
 -- ============ command Line ============
 opt.cmdheight = 1 --height of command line
