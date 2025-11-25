@@ -2,7 +2,6 @@ return {
     --search/replace in multiple files
     {
         "MagicDuck/grug-far.nvim",
-        event = {"BufReadPost", "BufNewFile"},
         opts = {
             headerMaxWidth = 90,
         },

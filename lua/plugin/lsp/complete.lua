@@ -1,43 +1,39 @@
 return {
-    "hrsh7th/nvim-cmp", --completion engine
-    event = {"BufReadPost", "BufNewFile"},
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     dependencies = {
-        "hrsh7th/cmp-buffer", --buffer text source
-        "hrsh7th/cmp-path", --file system path source
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-cmdline",
-        "onsails/lspkind.nvim", --Microsoft Visual Studio Code like pictograms
+        "onsails/lspkind.nvim",
         {
-            "L3MON4D3/LuaSnip", --define, expand and jump through code snippets
+            "L3MON4D3/LuaSnip",
             version = "v2.*",
-            build = "make install_jsregexp",
         },
     },
     config = function()
         local cmp, lspkind = require("cmp"), require("lspkind")
-
-        --load Microsoft Visual Studio Code like snippets
         require("luasnip.loaders.from_vscode").lazy_load()
-
         cmp.setup({
             snippet = {
                 expand = function(args) require("luasnip").lsp_expand(args.body) end,
             },
             mapping = cmp.mapping.preset.insert({
-                ["<CR>"] = cmp.mapping.confirm({ select = true }), --confirm selection
-                ["<C-e>"] = cmp.mapping.abort(), --close completion window
-                ["<C-k>"] = cmp.mapping.select_prev_item(), --select previous item
-                ["<C-j>"] = cmp.mapping.select_next_item(), --select next item
+                ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                ["<C-e>"] = cmp.mapping.abort(),
+                ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+                ["<Tab>"] = cmp.mapping.select_next_item(),
             }),
             sources = cmp.config.sources({
-                { name = "nvim_lsp" }, --LSP symbols
-                { name = "luasnip" }, --snippets
-                { name = "buffer" }, --text within current buffer
-                { name = "path" }, --file system path
+                { name = "nvim_lsp" },
+                { name = "luasnip" },
+                { name = "buffer" },
+                { name = "path" },
             }),
             formatting = {
                 format = lspkind.cmp_format({
-                    mode = "text",
+                    mode = "symbol_text",
                     maxwidth = 50,
                 }),
             },

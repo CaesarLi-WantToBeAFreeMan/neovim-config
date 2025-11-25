@@ -1,25 +1,25 @@
 return {
     "nvim-neo-tree/neo-tree.nvim", --modern file explorer
-    branch = "v3.x", --use stable v3.x branch
-    cmd = {"Neotree"},
+    branch = "v3.x",               --use stable v3.x branch
+    cmd = "Neotree",
     dependencies = {
-        "nvim-lua/plenary.nvim", --lua utility library for Neovim
+        "nvim-lua/plenary.nvim",       --lua utility library for Neovim
         "nvim-tree/nvim-web-devicons", --file icons
-        "MunifTanjim/nui.nvim", --ui components
+        "MunifTanjim/nui.nvim",        --ui components
     },
     keys = {
-        { "<F1>", "<cmd>Neotree toggle filesystem<CR>", desc = "toggle Neo-tree", mode = "n" },
+        { "<F1>",   "<cmd>Neotree toggle filesystem<CR>", desc = "toggle Neo-tree",   mode = "n" },
         { "<S-F1>", "<cmd>Neotree toggle git_status<CR>", desc = "toggle git status", mode = "n" },
-        { "<C-F1>", "<cmd>Neotree toggle buffers<CR>", desc = "toggle buffers", mode = "n" },
+        { "<C-F1>", "<cmd>Neotree toggle buffers<CR>",    desc = "toggle buffers",    mode = "n" },
     },
     config = function()
         require("neo-tree").setup({
             --file explorer, buffer explorer, git status explorer, symbol explorer
-            close_if_last_window = true, --close Neo-tree if last window
+            close_if_last_window = true,    --close Neo-tree if last window
             popup_border_style = "rounded", --use rounded borders for popups
-            enable_git_status = true, --show git status
-            enable_diagnostics = false, --hide LSP diagnostic icons
-            event_handlers = { --auto-close on file open
+            enable_git_status = true,       --show git status
+            enable_diagnostics = false,     --hide LSP diagnostic icons
+            event_handlers = {              --auto-close on file open
                 --auto close when file opened
                 {
                     event = "file_opened",
@@ -162,15 +162,15 @@ return {
             },
             filesystem = {
                 follow_current_file = {
-                    enabled = true, --focus current buffer
+                    enabled = true,                     --focus current buffer
                 },
                 hijack_netrw_behavior = "open_default", --use Neo-tree instead of netrw
-                use_libuv_file_watcher = true, --auto-refresh on file changes
-                use_default_mappings = false, --disable all default keymaps
+                use_libuv_file_watcher = true,          --auto-refresh on file changes
+                use_default_mappings = false,           --disable all default keymaps
                 filtered_items = {
-                    hide_dotfiles = false, --don't hide dot files
-                    hide_gitignored = true, --hide git ignored files
-                    hide_hidden = false, --don't hide hidden files for Microsoft Windows
+                    hide_dotfiles = false,              --don't hide dot files
+                    hide_gitignored = true,             --hide git ignored files
+                    hide_hidden = false,                --don't hide hidden files for Microsoft Windows
                     hide_by_name = {
                         "node_modules",
                         ".idea",
@@ -223,9 +223,9 @@ return {
             },
             buffers = {
                 follow_current_file = {
-                    enabled = true, --focus current buffer
+                    enabled = true,     --focus current buffer
                 },
-                show_unloaded = true, --show unloaded buffers
+                show_unloaded = true,   --show unloaded buffers
                 window = {
                     position = "float", --open buffers in floating window
                     mappings = {

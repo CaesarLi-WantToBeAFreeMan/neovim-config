@@ -2,7 +2,7 @@ return {
     --automatically insert a matching closing character
     {
         "nvim-mini/mini.pairs",
-        event = {"BufReadPost", "BufNewFile"},
+        event = { "InsertEnter" },
         opts = {
             modes = {
                 insert = true,
@@ -23,20 +23,18 @@ return {
     --auto-close/rename HTML/XML tags
     {
         "windwp/nvim-ts-autotag",
-        event = {"BufReadPost", "BufNewFile"},
         ft = { "html", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
         opts = {},
     },
     --surround manipulations
     {
         "echasnovski/mini.surround",
-        event = {"BufReadPost", "BufNewFile"},
         config = function() require("mini.surround").setup() end,
     },
     --extend a & i text objects
     {
         "nvim-mini/mini.ai",
-        event = {"BufReadPost", "BufNewFile"},
+        event = "VeryLazy",
         opts = function()
             local ai = require("mini.ai")
             return {
@@ -73,20 +71,20 @@ return {
     --configure LuaLs
     {
         "folke/lazydev.nvim",
-        event = {"BufReadPost", "BufNewFile"},
+        event = "VeryLazy",
         ft = "lua",
         opts = {
             library = {
                 { path = "${3rd}/luv/library", words = { "vim%,uv" } },
-                { path = "LazyVim", words = { "LazyVim" } },
-                { path = "lazy.nvim", words = { "LazyVim" } },
+                { path = "LazyVim",            words = { "LazyVim" } },
+                { path = "lazy.nvim",          words = { "LazyVim" } },
             },
         },
     },
     --preview colors
     {
         "Nvchad/nvim-colorizer.lua",
-        event = {"BufReadPost", "BufNewFile"},
+        event = "BufReadPost",
         config = function()
             require("colorizer").setup({
                 filetypes = { "*" },

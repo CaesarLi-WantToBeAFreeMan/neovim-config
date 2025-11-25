@@ -1,15 +1,15 @@
 return {
     "CRAG666/code_runner.nvim",
     cmd = { "RunCode", "RunFile", "RunProject", "RunClose" },
-    ft = {"c", "cpp", "java", "py"},
+    ft = { "c", "cpp", "java", "py" },
     dependencies = {
         "nvim-lua/plenary.nvim",
     },
     keys = {
-        { "<F5>", "<cmd>RunCode<cr>", mode = "n", desc = "run code" },
-        { "<S-F5>", "<cmd>RunFile<cr>", mode = "n", desc = "run file" },
-        { "<C-F5>", "<cmd>RunProject<cr>", mode = "n", desc = "run project" },
-        { "<leader>rc", "<cmd>runclose<cr>", mode = "n", desc = "close terminal" },
+        { "<F5>",       "<cmd>RunCode<cr>",    mode = "n", desc = "run code" },
+        { "<S-F5>",     "<cmd>RunFile<cr>",    mode = "n", desc = "run file" },
+        { "<C-F5>",     "<cmd>RunProject<cr>", mode = "n", desc = "run project" },
+        { "<leader>rc", "<cmd>runclose<cr>",   mode = "n", desc = "close terminal" },
     },
     config = function()
         local is_windows = vim.fn.has("win32") == 1
@@ -35,8 +35,8 @@ return {
         end
 
         require("code_runner").setup({
-            mode = "term", --use Neovim's built-in terminal
-            focus = true, --focus on the terminal
+            mode = "term",      --use Neovim's built-in terminal
+            focus = true,       --focus on the terminal
             startinsert = true, --tart in insert mode
 
             --single file

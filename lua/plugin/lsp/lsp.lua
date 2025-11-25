@@ -3,136 +3,173 @@ return {
     {
         "williamboman/mason.nvim",
         cmd = "Mason",
-        opts = {
-            --list of LSP servers for mason to install
-            ensure_installed = {
-                --LSP servers
-                "clangd", --C/C++
-                "jdtls", --Java
-                "pyright", --Python
-                "lua-language-server", --Lua
-                "html-lsp", --HTML
-                "css-lsp", --CSS, SCSS, LESS
-                "vue-language-server", --Vue
-                "typescript-language-server", --JavaScript, TypeScript, JSX, TSX
-                "vtsls", --for typescript extension for vue, etc
-                "json-lsp", --JSON
-                "lemminx", --XML
-                "yaml-language-server", --YAML
-                "sqlls", --SQL
-                "marksman", --Markdown
-                "texlab", --LaTeX
-
-                --formatters
-                "clang-format", --format C, C++, Java
-                "prettier", --for web
-                "stylua", --for lua
-            },
-            ui = {
-                icons = {
-                    package_installed = "",
-                    package_pending = "󱑤",
-                    package_uninstalled = "",
-                },
-            },
-        },
+        build = ":MasonUpdate",
+        event = "VeryLazy",
+        config = function()
+            require("mason").setup({
+                ui = {
+                    border = "rounded",
+                    icons = {
+                        package_installed = "",
+                        package_pending = "󱑤",
+                        package_uninstalled = ""
+                    }
+                }
+            })
+        end
     },
-
-    --LSP configurations
+    --bridge between mason and lspconfig
     {
-        "neovim/nvim-lspconfig",
-        event = {"BufReadPost", "BufNewFile"},
+        "williamboman/mason-lspconfig.nvim",
+        event = "VeryLazy",
         dependencies = {
-            "hrshh7th/cmp-nvim-lsp",
-            "antosha417/nvim-lsp-file-operations",
+            "neovim/nvim-lspconfig", --provide default configs for servers
         },
         config = function()
-            --typescript extension configurations
-            local vue_plugin_path = vim.fn.stdpath("data")
-                .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
-            local ts_filetypes = {
-                "javascript",
-                "javascriptreact",
-                "typescript",
-                "typescriptreact",
-                "vue",
-            }
-            local vue_plugin = {
-                name = "@vue/typescript-plugin",
-                location = vue_plugin_path,
-                languages = { "vue" },
-                configNamespace = "typescript",
-            }
-            vim.lsp.config("vtsls", {
-                filetypes = ts_filetypes,
-                settings = {
-                    vtsls = {
-                        tsserver = { globalPlugins = { vue_plugin } },
-                    },
+            require("mason-lspconfig").setup({
+                --auto-install via mason
+                ensure_installed = {
+                    --programming languages
+                    "clangd",   --C/C++
+                    "jdtls",    --Java
+                    "pyright",  --Python
+                    "lua_ls",   --Lua
+                    --web development
+                    "html",     --HTML
+                    "cssls",    --CSS/SCSS/SASS/LESS
+                    "emmet_ls", --Emmet snippets
+                    "ts_ls",    --JavaScript/TypeScript
+                    "vtsls",    --enhanced TypeScript for Vue
+                    --configuration
+                    "jsonls",   --JSON
+                    "yamlls",   --YAML
+                    "lemminx",  --XML
+                    "taplo",    --TOML
+                    "dockerls", --Docker
+                    --documentation
+                    "marksman", --Markdown
+                    "texlab",   --LaTeX
                 },
+                --auto-enable servers
+                automatic_enable = true,
+                --override default config
+                handlers = {
+                    --Vue/TypeScript integration
+                    ["vtsls"] = function()
+                        local vue_plugin_path = vim.fn.stdpath("data") ..
+                        "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+                        vim.lsp.config("vtsls", {
+                            filetypes = {
+                                "vue",
+                                "javascript",
+                                "javascriptreact",
+                                "typescript",
+                                "typescriptreact"
+                            },
+                            settings = {
+                                vtsls = {
+                                    tssercer = {
+                                        globalPlugins = {
+                                            {
+                                                name = "@vue/typescript-plugin",
+                                                location = vue_plugin_path,
+                                                languages = { "vue" },
+                                                configNamespace = "typescript"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                        vim.lsp.enable("vtsls")
+                    end
+                }
             })
 
-            vim.lsp.enable("vtsls")
-
-            --enable servers
-            local servers = {
-                "clangd",
-                "jdtls",
-                "pyright",
-                "lua_ls",
-                "html",
-                "cssls",
-                "jsonls",
-                "vue_ls",
-                "lemminx",
-                "yamlls",
-                "sqlls",
-                "marksman",
-                "texlab",
+            --beautiful LSP diagnostic icons and highlights
+            local icons = {
+                Error = "",
+                Warn = "",
+                Hint = "󰌵",
+                Info = ""
             }
 
-            for _, server in ipairs(servers) do
-                vim.lsp.enable(server)
+            for type, icon in pairs(icons) do
+                local hl = "DiagnosticSign" .. type
+                vim.fn.sign_define(hl, {
+                    text = icon,
+                    texthl = hl,
+                    numhl = hl
+                })
             end
 
+            local hl = function(name, highlight)
+                vim.api.nvim_set_hl(0, name, highlight)
+            end
+            hl("DiagnosticError", { fg = "#e06c75" })
+            hl("DiagnosticWarn", { fg = "#e5c07b" })
+            hl("DiagnosticHint", { fg = "#645394" })
+            hl("DiagnosticInfo", { fg = "#028a0f" })
+
             vim.diagnostic.config({
-                virtual_text = false, --handled by tiny-inline-diagnostic
+                underline = true,
                 update_in_insert = false,
-                signs = true,
+                virtual_text = false,    --use tiny-inline-diagnostic to display inline diagnostic
+                signs = { active = true }, --use custom signs
+                severity_sort = true,
+                float = {
+                    border = "rounded",
+                    source = true,
+                    header = "",
+                    prefix = ""
+                }
             })
 
-            --keymaps
-            local set = function(mode, key, action, description)
-                vim.keymap.set(mode, key, action, { noremap = true, silent = true, desc = description })
-            end
+            --LSP keymaps
+            vim.api.nvim_create_autocmd("LspAttach", {
+                callback = function(args)
+                    local bufnr = args.buf
 
-            set("n", "gd", vim.lsp.buf.definition, "go to definition")
-            set("n", "gD", vim.lsp.buf.declaration, "go to declaration")
-            set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, "select code action")
-            set("n", "gr", vim.lsp.buf.rename, "rename symbol")
+                    local key = function(mode, key, action, description)
+                        vim.keymap.set(mode, key, action, { buffer = bufnr, desc = "LSP: " .. description })
+                    end
 
-            --change line diagnostic icons
-            local severity = vim.diagnostic.severity
-            vim.diagnostic.config({
-                signs = {
-                    text = {
-                        [severity.ERROR] = "󰅙",
-                        [severity.WARN] = "",
-                        [severity.HINT] = "󰌵",
-                        [severity.INFO] = "",
-                    },
-                },
+                    --navigation
+                    key("n", "gd", vim.lsp.buf.definition, "go to definition")
+                    key("n", "gD", vim.lsp.buf.declaration, "go to declaration")
+                    key("n", "<leader>lr", vim.lsp.buf.rename, "rename symbol")
+                    key({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, "code action")
+
+                    --diagnostic navigation
+                    key("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end,
+                        "previous diagnostic")
+                    key("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, "next diagnostic")
+                    key("n", "[e",
+                        function() vim.diagnostic.jump({ count = -1, float = true, severity = vim.diagnostic.severity
+                            .ERROR }) end, "previous error")
+                    key("n", "]e",
+                        function() vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity
+                            .ERROR }) end, "next error")
+                    key("n", "[w",
+                        function() vim.diagnostic.jump({ count = -1, float = true, severity = vim.diagnostic.severity
+                            .WARN }) end, "previous warning")
+                    key("n", "]w",
+                        function() vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity
+                            .WARN }) end, "next warning")
+                    key("n", "[h",
+                        function() vim.diagnostic.jump({ count = -1, float = true, severity = vim.diagnostic.severity
+                            .HINT }) end, "previous hint")
+                    key("n", "]h",
+                        function() vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity
+                            .HINT }) end, "next hint")
+                    key("n", "[i",
+                        function() vim.diagnostic.jump({ count = -1, float = true, severity = vim.diagnostic.severity
+                            .INFO }) end, "previous info")
+                    key("n", "]i",
+                        function() vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity
+                            .INFO }) end, "next info")
+                end
             })
-
-            --LSP highlight groups
-            local highlight = function(name, foreground)
-                vim.api.nvim_set_hl(0, name, { fg = foreground, bg = "NONE", bold = true })
-            end
-
-            highlight("DiagnosticError", "#e06c75")
-            highlight("DiagnosticWarn", "#e5c07b")
-            highlight("DiagnosticHint", "#645394")
-            highlight("DiagnosticInfo", "#028a0f")
-        end,
-    },
+        end
+    }
 }

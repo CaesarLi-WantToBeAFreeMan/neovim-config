@@ -1,14 +1,14 @@
 return {
     "stevearc/conform.nvim",
-    event = {"BufReadPost", "BufNewFile"},
     cmd = "ConformInfo",
+    event = "VeryLazy",
     keys = {
         {
             "<leader>lf",
             function() require("conform").format({ async = true, lsp_fallback = true }) end,
-            mode = { "n", "v" },
+            mode = "n",
             desc = "format code",
-        },
+        }
     },
     config = function()
         local formatter_path = string.format(
@@ -20,17 +20,17 @@ return {
         require("conform").setup({
             format_on_save = {
                 timeout_ms = 3000,
-                lsp_format = "fallback",
+                lsp_format = "fallback"
             },
-
             formatters_by_ft = {
-                lua = { "stylua" },
+                --programming languages
                 c = { "clang_format" },
                 h = { "clang_format" },
                 cpp = { "clang_format" },
                 hpp = { "clang_format" },
                 java = { "clang_format" },
-                --puthon = {""},
+                lua = { "stylua" },
+                --web development
                 html = { "prettier" },
                 css = { "prettier" },
                 scss = { "prettier" },
@@ -38,15 +38,17 @@ return {
                 less = { "prettier" },
                 javascript = { "prettier" },
                 typescript = { "prettier" },
-                jsx = { "prettier" },
-                tsx = { "prettier" },
-                json = { "prettier" },
                 vue = { "prettier" },
-                yaml = { "prettier" },
+                --configuration
+                yaml = { "yamlfmt", "prettier" },
+                xml = { "xmlformatter" },
+                toml = { "taplo" },
+                json = { "prettier" },
+                --data
+                sql = { "sql-formatter" },
+                --documentation
                 markdown = { "prettier" },
             },
-
-            --formatter configurations
             formatters = {
                 stylua = {
                     command = "stylua",
@@ -54,11 +56,18 @@ return {
                 },
                 clang_format = {
                     command = "clang-format",
-                    prepend_args = { "--style=file:" .. formatter_path .. "/.clang-format" },
+                    prepend_args = { "--style=file:", formatter_path .. "/.clang-format" },
                 },
                 prettier = {
                     command = "prettier",
                     prepend_args = { "--config", formatter_path .. "/prettier.json" },
+                },
+                ["sql-formatter"] = { command = "sql-formatter" },
+                xmlformatter = { command = "xmlformatter" },
+                yamlfmt = { command = "yamlfmt" },
+                taplo = {
+                    command = "taplo",
+                    args = { "fmt", "-" },
                 },
             },
         })
