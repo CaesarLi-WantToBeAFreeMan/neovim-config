@@ -2,7 +2,6 @@ return {
     --inline markdown previewer
     {
         "MeanderingProgrammer/render-markdown.nvim",
-        event = "VeryLazy",
         ft = { "markdown" },
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
@@ -20,7 +19,6 @@ return {
     --browser markdown previewer
     {
         "iamcco/markdown-preview.nvim",
-        event = "VeryLazy",
         ft = { "markdown" },
         cmd = {
             "MarkdownPreviewToggle",

@@ -1,10 +1,10 @@
 return {
     {
         "hrsh7th/cmp-nvim-lsp",
-        event = "VeryLazy"
+        event = {"BufReadPost", "BufNewFile"}
     },
     {
         "antosha417/nvim-lsp-file-operations",
-        event = "VeryLazy"
+        event = {"BufReadPost", "BufNewFile"}
     }
 }

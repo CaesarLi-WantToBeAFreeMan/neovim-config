@@ -1,6 +1,6 @@
 return {
     "stevearc/conform.nvim",
-    event = "VeryLazy",
+    event = {"BufReadPost", "BufNewFile"},
     cmd = "ConformInfo",
     keys = {
         {

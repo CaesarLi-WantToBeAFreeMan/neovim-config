@@ -1,6 +1,6 @@
 return {
     "hrsh7th/nvim-cmp", --completion engine
-    event = "VeryLazy",
+    event = {"BufReadPost", "BufNewFile"},
     dependencies = {
         "hrsh7th/cmp-buffer", --buffer text source
         "hrsh7th/cmp-path", --file system path source

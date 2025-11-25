@@ -1,7 +1,7 @@
 return {
     "CRAG666/code_runner.nvim",
-    event = "VeryLazy",
     cmd = { "RunCode", "RunFile", "RunProject", "RunClose" },
+    ft = {"c", "cpp", "java", "py"},
     dependencies = {
         "nvim-lua/plenary.nvim",
     },
