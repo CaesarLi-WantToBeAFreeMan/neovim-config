@@ -1,15 +1,12 @@
-return{
+return {
     "stevearc/conform.nvim",
-    dependencies = {
-        "mason.nvim"
-    },
     event = "VeryLazy",
     cmd = "ConformInfo",
     keys = {
         {
             "<leader>lf",
             function() require("conform").format({ async = true, lsp_fallback = true }) end,
-            mode = { "n", "x" },
+            mode = { "n", "v" },
             desc = "format code",
         },
     },

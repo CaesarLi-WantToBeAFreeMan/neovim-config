@@ -441,7 +441,7 @@ return {
                             icon = "󰥨",
                             key = "F",
                             desc = "Find Sessions",
-                            action = "require('persistence').select()",
+                            action = ":lua Snacks.picker.projects()",
                         },
                         { icon = "󰪺", key = "o", desc = "Open Last Session", section = "session" },
                         { icon = "󰒲", key = "l", desc = "Lazy", action = ":Lazy" },
@@ -476,7 +476,6 @@ return {
             { "<leader>fb", function() Snacks.picker.buffers() end, desc = "find buffers" },
             { "<leader>ft", function() Snacks.picker.grep() end, desc = "find text in session" },
             { "<leader>fT", function() Snacks.picker.grep_buffers() end, desc = "find text in opened buffers" },
-            { "<leader>fe", function() Snacks.explorer() end, desc = "file explorer" },
             {
                 "<leader>fn",
                 function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end,
@@ -505,7 +504,6 @@ return {
             { "<leader>tz", function() Snacks.zen() end, desc = "toggle zen mode" },
             { "<leader>tZ", function() Snacks.zen.zoom() end, desc = "toggle zoom mode" },
             { "<leader>tt", function() Snacks.terminal() end, desc = "toggle terminal" },
-            { "<C-/>", function() Snacks.terminal() end, desc = "toggle terminal" },
             --other
             { "<leader>bd", function() Snacks.bufdelete() end, desc = "delete buffer" },
             { "<leader>br", function() Snacks.rename.rename_file() end, desc = "rename buffer" },

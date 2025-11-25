@@ -27,36 +27,4 @@ return {
             },
         },
     },
-    --find and list all of the TODO
-    {
-        "folke/todo-comments.nvim",
-        event = "VeryLazy",
-        cmd = {
-            "TodoTrouble",
-            "TodoTelescope",
-        },
-        opts = {},
-        keys = {
-            {
-                "[t",
-                function() require("todo-comments").jump_prev() end,
-                desc = "previous TODO comment",
-            },
-            {
-                "]t",
-                function() require("todo-comments").jump_next() end,
-                desc = "next TODO comment",
-            },
-            {
-                "<leader>tt",
-                "<cmd>TodoTelescope<CR>",
-                desc = "list TODO comments via telescope",
-            },
-            {
-                "<leader>tT",
-                "<cmd>Trouble todo toggle<CR>",
-                desc = "list TODO comments via Trouble",
-            },
-        },
-    },
 }
