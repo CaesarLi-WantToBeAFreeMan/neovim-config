@@ -97,7 +97,8 @@ return {
                         statusline = { --disable statusline
                             "neo-tree",
                             "trouble",
-                            "dashboard",
+                            "snacks",
+                            "snacks_dashboard",
                         },
                     },
                 },
@@ -397,18 +398,21 @@ return {
             --dashboard
             dashboard = {
                 enabled = true,
+                width = 70,
                 preset = {
                     header = [[
-   █████████     ██████   █████ █████   █████  ███                 
-  ███▒▒▒▒▒███   ▒▒██████ ▒▒███ ▒▒███   ▒▒███  ▒▒▒                  
- ███     ▒▒▒     ▒███▒███ ▒███  ▒███    ▒███  ████  █████████████  
-▒███             ▒███▒▒███▒███  ▒███    ▒███ ▒▒███ ▒▒███▒▒███▒▒███ 
-▒███             ▒███ ▒▒██████  ▒▒███   ███   ▒███  ▒███ ▒███ ▒███ 
-▒▒███     ███    ▒███  ▒▒█████   ▒▒▒█████▒    ▒███  ▒███ ▒███ ▒███ 
- ▒▒█████████     █████  ▒▒█████    ▒▒███      █████ █████▒███ █████
-  ▒▒▒▒▒▒▒▒▒     ▒▒▒▒▒    ▒▒▒▒▒      ▒▒▒      ▒▒▒▒▒ ▒▒▒▒▒ ▒▒▒ ▒▒▒▒▒ 
-                                                                   
-Welcome To Caesar James LEE's Neovim
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌   █████████     ██████   █████ █████   █████  ███                 ▐
+▌  ███▒▒▒▒▒███   ▒▒██████ ▒▒███ ▒▒███   ▒▒███  ▒▒▒                  ▐
+▌ ███     ▒▒▒     ▒███▒███ ▒███  ▒███    ▒███  ████  █████████████  ▐
+▌▒███             ▒███▒▒███▒███  ▒███    ▒███ ▒▒███ ▒▒███▒▒███▒▒███ ▐
+▌▒███             ▒███ ▒▒██████  ▒▒███   ███   ▒███  ▒███ ▒███ ▒███ ▐
+▌▒▒███     ███    ▒███  ▒▒█████   ▒▒▒█████▒    ▒███  ▒███ ▒███ ▒███ ▐
+▌ ▒▒█████████     █████  ▒▒█████    ▒▒███      █████ █████▒███ █████▐
+▌  ▒▒▒▒▒▒▒▒▒     ▒▒▒▒▒    ▒▒▒▒▒      ▒▒▒      ▒▒▒▒▒ ▒▒▒▒▒ ▒▒▒ ▒▒▒▒▒ ▐
+▌                                                                   ▐
+▌                Welcome To Caesar James LEE's Neovim               ▐
+▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟
                     ]],
                     keys = {
                         { icon = "󰈔", key = "n", desc = "New File", action = ":ene | startinsert" },
@@ -442,11 +446,18 @@ Welcome To Caesar James LEE's Neovim
                             desc = "Find Sessions",
                             action = ":lua Snacks.picker.projects()",
                         },
-                        { icon = "󰪺", key = "o", desc = "Open Last Session", section = "session" },
+                        { icon = "", key = "o", desc = "Open Session of CWD", section = "session" },
                         { icon = "󰒲", key = "l", desc = "Lazy", action = ":Lazy" },
                         { icon = "󰅙", key = "q", desc = "Quit", action = ":qa" },
                     },
                 },
+                sections = {
+                    { section = "header" },
+                    { section = "keys", gap = 1, padding = 3 },
+                    { pane = 2, icon = "󰈢", title = "Recent Buffers", section = "recent_files", indent = 4, padding = 3, gap = 1 },
+                    { pane = 2, icon = "󰉓", title = "Recent Sessions", section = "projects", indent = 4, padding = 3, gap = 1 },
+                    { pane = 2, section = "startup" }
+                }
             },
         },
         keys = {
