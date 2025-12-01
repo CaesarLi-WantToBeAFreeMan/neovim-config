@@ -8,14 +8,19 @@ return {
             function() require("conform").format({ async = true, lsp_fallback = true }) end,
             mode = "n",
             desc = "format code",
+        },
+        {
+            "<leader>tf",
+            function()
+                local conform = require("conform")
+                conform.format_on_save = conform.format_on_save and nil or {timeout_ms = 3000, lsp_format = "fallback"}
+            end,
+            mode = "n",
+            desc = "toggle format on save"
         }
     },
     config = function()
-        local formatter_path = string.format(
-            "%s/%s/nvim/lua/lsp",
-            vim.fn.expand("~"),
-            vim.fn.has("win32") == 1 and "AppData/Local" or ".config"
-        )
+        local formatter_path = vim.fn.stdpath("config") .. "/lua/lsp"
 
         require("conform").setup({
             format_on_save = {
@@ -40,7 +45,7 @@ return {
                 typescript = { "prettier" },
                 vue = { "prettier" },
                 --configuration
-                yaml = { "yamlfmt", "prettier" },
+                yaml = { "prettier" },
                 xml = { "xmlformatter" },
                 toml = { "taplo" },
                 json = { "prettier" },
