@@ -13,19 +13,20 @@ return {
             "<leader>tf",
             function()
                 local conform = require("conform")
-                conform.format_on_save = conform.format_on_save and nil or {timeout_ms = 3000, lsp_format = "fallback"}
+                conform.format_on_save = conform.format_on_save and nil
+                    or { timeout_ms = 3000, lsp_format = "fallback" }
             end,
             mode = "n",
-            desc = "toggle format on save"
-        }
+            desc = "toggle format on save",
+        },
     },
     config = function()
-        local formatter_path = vim.fn.stdpath("config") .. "/lua/lsp"
+        local formatter_path = vim.fn.stdpath("config") .. "\\lua\\lsp"
 
         require("conform").setup({
             format_on_save = {
                 timeout_ms = 3000,
-                lsp_format = "fallback"
+                lsp_format = "fallback",
             },
             formatters_by_ft = {
                 --programming languages
@@ -46,7 +47,6 @@ return {
                 vue = { "prettier" },
                 --configuration
                 yaml = { "prettier" },
-                xml = { "xmlformatter" },
                 toml = { "taplo" },
                 json = { "prettier" },
                 --data
@@ -57,18 +57,17 @@ return {
             formatters = {
                 stylua = {
                     command = "stylua",
-                    prepend_args = { "--config-path", formatter_path .. "/stylua.toml" },
+                    prepend_args = { "--config-path", formatter_path .. "\\stylua.toml" },
                 },
                 clang_format = {
                     command = "clang-format",
-                    prepend_args = { "--style=file:", formatter_path .. "/.clang-format" },
+                    prepend_args = { "--style=file:" .. formatter_path .. "\\clang-format" },
                 },
                 prettier = {
                     command = "prettier",
-                    prepend_args = { "--config", formatter_path .. "/prettier.json" },
+                    prepend_args = { "--config", formatter_path .. "\\prettier.json" },
                 },
                 ["sql-formatter"] = { command = "sql-formatter" },
-                xmlformatter = { command = "xmlformatter" },
                 yamlfmt = { command = "yamlfmt" },
                 taplo = {
                     command = "taplo",
