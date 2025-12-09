@@ -5,20 +5,20 @@ return {
         priority = 1000, --load before other plugins
         config = function()
             require("onedark").setup({
-                style = "deep",                                              --themes: dark, darker, cool, deep, warm, warmer
+                style = "deep", --themes: dark, darker, cool, deep, warm, warmer
             })
-            require("onedark").load()                                        --apply colorscheme
+            require("onedark").load() --apply colorscheme
             local highlights = {
-                LineNr = { fg = "#ffffff", bg = "NONE" },                    --white line numbers
+                LineNr = { fg = "#ffffff", bg = "NONE" }, --white line numbers
                 CursorLineNr = { fg = "#00ffff", bg = "NONE", bold = true }, --cyan bold current line number
-                CursorLine = { bg = "#333333" },                             --dark gray cursor line
-                CursorColumn = { bg = "#333333" },                           --dark cray cursor column
-                Search = { fg = "#00ffff", bg = "#756a22" },                 --cyan search with alive background
-                MsgArea = { fg = "#00ffff" },                                --cyan message area
-                MoreMsg = { fg = "#00ffff" },                                --cyan more messages
-                Question = { fg = "#00ffff" },                               --cyan questions
-                ModeMsg = { fg = "#00ffff" },                                --cyan mode messages
-                Cursor = { fg = "#ff0000" },                                 --red cursor
+                CursorLine = { bg = "#333333" }, --dark gray cursor line
+                CursorColumn = { bg = "#333333" }, --dark cray cursor column
+                Search = { fg = "#00ffff", bg = "#756a22" }, --cyan search with alive background
+                MsgArea = { fg = "#00ffff" }, --cyan message area
+                MoreMsg = { fg = "#00ffff" }, --cyan more messages
+                Question = { fg = "#00ffff" }, --cyan questions
+                ModeMsg = { fg = "#00ffff" }, --cyan mode messages
+                Cursor = { fg = "#ff0000" }, --red cursor
             }
             for group, settings in pairs(highlights) do
                 vim.api.nvim_set_hl(0, group, settings) --apply highlight overrides
@@ -56,7 +56,7 @@ return {
         lazy = false,
         dependencies = {
             "nvim-tree/nvim-web-devicons", --file icons
-            "lewis6991/gitsigns.nvim",     --gitsigns
+            "lewis6991/gitsigns.nvim", --gitsigns
         },
         config = function()
             local is_wide = function() return vim.api.nvim_get_option_value("columns", {}) >= 130 end
@@ -109,7 +109,7 @@ return {
                             "branch",
                             icon = "󰊢",
                             color = { fg = "#00ffff", bg = "#f1502f", gui = "bold" },
-                        }
+                        },
                     },
                     lualine_c = {
                         {
@@ -343,6 +343,7 @@ return {
                     ["test.tsx"] = override_icon_color_name("", "#0081A3", "TypeScriptReactTest"),
                     [".clang-format"] = override_icon_color_name("", "#0D5D6C", "ClangFormat"),
                     ["_clang-format"] = override_icon_color_name("", "#0D5D6C", "ClangFormat"),
+                    ["clang-format"] = override_icon_color_name("", "#0D5D6C", "ClangFormat"),
                     ["stylua.toml"] = override_icon_color_name("", "#1564C0", "Stylua"),
                     [".prettierrc"] = override_icon_color_name("", "#F08B9C", "Prettier"),
                     [".prettierrc.json"] = override_icon_color_name("", "#F08B9C", "Prettier"),
@@ -454,66 +455,87 @@ return {
                 sections = {
                     { section = "header" },
                     { section = "keys", gap = 1, padding = 3 },
-                    { pane = 2, icon = "󰈢", title = "Recent Buffers", section = "recent_files", indent = 4, padding = 3, gap = 1 },
-                    { pane = 2, icon = "󰉓", title = "Recent Sessions", section = "projects", indent = 4, padding = 3, gap = 1 },
-                    { pane = 2, section = "startup" }
-                }
+                    {
+                        pane = 2,
+                        icon = "󰈢",
+                        title = "Recent Buffers",
+                        section = "recent_files",
+                        indent = 4,
+                        padding = 3,
+                        gap = 1,
+                    },
+                    {
+                        pane = 2,
+                        icon = "󰉓",
+                        title = "Recent Sessions",
+                        section = "projects",
+                        indent = 4,
+                        padding = 3,
+                        gap = 1,
+                    },
+                    { pane = 2, section = "startup" },
+                },
             },
         },
         keys = {
             --history
-            { "<leader>hc", function() Snacks.picker.command_history() end,    desc = "command history" },
-            { "<leader>hn", function() Snacks.picker.notifications() end,      desc = "notification history" },
-            { "<leader>hs", function() Snacks.picker.search_history() end,     desc = "search history" },
-            { "<leader>hu", function() Snacks.picker.undo() end,               desc = "undo history" },
+            { "<leader>hc", function() Snacks.picker.command_history() end, desc = "command history" },
+            { "<leader>hn", function() Snacks.picker.notifications() end, desc = "notification history" },
+            { "<leader>hs", function() Snacks.picker.search_history() end, desc = "search history" },
+            { "<leader>hu", function() Snacks.picker.undo() end, desc = "undo history" },
             --find
-            { "<leader>fr", function() Snacks.picker.registers() end,          desc = "find registers" },
-            { "<leader>fa", function() Snacks.picker.autocmds() end,           desc = "find autocmds" },
-            { "<leader>fc", function() Snacks.picker.commands() end,           desc = "find commands" },
+            { "<leader>fr", function() Snacks.picker.registers() end, desc = "find registers" },
+            { "<leader>fa", function() Snacks.picker.autocmds() end, desc = "find autocmds" },
+            { "<leader>fc", function() Snacks.picker.commands() end, desc = "find commands" },
             { "<leader>fd", function() Snacks.picker.diagnostics_buffer() end, desc = " find buffer diagnostics" },
-            { "<leader>fD", function() Snacks.picker.diagnostics() end,        desc = "find session diagnostics" },
-            { "<leader>fh", function() Snacks.picker.help() end,               desc = "find helps" },
-            { "<leader>fH", function() Snacks.picker.highlights() end,         desc = "find highlights" },
-            { "<leader>fi", function() Snacks.picker.icons() end,              desc = "find icons" },
-            { "<leader>fj", function() Snacks.picker.jumps() end,              desc = "find jumps" },
-            { "<leader>fk", function() Snacks.picker.keymaps() end,            desc = "find keymaps" },
-            { "<leader>fL", function() Snacks.picker.loclist() end,            desc = "find location list" },
-            { "<leader>fm", function() Snacks.picker.marks() end,              desc = "find marks" },
-            { "<leader>fp", function() Snacks.picker.lazy() end,               desc = "find plugins" },
-            { "<leader>fq", function() Snacks.picker.qflist() end,             desc = "find quickfixs" },
-            { "<leader>fR", function() Snacks.picker.resume() end,             desc = "find resume" },
-            { "<leader>fC", function() Snacks.picker.colorschemes() end,       desc = "find colorschemes" },
-            { "<leader>fb", function() Snacks.picker.buffers() end,            desc = "find buffers" },
-            { "<leader>ft", function() Snacks.picker.grep() end,               desc = "find text in session" },
-            { "<leader>fT", function() Snacks.picker.grep_buffers() end,       desc = "find text in opened buffers" },
+            { "<leader>fD", function() Snacks.picker.diagnostics() end, desc = "find session diagnostics" },
+            { "<leader>fh", function() Snacks.picker.help() end, desc = "find helps" },
+            { "<leader>fH", function() Snacks.picker.highlights() end, desc = "find highlights" },
+            { "<leader>fi", function() Snacks.picker.icons() end, desc = "find icons" },
+            { "<leader>fj", function() Snacks.picker.jumps() end, desc = "find jumps" },
+            { "<leader>fk", function() Snacks.picker.keymaps() end, desc = "find keymaps" },
+            { "<leader>fL", function() Snacks.picker.loclist() end, desc = "find location list" },
+            { "<leader>fm", function() Snacks.picker.marks() end, desc = "find marks" },
+            { "<leader>fp", function() Snacks.picker.lazy() end, desc = "find plugins" },
+            { "<leader>fq", function() Snacks.picker.qflist() end, desc = "find quickfixs" },
+            { "<leader>fR", function() Snacks.picker.resume() end, desc = "find resume" },
+            { "<leader>fC", function() Snacks.picker.colorschemes() end, desc = "find colorschemes" },
+            { "<leader>fb", function() Snacks.picker.buffers() end, desc = "find buffers" },
+            { "<leader>ft", function() Snacks.picker.grep() end, desc = "find text in session" },
+            { "<leader>fT", function() Snacks.picker.grep_buffers() end, desc = "find text in opened buffers" },
             {
                 "<leader>fn",
                 function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end,
                 desc = "find neovim config files",
             },
-            { "<leader>ff", function() Snacks.picker.files() end,                 desc = "find files" },
-            { "<leader>fs", function() Snacks.picker.projects() end,              desc = "find sessions" },
-            { "<leader>fl", function() Snacks.picker.lines() end,                 desc = "find buffer lines" },
+            { "<leader>ff", function() Snacks.picker.files() end, desc = "find files" },
+            { "<leader>fs", function() Snacks.picker.projects() end, desc = "find sessions" },
+            { "<leader>fl", function() Snacks.picker.lines() end, desc = "find buffer lines" },
             -- git
-            { "<leader>gb", function() Snacks.picker.git_branches() end,          desc = "git branches" },
-            { "<leader>gl", function() Snacks.picker.git_log() end,               desc = "git log" },
-            { "<leader>gs", function() Snacks.picker.git_status() end,            desc = "git status" },
-            { "<leader>gB", function() Snacks.gitbrowse() end,                    desc = "git browse",                mode = { "n", "v" } },
-            { "<leader>gL", function() Snacks.lazygit() end,                      desc = "lazygit" },
+            { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "git branches" },
+            { "<leader>gl", function() Snacks.picker.git_log() end, desc = "git log" },
+            { "<leader>gs", function() Snacks.picker.git_status() end, desc = "git status" },
+            {
+                "<leader>gB",
+                function() Snacks.gitbrowse() end,
+                desc = "git browse",
+                mode = { "n", "v" },
+            },
+            { "<leader>gL", function() Snacks.lazygit() end, desc = "lazygit" },
             -- LSP
-            { "gt",         function() Snacks.picker.lsp_type_definitions() end,  desc = "Goto LSP type definition" },
-            { "gc",         function() Snacks.picker.lsp_incoming_calls() end,    desc = "goto calls incoming" },
-            { "gC",         function() Snacks.picker.lsp_outgoing_calls() end,    desc = "goto calls outgoing" },
-            { "gs",         function() Snacks.picker.lsp_symbols() end,           desc = "find LSP Symbols" },
-            { "gS",         function() Snacks.picker.lsp_workspace_symbols() end, desc = "find LSP Workspace Symbols" },
+            { "gt", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto LSP type definition" },
+            { "gc", function() Snacks.picker.lsp_incoming_calls() end, desc = "goto calls incoming" },
+            { "gC", function() Snacks.picker.lsp_outgoing_calls() end, desc = "goto calls outgoing" },
+            { "gs", function() Snacks.picker.lsp_symbols() end, desc = "find LSP Symbols" },
+            { "gS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "find LSP Workspace Symbols" },
             --toggles
-            { "<leader>tz", function() Snacks.zen() end,                          desc = "toggle zen mode" },
-            { "<leader>tZ", function() Snacks.zen.zoom() end,                     desc = "toggle zoom mode" },
-            { "<leader>tt", function() Snacks.terminal() end,                     desc = "toggle terminal" },
+            { "<leader>tz", function() Snacks.zen() end, desc = "toggle zen mode" },
+            { "<leader>tZ", function() Snacks.zen.zoom() end, desc = "toggle zoom mode" },
+            { "<leader>tt", function() Snacks.terminal() end, desc = "toggle terminal" },
             --other
-            { "<leader>bd", function() Snacks.bufdelete() end,                    desc = "delete buffer" },
-            { "<leader>br", function() Snacks.rename.rename_file() end,           desc = "rename buffer" },
-            { "<leader>dn", function() Snacks.notifier.hide() end,                desc = "dismiss all notifications" },
+            { "<leader>bd", function() Snacks.bufdelete() end, desc = "delete buffer" },
+            { "<leader>br", function() Snacks.rename.rename_file() end, desc = "rename buffer" },
+            { "<leader>dn", function() Snacks.notifier.hide() end, desc = "dismiss all notifications" },
             {
                 "[r",
                 function() Snacks.words.jump(-vim.v.count1) end,
@@ -616,5 +638,5 @@ return {
                 },
             },
         },
-    }
+    },
 }
