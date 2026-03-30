@@ -1,7 +1,8 @@
 return {
+    --syntax parsing
     {
         "nvim-treesitter/nvim-treesitter", --syntax parsing for highlighting and more
-        build = ":TSUpdate",               --update parsers on install
+        build = ":TSUpdate", --update parsers on install
         event = "VeryLazy",
         priority = 900,
         dependencies = {
@@ -18,17 +19,22 @@ return {
                     "java",
                     "lua",
                     "vim",
+                    "rust",
+                    "go",
 
                     --web development
                     "http",
+                    "graphql",
                     "html",
                     "css",
                     "scss",
                     "javascript",
                     "typescript",
+                    "tsx",
                     "vue",
                     "json",
                     "json5",
+                    "jsonc",
                     "xml",
                     "yaml",
                     "toml",
@@ -56,7 +62,7 @@ return {
                     "regex",
                     "nginx",
 
-                    --command
+                    --shell
                     "bash",
                     "powershell",
 
@@ -67,18 +73,18 @@ return {
                     "gitignore",
                 },
                 auto_install = true, --install missing parsers automatically
-                highlight = {        --enable treesitter-based highlighting
+                highlight = { --enable treesitter-based highlighting
                     enable = true,
-                    additional_vim_regex_highlighting = false
+                    additional_vim_regex_highlighting = false,
                 },
                 indent = { enable = true }, --enable treeisitter-based indentation
                 incremental_selection = {
                     enable = true,
                     keymaps = {
-                        init_selection = "<CR>",     --start selection
-                        node_incremental = "<CR>",   --expand node selection
+                        init_selection = "<CR>", --start selection
+                        node_incremental = "<CR>", --expand node selection
                         node_decremental = "<S-CR>", --shrink node selection
-                        scope_incremental = "<BS>",  --expand to scope
+                        scope_incremental = "<BS>", --expand to scope
                     },
                 },
                 textobjects = {
@@ -113,50 +119,60 @@ return {
                             --blocks
                             ["ab"] = "@block.outer", --around block
                             ["ib"] = "@block.inner", --inside block
-                        }
+                        },
                     },
                     move = {
                         enable = true,
                         set_jumps = true,
                         goto_previous_start = {
                             ["[f"] = "@function.outer",
-                            ["[c"] = "@class.outer"
+                            ["[c"] = "@class.outer",
                         },
                         goto_next_start = {
                             ["]f"] = "@function.outer",
-                            ["]c"] = "@class.outer"
-                        }
-                    }
+                            ["]c"] = "@class.outer",
+                        },
+                    },
                 },
             })
-            vim.opt.foldmethod = "expr"                     --use expression-based folding
+            --folding
+            vim.opt.foldmethod = "expr" --use expression-based folding
             vim.opt.foldexpr = "nvim_treesitter#foldexpr()" --use treesitter for folding
         end,
     },
+    --show the current function/class/scope header at the top of the window
     {
         "nvim-treesitter/nvim-treesitter-context", --context viewer for code
         event = "VeryLazy",
         dependencies = {
             "nvim-treesitter/nvim-treesitter", --load treesitter
         },
-        config = function()
-            require("treesitter-context").setup({
-                enable = true, --enable context viewer
-                max_lines = 5, --show up to 5 context lines
-                min_window_height = 30, --minimum window height for context
-                line_numbers = true, --show line numbers in context
-                multiline_threshold = 1, --maximum lines for single context
-                trim_scope = "outer", --trim scope to outer function
-                mode = "cursor", --use cursor for context calculation
-                separator = "󰇘", --separator between context and content
-                zindex = 21, --context window z-index
-            })
-            vim.keymap.set(
-                "n",
+        opts = {
+            enable = true, --enable context viewer
+            max_lines = 5, --show up to 5 context lines
+            min_window_height = 30, --minimum window height for context
+            line_numbers = true, --show line numbers in context
+            multiline_threshold = 1, --maximum lines for single context
+            trim_scope = "outer", --trim scope to outer function
+            mode = "cursor", --use cursor for context calculation
+            separator = "󰇘", --separator between context and content
+            zindex = 21, --context window z-index
+        },
+        keys = {
+            {
                 "[x",
                 function() require("treesitter-context").go_to_context(vim.v.count1) end,
-                { silent = true, desc = "jump to context" }
-            )
-        end,
+                mode = "n",
+                silent = true,
+                desc = "jump to context",
+            },
+            {
+                "]x",
+                "<C-i>",
+                mode = "n",
+                silent = true,
+                desc = "jump back from context",
+            },
+        },
     },
 }

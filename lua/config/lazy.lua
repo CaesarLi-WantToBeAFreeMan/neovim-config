@@ -25,6 +25,7 @@ require("lazy").setup({
     ui = {
         border = "rounded",
     },
+    rocks = { enabled = false },
     checker = {
         enabled = false, --disable automatic plugin update checks
     },
