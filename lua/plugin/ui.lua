@@ -603,7 +603,11 @@ return {
             --toggles
             { "<leader>tz", function() Snacks.zen() end, desc = "toggle zen mode" },
             { "<leader>tZ", function() Snacks.zen.zoom() end, desc = "toggle zoom mode" },
-            { "<leader>tt", function() Snacks.terminal() end, desc = "toggle terminal" },
+            {
+                "<leader>tt",
+                function() Snacks.terminal(vim.fn.has("win32") == 1 and "pwsh -NoLogo" or nil) end,
+                desc = "toggle terminal",
+            },
 
             --buffers
             { "<leader>bd", function() Snacks.bufdelete() end, desc = "delete buffer" },

@@ -10,6 +10,7 @@ end
 -- === encoding ===
 opt.encoding = "utf-8" --internal text encoding
 opt.fileencoding = "utf-8" --save files in UTF-8 encoding
+opt.fileencodings = { "ucs-bom", "utf-8", "cp1252", "default" }
 opt.fileformats = { "unix", "dos", "mac" } --support multiple line-ending formats
 
 -- === backup & undo ===
@@ -181,11 +182,17 @@ opt.sessionoptions = { --save options in sessions
 }
 
 -- === terminal ===
+-- if vim.fn.has("win32") == 1 then
+--     vim.o.shell = "pwsh" --use PowerShell 7 instead of cmd, "powershell" is PowerShell 5
+--     vim.o.shellcmdflag = "-NoLogo -NoProfile -Command"
+--     vim.o.shellquote = ""
+--     vim.o.shellxquote = ""
+--     vim.o.shellpipe = "| Out-File -Encoding UTF8 %s"
+--     vim.o.shellredir = "| Out-File -Encoding UTF8 %s"
+-- end
 if vim.fn.has("win32") == 1 then
-    vim.o.shell = "pwsh" --use PowerShell 7 instead of cmd, "powershell" is PowerShell 5
-    vim.o.shellcmdflag = "-NoLogo -Command"
+    vim.o.shell = "cmd" --cmd is extremely faster than pwsh
+    vim.o.shellcmdflag = "/c"
     vim.o.shellquote = ""
-    vim.o.shellxquote = ""
-    vim.o.shellpipe = "| Out-File -Encoding UTF8 %s"
-    vim.o.shellredir = "| Out-File -Encoding UTF8 %s"
+    vim.o.shellxquote = "\""
 end

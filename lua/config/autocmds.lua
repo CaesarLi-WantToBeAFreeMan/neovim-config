@@ -119,3 +119,10 @@ autocmd("VimEnter", {
         end
     end,
 })
+
+-- === competitive plugin ===
+autocmd("BufReadPre", {
+    group = augroup("competitive_utf8"),
+    pattern = vim.fn.expand("~") .. "/competitive/*",
+    callback = function() vim.opt_local.fileencoding = "utf-8" end,
+})
